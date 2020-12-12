@@ -8,7 +8,8 @@ class CreateProductUseCaseTest extends Specification {
     @Unroll
     def 'Can Create New Product'() {
         when:
-        def product = new CreateProductUseCase().Execute(ProductName, ProductCategoryName, ProductUnitPrice, ProductDiscount, ProductAvailableQty)
+        def product = new CreateProductUseCase().Execute(ProductName, ProductCategoryName, ProductUnitPrice,
+                ProductDiscount, ProductAvailableQty)
         then:
         product.id != null
         product.unitPrice == ProductUnitPrice
