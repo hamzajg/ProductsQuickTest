@@ -7,18 +7,18 @@ services:
     image: quicktest/api-gateway
     build:
       context: .
-      dockerfile: ./src/ApiGateway/ApiGateway/Dockerfile
+      dockerfile: ./src/ApiGateway/Dockerfile
 
   products:
     container_name: quicktest-products
     image: quicktest/products
     build:
       context: .
-      dockerfile: ./src/Product/ProductWebApi/Dockerfile.fast-jar
+      dockerfile: ./src/Product/Product.WebApi/Dockerfile.fast-jar
 
   customers:
     container_name: quicktest-customers
     image: quicktest/customers
     build:
       context: .
-      dockerfile: ./src/Customer/CustomerWebApi/Dockerfile.fast-jar
+      dockerfile: ./src/Customer/Customer.WebApi/Dockerfile.fast-jar
