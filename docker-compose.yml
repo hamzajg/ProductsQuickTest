@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+
+  gateway:
+    container_name: quicktest-api-gateway
+    image: quicktest/api-gateway
+    build:
+      context: .
+      dockerfile: ./src/ApiGateway/ApiGateway/Dockerfile
+
+  products:
+    container_name: quicktest-products
+    image: quicktest/products
+    build:
+      context: .
+      dockerfile: ./src/Product/ProductWebApi/Dockerfile.fast-jar
+
+  customers:
+    container_name: quicktest-customers
+    image: quicktest/customers
+    build:
+      context: .
+      dockerfile: ./src/Customer/CustomerWebApi/Dockerfile.fast-jar

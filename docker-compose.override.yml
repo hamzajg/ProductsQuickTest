@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+
+  gateway:
+    ports:
+      - 8080:8080
+
+  products:
+    ports:
+      - 8081:8081
+
+  customers:
+    ports:
+      - 8082:8082

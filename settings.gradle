@@ -1,3 +1,13 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    plugins {
+        id "${quarkusPluginId}" version "${quarkusPluginVersion}"
+    }
+}
 rootProject.name = 'ProductsQuickTest'
 
 include ':Product.Domain'
@@ -6,6 +16,9 @@ project(':Product.Domain').projectDir = new File(settingsDir, './src/Product/Pro
 include ':Product.Application'
 findProject(':src:Product.Application')?.name = 'Product.Application'
 project(':Product.Application').projectDir = new File(settingsDir, './src/Product/Product.Application')
+include ':Product.WebApi'
+findProject(':src:Product.WebApi')?.name = 'Product.WebApi'
+project(':Product.WebApi').projectDir = new File(settingsDir, './src/Product/Product.WebApi')
 include ':Customer.Domain'
 findProject(':src:Customer.Domain')?.name = 'Customer.Domain'
 project(':Customer.Domain').projectDir = new File(settingsDir, './src/Customer/Customer.Domain')
