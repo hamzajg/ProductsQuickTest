@@ -21,6 +21,19 @@
 # docker run -i --rm -p 8080:8080 -p 5005:5005 -e JAVA_ENABLE_DEBUG="true" quarkus/customer.webapi-fast-jar
 #
 ###
+FROM quay.io/quarkus/centos-quarkus-maven:19.3.1-java11 AS build
+ENV APP_HOME=/home/quarkus/
+
+WORKDIR $APP_HOME
+
+COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
+
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain $APP_HOME/src/Customer/Customer.Domain
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.Application $APP_HOME/src/Customer/Customer.Application
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.WebApi $APP_HOME/src/Customer/Customer.WebApi
+
+RUN gradle quarkusBuild --stacktrace --no-daemon
+
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3 
 
 ARG JAVA_PACKAGE=java-11-openjdk-headless
@@ -43,10 +56,12 @@ RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
 # Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 # We make four distinct layers so if there are application changes the library layers can be re-used
-COPY --chown=1001 build/quarkus-app/lib/ /deployments/lib/
-COPY --chown=1001 build/quarkus-app/*.jar /deployments/
-COPY --chown=1001 build/quarkus-app/app/ /deployments/app/
-COPY --chown=1001 build/quarkus-app/quarkus/ /deployments/quarkus/
+# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/lib/ /deployments/lib/
+# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/*.jar /deployments/
+# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/app/ /deployments/app/
+# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/quarkus/ /deployments/quarkus/
+COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/lib/* /deployments/lib/
+COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/*-runner.jar /deployments/app.jar
 
 EXPOSE 8082
 USER 1001
