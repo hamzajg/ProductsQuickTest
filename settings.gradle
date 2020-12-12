@@ -10,6 +10,9 @@ pluginManagement {
 }
 rootProject.name = 'ProductsQuickTest'
 
+include ':ApiGateway'
+findProject(':src:ApiGateway')?.name = 'ApiGateway'
+project(':ApiGateway').projectDir = new File(settingsDir, './src/ApiGateway')
 include ':Product.Domain'
 findProject(':src:Product.Domain')?.name = 'Product.Domain'
 project(':Product.Domain').projectDir = new File(settingsDir, './src/Product/Product.Domain')
@@ -25,3 +28,6 @@ project(':Customer.Domain').projectDir = new File(settingsDir, './src/Customer/C
 include ':Customer.Application'
 findProject(':src:Customer.Application')?.name = 'Customer.Application'
 project(':Customer.Application').projectDir = new File(settingsDir, './src/Customer/Customer.Application')
+include ':Customer.WebApi'
+findProject(':src:Customer.WebApi')?.name = 'Customer.WebApi'
+project(':Customer.WebApi').projectDir = new File(settingsDir, './src/Customer/Customer.WebApi')
