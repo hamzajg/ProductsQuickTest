@@ -1,0 +1,13 @@
+allprojects {
+    group 'com.hamzajg.quicktest'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply 'plugin': 'java'
+}
+

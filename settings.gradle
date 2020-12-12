@@ -1,0 +1,14 @@
+rootProject.name = 'ProductsQuickTest'
+
+include ':Product.Domain'
+findProject(':src:Product.Domain')?.name = 'Product.Domain'
+project(':Product.Domain').projectDir = new File(settingsDir, './src/Product/Product.Domain')
+include ':Product.Application'
+findProject(':src:Product.Application')?.name = 'Product.Application'
+project(':Product.Application').projectDir = new File(settingsDir, './src/Product/Product.Application')
+include ':Customer.Domain'
+findProject(':src:Customer.Domain')?.name = 'Customer.Domain'
+project(':Customer.Domain').projectDir = new File(settingsDir, './src/Customer/Customer.Domain')
+include ':Customer.Application'
+findProject(':src:Customer.Application')?.name = 'Customer.Application'
+project(':Customer.Application').projectDir = new File(settingsDir, './src/Customer/Customer.Application')
