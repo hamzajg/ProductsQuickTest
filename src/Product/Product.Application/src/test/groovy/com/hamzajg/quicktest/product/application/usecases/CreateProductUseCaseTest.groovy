@@ -10,10 +10,10 @@ class CreateProductUseCaseTest extends Specification {
         when:
         def product = new CreateProductUseCase().Execute(ProductName, ProductCategoryName, ProductUnitPrice, ProductDiscount, ProductAvailableQty)
         then:
-        product.uuid != null
+        product.id != null
         product.unitPrice == ProductUnitPrice
         product.name == ProductName
-        product.categoryName == ProductCategoryName
+        product.categoryName() == ProductCategoryName
         product.discount == ProductDiscount
         product.availableQty == ProductAvailableQty
         where:
