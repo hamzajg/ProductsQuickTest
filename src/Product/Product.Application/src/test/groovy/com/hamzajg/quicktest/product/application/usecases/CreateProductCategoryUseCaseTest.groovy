@@ -19,7 +19,6 @@ class CreateProductCategoryUseCaseTest extends Specification {
         where:
         ProductCategoryName     | placeholder
         "Test Product Category" | null
-
     }
 
 }
