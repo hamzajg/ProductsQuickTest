@@ -1,4 +1,4 @@
-package com.hamzajg.quickstart.product.webapi.endpoints.product.webapi.endpoints;
+package com.hamzajg.quickstart.product.webapi.endpoints.product.webapi;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
