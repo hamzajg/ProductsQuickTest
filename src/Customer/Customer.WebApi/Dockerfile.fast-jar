@@ -21,7 +21,22 @@
 # docker run -i --rm -p 8080:8080 -p 5005:5005 -e JAVA_ENABLE_DEBUG="true" quarkus/customer.webapi-fast-jar
 #
 ###
-FROM quay.io/quarkus/centos-quarkus-maven:19.3.1-java11 AS build
+
+FROM quay.io/quarkus/centos-quarkus-maven:19.3.1-java11 AS dependencies
+ENV APP_HOME=/home/quarkus/
+
+WORKDIR $APP_HOME
+
+COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
+
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain/build.gradle $APP_HOME/src/Customer/Customer.Domain/build.gradle
+COPY --chown=quarkus:quarkus ./src/SharedKernel/build.gradle $APP_HOME/src/SharedKernel/build.gradle
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.Application/build.gradle $APP_HOME/src/Customer/Customer.Application/build.gradle
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.WebApi/build.gradle $APP_HOME/src/Customer/Customer.WebApi/build.gradle
+
+RUN gradle dependencies --refresh-dependencies --stacktrace --no-daemon
+
+FROM dependencies AS build
 ENV APP_HOME=/home/quarkus/
 
 WORKDIR $APP_HOME
@@ -29,10 +44,11 @@ WORKDIR $APP_HOME
 COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
 
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain $APP_HOME/src/Customer/Customer.Domain
+COPY --chown=quarkus:quarkus ./src/SharedKernel $APP_HOME/src/SharedKernel
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.Application $APP_HOME/src/Customer/Customer.Application
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.WebApi $APP_HOME/src/Customer/Customer.WebApi
 
-RUN gradle quarkusBuild --stacktrace --no-daemon
+RUN gradle quarkusBuild --uber-jar --stacktrace --no-daemon
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3 
 

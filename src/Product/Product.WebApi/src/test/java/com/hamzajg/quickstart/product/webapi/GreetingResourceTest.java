@@ -1,4 +1,4 @@
-package com.hamzajg.quickstart.product.webapi.endpoints.product.webapi.endpoints;
+package com.hamzajg.quickstart.product.webapi;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
