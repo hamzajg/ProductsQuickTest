@@ -9,4 +9,6 @@ public interface ProductRepository {
     Collection<Product> getAll();
 
     Product save(Product product);
+
+    Collection<Product> getAllByCategoryId(UUID productCategoryId);
 }

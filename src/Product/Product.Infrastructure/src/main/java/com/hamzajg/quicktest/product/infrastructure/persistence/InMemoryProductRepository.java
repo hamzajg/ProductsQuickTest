@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public final class InMemoryProductRepository implements ProductRepository {
     private static final List<Product> productList = new ArrayList<>();
@@ -25,5 +26,10 @@ public final class InMemoryProductRepository implements ProductRepository {
     public Product save(Product product) {
         productList.add(product);
         return product;
+    }
+
+    @Override
+    public Collection<Product> getAllByCategoryId(UUID productCategoryId) {
+        return productList.stream().filter(p -> p.category().id() == productCategoryId).collect(Collectors.toUnmodifiableList());
     }
 }
