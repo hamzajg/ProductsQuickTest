@@ -11,7 +11,7 @@ class CreateProductCategoryUseCaseTest extends Specification {
         given:
         def unitOfWork = new UnitOfWork(new InMemoryProductCategoryRepository(), new InMemoryProductRepository())
         when:
-        new CreateProductCategoryUseCase(unitOfWork).Execute(ProductCategoryName)
+        new CreateProductCategoryUseCase(unitOfWork).execute(ProductCategoryName)
         then:
         def productCategory = unitOfWork.productCategoryRepository().getAll()[0]
         productCategory.id != null

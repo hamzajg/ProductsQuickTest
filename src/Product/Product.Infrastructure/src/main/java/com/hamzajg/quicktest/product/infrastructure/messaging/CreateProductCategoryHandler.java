@@ -26,7 +26,7 @@ public class CreateProductCategoryHandler implements CommandHandler {
 
     @Override
     public void handle(Command command) {
-        var result = createProductCategoryUseCase.Execute(((CreateProductCategory) command).name);
+        var result = createProductCategoryUseCase.execute(((CreateProductCategory) command).name);
 
         var subs = new CreateProductCategoryEventSubscribable();
         bus.register(subs);

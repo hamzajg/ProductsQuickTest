@@ -21,4 +21,9 @@ class InMemoryProductRepository implements ProductRepository {
         productList.add(product)
         return product
     }
+
+    @Override
+    Collection<Product> getAllByCategoryId(UUID productCategoryId) {
+        return null
+    }
 }

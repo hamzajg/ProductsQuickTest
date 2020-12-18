@@ -21,7 +21,7 @@ public class CreateProductUseCase {
         this.unitOfWork = unitOfWork;
     }
 
-    public Product Execute(String name, String categoryName, float unitPrice, float discount, Integer availableQty) {
+    public Product execute(String name, String categoryName, float unitPrice, float discount, Integer availableQty) {
         var product = new Product(name, new ProductCategory(categoryName), unitPrice, discount, availableQty);
         return unitOfWork.productRepository().save(product);
     }
