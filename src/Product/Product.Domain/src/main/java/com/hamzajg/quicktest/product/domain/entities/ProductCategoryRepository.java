@@ -1,9 +1,12 @@
 package com.hamzajg.quicktest.product.domain.entities;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public interface ProductCategoryRepository {
     Collection<ProductCategory> getAll();
 
-    void save(ProductCategory productCategory);
+    ProductCategory save(ProductCategory productCategory);
+
+    ProductCategory getOneById(UUID id);
 }

@@ -17,7 +17,8 @@ class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    void save(Product product) {
+    Product save(Product product) {
         productList.add(product)
+        return product
     }
 }

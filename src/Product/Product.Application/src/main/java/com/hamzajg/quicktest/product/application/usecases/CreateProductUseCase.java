@@ -16,13 +16,13 @@ public class CreateProductUseCase {
     public CreateProductUseCase() {
 
     }
+
     public CreateProductUseCase(UnitOfWork unitOfWork) {
         this.unitOfWork = unitOfWork;
     }
 
     public Product Execute(String name, String categoryName, float unitPrice, float discount, Integer availableQty) {
         var product = new Product(name, new ProductCategory(categoryName), unitPrice, discount, availableQty);
-        unitOfWork.productRepository().save(product);
-        return product;
+        return unitOfWork.productRepository().save(product);
     }
 }

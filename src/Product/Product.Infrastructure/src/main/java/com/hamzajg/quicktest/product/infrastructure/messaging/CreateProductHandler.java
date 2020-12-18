@@ -31,7 +31,7 @@ public class CreateProductHandler implements CommandHandler {
         var result =  createProductUseCase.Execute(((CreateProduct) command).name, ((CreateProduct) command).categoryName,
                 ((CreateProduct) command).unitPrice, ((CreateProduct) command).discount, ((CreateProduct) command).availableQty);
 
-        var subs = new EventSubscribable();
+        var subs = new CreateProductEventSubscribable();
         bus.register(subs);
 
         bus.dispatch((Exchange<Response>) () -> new CreateProductResponse(result.id()));

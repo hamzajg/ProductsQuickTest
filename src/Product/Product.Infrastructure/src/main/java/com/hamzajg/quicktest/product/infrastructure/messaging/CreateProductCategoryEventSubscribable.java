@@ -1,6 +1,6 @@
 package com.hamzajg.quicktest.product.infrastructure.messaging;
 
-import com.hamzajg.quicktest.sharedkernel.messaging.contracts.CreateProductResponse;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.CreateProductCategoryResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.Response;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Exchange;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Subscribable;
@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EventSubscribable implements Subscribable {
-    private Set<Class<?>> supports = new HashSet<>(Collections.singletonList(CreateProductResponse.class));
+public class CreateProductCategoryEventSubscribable implements Subscribable {
+    private Set<Class<?>> supports = new HashSet<>(Collections.singletonList(CreateProductCategoryResponse.class));
     private Response response;
 
     @Override

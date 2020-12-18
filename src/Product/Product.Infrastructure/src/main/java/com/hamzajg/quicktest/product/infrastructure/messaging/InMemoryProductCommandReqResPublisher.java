@@ -25,14 +25,14 @@ public class InMemoryProductCommandReqResPublisher implements ProductCommandReqR
 
     @Override
     public Product publishAndWait(Command command) {
-        var subs = new CommandSubscribable(createProductHandler);
+        var subs = new CreateProductCommandSubscribable(createProductHandler);
         bus.register(subs);
 
         bus.dispatch((Exchange<Command>) () -> command);
         var event = bus.getSubscribers()
                 .stream()
-                .filter(sub -> sub instanceof EventSubscribable)
-                .map(sub -> (EventSubscribable) sub)
+                .filter(sub -> sub instanceof CreateProductEventSubscribable)
+                .map(sub -> (CreateProductEventSubscribable) sub)
                 .findAny().orElse(null);
         if (event == null)
             return null;

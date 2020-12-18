@@ -22,7 +22,8 @@ public final class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public void save(Product product) {
+    public Product save(Product product) {
         productList.add(product);
+        return product;
     }
 }

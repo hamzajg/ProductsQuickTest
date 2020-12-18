@@ -8,5 +8,5 @@ public interface ProductRepository {
 
     Collection<Product> getAll();
 
-    void save(Product product);
+    Product save(Product product);
 }
