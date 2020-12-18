@@ -5,6 +5,12 @@ import com.hamzajg.quicktest.product.domain.entities.ProductRepository
 
 class InMemoryProductRepository implements ProductRepository {
     private final List<Product> productList = new ArrayList<>()
+
+    @Override
+    Product getOneById(UUID id) {
+        return null
+    }
+
     @Override
     Collection<Product> getAll() {
         return productList

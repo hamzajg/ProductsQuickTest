@@ -9,6 +9,11 @@ repositories {
 }
 
 dependencies {
+    implementation project(':SharedKernel')
+    implementation project(':Product.Domain')
+    implementation project(':Product.Application')
+    implementation project(':Product.Infrastructure')
+
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation 'io.quarkus:quarkus-resteasy-jsonb'

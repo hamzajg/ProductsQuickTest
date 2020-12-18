@@ -22,4 +22,8 @@ public class ProductCreated implements Event {
         this.productDiscount = productDiscount;
         this.productAvailableQty = productAvailableQty;
     }
+
+    public UUID productId() {
+        return productId;
+    }
 }
