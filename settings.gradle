@@ -19,6 +19,9 @@ project(':Product.Domain').projectDir = new File(settingsDir, './src/Product/Pro
 include ':Product.Application'
 findProject(':src:Product.Application')?.name = 'Product.Application'
 project(':Product.Application').projectDir = new File(settingsDir, './src/Product/Product.Application')
+include ':Product.Infrastructure'
+findProject(':src:Product.Infrastructure')?.name = 'Product.Infrastructure'
+project(':Product.Infrastructure').projectDir = new File(settingsDir, './src/Product/Product.Infrastructure')
 include ':Product.WebApi'
 findProject(':src:Product.WebApi')?.name = 'Product.WebApi'
 project(':Product.WebApi').projectDir = new File(settingsDir, './src/Product/Product.WebApi')
@@ -31,3 +34,8 @@ project(':Customer.Application').projectDir = new File(settingsDir, './src/Custo
 include ':Customer.WebApi'
 findProject(':src:Customer.WebApi')?.name = 'Customer.WebApi'
 project(':Customer.WebApi').projectDir = new File(settingsDir, './src/Customer/Customer.WebApi')
+include 'SharedKernel'
+findProject(':src:SharedKernel')?.name = 'SharedKernel'
+project(':SharedKernel').projectDir = new File(settingsDir, './src/SharedKernel')
+
+

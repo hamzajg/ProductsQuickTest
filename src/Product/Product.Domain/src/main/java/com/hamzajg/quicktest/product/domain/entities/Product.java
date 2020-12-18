@@ -5,6 +5,7 @@ import com.hamzajg.quicktest.product.domain.events.ProductCreated;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 public class Product extends Entity {
     private final String name;
@@ -16,6 +17,7 @@ public class Product extends Entity {
     public String categoryName() {
         return category.name();
     }
+
     public Collection<Event> events = Collections.unmodifiableCollection(eventCollection);
 
     public Product(String name, ProductCategory category, float unitPrice, float discount, int availableQty) {
@@ -27,5 +29,29 @@ public class Product extends Entity {
         this.availableQty = availableQty;
 
         addEvent(new ProductCreated(id, name, category, unitPrice, discount, availableQty));
+    }
+
+    public UUID id() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public ProductCategory category() {
+        return category;
+    }
+
+    public float unitPrice() {
+        return unitPrice;
+    }
+
+    public float discount() {
+        return discount;
+    }
+
+    public int availableQty() {
+        return availableQty;
     }
 }
