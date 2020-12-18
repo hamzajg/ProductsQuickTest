@@ -10,7 +10,7 @@ public class CreateProductCategoryUseCase {
         this.unitOfWork = unitOfWork;
     }
 
-    public void Execute(String productCategoryName) {
-        unitOfWork.productCategoryRepository().save(new ProductCategory(productCategoryName));
+    public ProductCategory Execute(String productCategoryName) {
+        return unitOfWork.productCategoryRepository().save(new ProductCategory(productCategoryName));
     }
 }
