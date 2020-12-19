@@ -11,7 +11,7 @@ class CreateCustomerUseCaseTest extends Specification {
         given:
         def unitOfWork = new UnitOfWork(new InMemoryCustomerRepository())
         when:
-        new CreateCustomerUseCase(unitOfWork).Execute(FirstName, LastName, Address, Email, Mobile)
+        new CreateCustomerUseCase(unitOfWork).execute(FirstName, LastName, Address, Email, Mobile)
         then:
         def customer = unitOfWork.customerRepository().getAll()[0]
         customer.id != null

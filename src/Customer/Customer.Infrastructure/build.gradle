@@ -1,0 +1,27 @@
+plugins {
+    id 'java-library'
+}
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation project(':SharedKernel')
+    implementation project(':Customer.Domain')
+    implementation project(':Customer.Application')
+
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:2.0.2'
+
+    testImplementation 'org.jboss.weld.se:weld-se-core:3.0.1.Final'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}

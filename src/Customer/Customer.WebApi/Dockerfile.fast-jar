@@ -32,6 +32,7 @@ COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gr
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain/build.gradle $APP_HOME/src/Customer/Customer.Domain/build.gradle
 COPY --chown=quarkus:quarkus ./src/SharedKernel/build.gradle $APP_HOME/src/SharedKernel/build.gradle
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.Application/build.gradle $APP_HOME/src/Customer/Customer.Application/build.gradle
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.Infrastructure/build.gradle $APP_HOME/src/Customer/Customer.Infrastructure/build.gradle
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.WebApi/build.gradle $APP_HOME/src/Customer/Customer.WebApi/build.gradle
 
 RUN gradle dependencies --refresh-dependencies --stacktrace --no-daemon
@@ -43,9 +44,11 @@ WORKDIR $APP_HOME
 
 COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
 
+COPY --chown=quarkus:quarkus ./src/Product/Product.Domain $APP_HOME/src/Product/Product.Domain
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain $APP_HOME/src/Customer/Customer.Domain
 COPY --chown=quarkus:quarkus ./src/SharedKernel $APP_HOME/src/SharedKernel
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.Application $APP_HOME/src/Customer/Customer.Application
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.Infrastructure $APP_HOME/src/Customer/Customer.Infrastructure
 COPY --chown=quarkus:quarkus ./src/Customer/Customer.WebApi $APP_HOME/src/Customer/Customer.WebApi
 
 RUN gradle quarkusBuild --uber-jar --stacktrace --no-daemon

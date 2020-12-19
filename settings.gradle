@@ -31,6 +31,9 @@ project(':Customer.Domain').projectDir = new File(settingsDir, './src/Customer/C
 include ':Customer.Application'
 findProject(':src:Customer.Application')?.name = 'Customer.Application'
 project(':Customer.Application').projectDir = new File(settingsDir, './src/Customer/Customer.Application')
+include ':Customer.Infrastructure'
+findProject(':src:Customer.Infrastructure')?.name = 'Customer.Infrastructure'
+project(':Customer.Infrastructure').projectDir = new File(settingsDir, './src/Customer/Customer.Infrastructure')
 include ':Customer.WebApi'
 findProject(':src:Customer.WebApi')?.name = 'Customer.WebApi'
 project(':Customer.WebApi').projectDir = new File(settingsDir, './src/Customer/Customer.WebApi')

@@ -1,4 +1,4 @@
-package com.hamzajg.quickstart.endpoints;
+package com.hamzajg.quickstart.customer.webapi.endpoints;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

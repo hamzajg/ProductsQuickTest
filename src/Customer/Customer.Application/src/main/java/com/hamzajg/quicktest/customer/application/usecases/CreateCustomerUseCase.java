@@ -10,9 +10,9 @@ public class CreateCustomerUseCase {
         this.unitOfWork = unitOfWork;
     }
 
-    public void Execute(String customerFirstName, String customerLastName, String customerAddress,
-                        String customerEmail, String customerMobile) {
-        unitOfWork.customerRepository().save(new Customer(customerFirstName, customerLastName, customerAddress,
+    public Customer execute(String customerFirstName, String customerLastName, String customerAddress,
+                            String customerEmail, String customerMobile) {
+        return unitOfWork.customerRepository().save(new Customer(customerFirstName, customerLastName, customerAddress,
                 customerEmail, customerMobile));
     }
 }

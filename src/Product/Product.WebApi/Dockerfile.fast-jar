@@ -44,6 +44,7 @@ WORKDIR $APP_HOME
 
 COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
 
+COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain $APP_HOME/src/Customer/Customer.Domain
 COPY --chown=quarkus:quarkus ./src/Product/Product.Domain $APP_HOME/src/Product/Product.Domain
 COPY --chown=quarkus:quarkus ./src/SharedKernel $APP_HOME/src/SharedKernel
 COPY --chown=quarkus:quarkus ./src/Product/Product.Application $APP_HOME/src/Product/Product.Application
