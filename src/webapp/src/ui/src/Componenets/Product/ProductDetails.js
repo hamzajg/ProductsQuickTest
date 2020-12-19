@@ -3,7 +3,7 @@ import { ProductCategoryApiResources, ProductApiResources } from '@webapp/app';
 
 const ProductDetails = (prop) => {
     const [categories, setCategories] = useState([])
-    const [product, setProduct] = useState({id: prop.match.params.id})
+    const [product, setProduct] = useState({ id: prop.match.params.id })
     const apiReosurces = new ProductCategoryApiResources()
     const productApiReosurces = new ProductApiResources()
 
@@ -32,6 +32,8 @@ const ProductDetails = (prop) => {
             const item = await productApiReosurces.createProduct(product)
             setProduct(item);
         } else {
+            if (product.categoryId == undefined)
+                product.categoryId = product.category.id
             const item = await productApiReosurces.updateProduct(product)
             setProduct(item);
         }
@@ -49,7 +51,7 @@ const ProductDetails = (prop) => {
                     {
                         categories.map(item => {
                             return (
-                                <option value={item.id} selected={item.id === product.category.id}>{item.name}</option>
+                                <option value={item.id} selected={product.category != undefined && item.id === product.category.id}>{item.name}</option>
                             )
                         })
                     }
