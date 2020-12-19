@@ -25,7 +25,7 @@ class ApiResources {
         return result;
     }
     async updateCustomer(customer) {
-        let result = await this.httpClientHelper.patch(`http://localhost:8082/api/v1/cutomers/${customer.id}/update`, customer);
+        let result = await this.httpClientHelper.patch(`http://localhost:8082/api/v1/customers/${customer.id}/update`, customer);
         if (result == undefined)
             return {};
         return result;
