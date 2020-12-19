@@ -3,6 +3,7 @@ package com.hamzajg.quicktest.product.infrastructure.messaging;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CommandHandler;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
+import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Exchange;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Subscribable;
 
@@ -21,6 +22,8 @@ public class CreateProductCategoryCommandSubscribable implements Subscribable {
     @Override
     public void handle(Exchange<?> event) {
         commandHandler.handle((Command) event.getData());
+        var bus = BusFactory.createSingletonSyncBus();
+        bus.getSubscribers().remove(this);
     }
 
     @Override
