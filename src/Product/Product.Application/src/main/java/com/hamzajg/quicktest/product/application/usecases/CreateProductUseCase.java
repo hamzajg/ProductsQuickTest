@@ -2,10 +2,10 @@ package com.hamzajg.quicktest.product.application.usecases;
 
 import com.hamzajg.quicktest.product.application.UnitOfWork;
 import com.hamzajg.quicktest.product.domain.entities.Product;
-import com.hamzajg.quicktest.product.domain.entities.ProductCategory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CreateProductUseCase {
@@ -21,8 +21,8 @@ public class CreateProductUseCase {
         this.unitOfWork = unitOfWork;
     }
 
-    public Product execute(String name, String categoryName, float unitPrice, float discount, Integer availableQty) {
-        var product = new Product(name, new ProductCategory(categoryName), unitPrice, discount, availableQty);
+    public Product execute(String name, UUID categoryId, float unitPrice, float discount, Integer availableQty) {
+        var product = new Product(name, unitOfWork.productCategoryRepository().getOneById(categoryId), unitPrice, discount, availableQty);
         return unitOfWork.productRepository().save(product);
     }
 }

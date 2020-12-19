@@ -6,34 +6,33 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import javax.json.bind.JsonbBuilder;
-import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 
 @QuarkusTest
 
-public class CreateProductEndpointTest {
+public class GetAllProductsByCategoryEndpointTest {
     @Inject
     ProductCategoryServicesFacade productCategoryServicesFacade;
+    @Inject
+    ProductServicesFacade productServicesFacade;
 
     @Test
-    public void testCreateProductEndpoint() {
+    public void testGetAllProductsByCategoryEndpoint() {
         var command = new CreateProductCategory();
         command.name = "Test product";
         var category = productCategoryServicesFacade.createProductCategory(command);
+
         var commandProduct = new CreateProduct();
         commandProduct.name = "Test product";
         commandProduct.categoryId = category.id;
         commandProduct.unitPrice = 555;
         commandProduct.discount = 0;
         commandProduct.availableQty = 1000;
+        productServicesFacade.createProduct(commandProduct);
         given()
-                .body(JsonbBuilder.create().toJson(commandProduct))
-                .header("content-type", MediaType.APPLICATION_JSON)
-                .when().post("/api/v1/products/create")
+                .when().get("/api/v1/products/" + category.id + "/all")
                 .then()
                 .statusCode(200)
                 .body(not(""));

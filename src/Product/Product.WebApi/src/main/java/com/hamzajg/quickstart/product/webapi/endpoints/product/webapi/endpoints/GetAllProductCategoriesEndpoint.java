@@ -18,9 +18,8 @@ public class GetAllProductCategoriesEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public GetAllProductCategoriesResponse getAll() {
         var result = productCategoryServicesFacade.getAllProductCategories();
-        return new GetAllProductCategoriesResponse();
+        return new GetAllProductCategoriesResponse(result);
     }
 
-    public class GetAllProductCategoriesResponse {
-    }
 }
+

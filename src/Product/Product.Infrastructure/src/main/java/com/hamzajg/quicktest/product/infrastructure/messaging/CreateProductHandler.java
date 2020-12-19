@@ -1,6 +1,8 @@
 package com.hamzajg.quicktest.product.infrastructure.messaging;
 
 import com.hamzajg.quicktest.product.application.UnitOfWork;
+import com.hamzajg.quicktest.product.application.services.BaseProductService;
+import com.hamzajg.quicktest.product.application.services.WriteProductService;
 import com.hamzajg.quicktest.product.application.usecases.CreateProductUseCase;
 import com.hamzajg.quicktest.product.infrastructure.persistence.InMemoryProductCategoryRepository;
 import com.hamzajg.quicktest.product.infrastructure.persistence.InMemoryProductRepository;
@@ -20,14 +22,13 @@ import javax.inject.Inject;
 public class CreateProductHandler implements CommandHandler {
 
     @Inject
-    CreateProductUseCase createProductUseCase = new CreateProductUseCase(
-            new UnitOfWork(new InMemoryProductCategoryRepository(), new InMemoryProductRepository()));
+    WriteProductService writeProductService = new BaseProductService(new CreateProductUseCase(
+            new UnitOfWork(new InMemoryProductCategoryRepository(), new InMemoryProductRepository())));
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override
     public void handle(Command command) {
-        var result =  createProductUseCase.execute(((CreateProduct) command).name, ((CreateProduct) command).categoryName,
-                ((CreateProduct) command).unitPrice, ((CreateProduct) command).discount, ((CreateProduct) command).availableQty);
+        var result = writeProductService.createProduct((CreateProduct) command);
 
         var subs = new CreateProductEventSubscribable();
         bus.register(subs);

@@ -19,7 +19,7 @@ public class CreateProductEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public CreateProductResponse create(CreateProduct command) {
         var result = productServicesFacade.createProduct(command);
-        return new CreateProductResponse(result.id, result.name, result.categoryName, result.unitPrice, result.discount, result
+        return new CreateProductResponse(result.id, result.name, result.category, result.unitPrice, result.discount, result
                 .availableQty);
     }
 }
