@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProductApiResources } from '@webapp/app';
 
-const ProductList = () => {
+const ProductList = () => {    
+    const [list, setList] = useState([])
     const apiReosurces = new ProductApiResources()
+
+    useEffect(() => {
+        async function fetchData() {
+            const items = await apiReosurces.getAllProducts()
+            setList(items);
+        }
+        fetchData();
+    }, []);
     return (
         <div>
             <div><a href="/products/new">New</a></div>
@@ -18,7 +27,7 @@ const ProductList = () => {
                 </thead>
                 <tbody>
                     {
-                        apiReosurces.getAllProducts().map((item, index) => {
+                        list.map((item, index) => {
                             return (
                                 <tr>
                                     <td>{index + 1}</td>

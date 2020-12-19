@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProductCategoryApiResources } from '@webapp/app';
 
 const ProductCategoryList = () => {
+    const [list, setList] = useState([])
     const apiReosurces = new ProductCategoryApiResources()
+
+    useEffect(() => {
+        async function fetchData() {
+            const items = await apiReosurces.getAllProductCategories()
+            setList(items);
+        }
+        fetchData();
+    }, []);
     return (
         <div>
             <div><a href="/product-categories/new">New</a></div>
@@ -14,7 +23,7 @@ const ProductCategoryList = () => {
                 </thead>
                 <tbody>
                     {
-                        apiReosurces.getAllProductCategories().map((item, index) => {
+                        list.map((item, index) => {
                             return (
                                 <tr>
                                     <td>{index + 1}</td>

@@ -1,11 +1,34 @@
+import HttpClientHelper from "../Helpers";
 
 class ApiResources {
-    fakeData () {return[{ id: "11111", name: "test 1" }, { id: "222222", name: "test 2" }, { id: "33333", name: "test 3" }];}
-    getAllProductCategories() {
-        return this.fakeData() 
+
+    constructor() {
+        this.httpClientHelper = new HttpClientHelper();
     }
-    getProductCategoryById(id) {
-        return this.fakeData().find(i => i.id == id)
+
+    async getAllProductCategories() {
+        let result = await this.httpClientHelper.get('http://localhost:8081/api/v1/product-categories/all');
+        if (result == undefined)
+            return [];
+        return result.items;
+    }
+    async getProductCategoryById(id) {
+        let result = await this.httpClientHelper.get(`http://localhost:8081/api/v1/product-categories/${id}`);
+        if (result == undefined)
+            return {};
+        return result;
+    }
+    async createProductCategory(category) {
+        let result = await this.httpClientHelper.post(`http://localhost:8081/api/v1/product-categories/create`, category);
+        if (result == undefined)
+            return {};
+        return result;
+    }
+    async updateProductCategory(category) {
+        let result = await this.httpClientHelper.patch(`http://localhost:8081/api/v1/product-categories/${category.id}/update`, category);
+        if (result == undefined)
+            return {};
+        return result;
     }
 
 }
