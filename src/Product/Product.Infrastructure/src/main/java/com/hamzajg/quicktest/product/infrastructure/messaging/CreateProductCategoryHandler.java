@@ -19,9 +19,9 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class CreateProductCategoryHandler implements CommandHandler {
 
+    public static UnitOfWork unitOfWork = new UnitOfWork(new InMemoryProductCategoryRepository(), new InMemoryProductRepository());
     @Inject
-    CreateProductCategoryUseCase createProductCategoryUseCase = new CreateProductCategoryUseCase(
-            new UnitOfWork(new InMemoryProductCategoryRepository(), new InMemoryProductRepository()));
+    CreateProductCategoryUseCase createProductCategoryUseCase = new CreateProductCategoryUseCase(unitOfWork);
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override

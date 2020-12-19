@@ -1,26 +1,34 @@
 package com.hamzajg.quicktest.product.application.services;
 
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductCategoriesUseCase;
-import com.hamzajg.quicktest.sharedkernel.dtos.ProductCategoryDto;
-import com.hamzajg.quicktest.sharedkernel.mappers.ProductCategoryMapper;
+import com.hamzajg.quicktest.product.application.usecases.GetProductCategoryByIdUseCase;
+import com.hamzajg.quicktest.product.domain.entities.ProductCategory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.UUID;
 
 @ApplicationScoped
 public class BaseProductCategoryServices implements ReadProductCategoryServices {
 
     private GetAllProductCategoriesUseCase getAllProductCategoriesUseCase;
-    private ProductCategoryMapper productCategoryMapper = new ProductCategoryMapper();
+    private GetProductCategoryByIdUseCase getProductCategoryByIdUseCase;
 
     @Inject
-    public BaseProductCategoryServices(GetAllProductCategoriesUseCase getAllProductCategoriesUseCase) {
+    public BaseProductCategoryServices(GetAllProductCategoriesUseCase getAllProductCategoriesUseCase,
+                                       GetProductCategoryByIdUseCase getProductCategoryByIdUseCase) {
         this.getAllProductCategoriesUseCase = getAllProductCategoriesUseCase;
+        this.getProductCategoryByIdUseCase = getProductCategoryByIdUseCase;
     }
 
     @Override
-    public Collection<ProductCategoryDto> getAllProductCategories() {
-        return productCategoryMapper.productCategoriesToProductCategoriesDto(getAllProductCategoriesUseCase.execute());
+    public Collection<ProductCategory> getAllProductCategories() {
+        return getAllProductCategoriesUseCase.execute();
+    }
+
+    @Override
+    public ProductCategory getOneProductCategoryById(String productCategoryId) {
+        return getProductCategoryByIdUseCase.execute(UUID.fromString(productCategoryId));
     }
 }

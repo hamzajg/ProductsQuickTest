@@ -19,8 +19,6 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
 
     @Inject
     CreateProductCategoryHandler createProductCategoryHandler = new CreateProductCategoryHandler();
-    @Inject
-    UnitOfWork unitOfWork = new UnitOfWork(new InMemoryProductCategoryRepository(), new InMemoryProductRepository());
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override
@@ -36,7 +34,7 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
                 .findAny().orElse(null);
         if (event == null)
             return null;
-        return unitOfWork
+        return CreateProductCategoryHandler.unitOfWork
                 .productCategoryRepository()
                 .getOneById(((CreateProductCategoryResponse) event.getResponse())
                         .getProductCategoryId());

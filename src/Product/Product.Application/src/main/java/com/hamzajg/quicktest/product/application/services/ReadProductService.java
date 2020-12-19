@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface ReadProductService {
     Collection<Product> getAllProductsByCategoryId(UUID productCategoryId);
+
+    Collection<Product> getAllProducts();
 }

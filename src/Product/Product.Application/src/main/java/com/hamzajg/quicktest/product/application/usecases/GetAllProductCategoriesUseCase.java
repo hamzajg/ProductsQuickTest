@@ -13,10 +13,6 @@ public class GetAllProductCategoriesUseCase {
     private UnitOfWork unitOfWork;
 
     @Inject
-    public GetAllProductCategoriesUseCase() {
-
-    }
-
     public GetAllProductCategoriesUseCase(UnitOfWork unitOfWork) {
         this.unitOfWork = unitOfWork;
     }
