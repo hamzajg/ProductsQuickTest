@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ProductCategoryApiResources, ProductApiResources } from '@webapp/app';
 
 const ProductDetails = (prop) => {
-    const productId = prop.match.params.id;
     const [categories, setCategories] = useState([])
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState({id: prop.match.params.id})
     const apiReosurces = new ProductCategoryApiResources()
     const productApiReosurces = new ProductApiResources()
 
@@ -15,10 +14,10 @@ const ProductDetails = (prop) => {
         }
         fetchData();
         async function fetchProduct() {
-            const item = await productApiReosurces.getProductById(productId)
+            const item = await productApiReosurces.getProductById(product.id)
             setProduct(item);
         }
-        if (productId != undefined)
+        if (product.id != undefined)
             fetchProduct();
     }, []);
     const onInputchange = (event) => {
@@ -29,7 +28,6 @@ const ProductDetails = (prop) => {
         });
     }
     const save = async () => {
-        console.log(product)
         if (product.id == undefined) {
             const item = await productApiReosurces.createProduct(product)
             setProduct(item);

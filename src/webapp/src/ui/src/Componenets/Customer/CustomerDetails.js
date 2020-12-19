@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { CustomerApiResources } from '@webapp/app';
 
 const CustomerDetails = (prop) => {
-    const customerId = prop.match.params.id;
-    const [customer, setCustomer] = useState({})
+    const [customer, setCustomer] = useState({id: prop.match.params.id})
     const apiReosurces = new CustomerApiResources()
 
     useEffect(() => {
         async function fetchData() {
-            const item = await apiReosurces.getCustomerById(customerId)
+            const item = await apiReosurces.getCustomerById(customer.id)
             setCustomer(item);
         }
-        if (customerId != undefined)
+        if (customer.id != undefined)
             fetchData();
     }, []);
     const onInputchange = (event) => {
