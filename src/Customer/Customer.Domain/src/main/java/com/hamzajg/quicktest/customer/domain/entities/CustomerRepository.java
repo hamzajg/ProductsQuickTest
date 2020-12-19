@@ -9,4 +9,6 @@ public interface CustomerRepository {
     Customer getOneById(UUID id);
 
     Customer save(Customer customer);
+
+    Customer update(Customer newCustomer);
 }

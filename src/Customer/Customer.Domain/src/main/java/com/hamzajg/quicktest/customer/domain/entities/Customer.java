@@ -5,11 +5,11 @@ import com.hamzajg.quicktest.customer.domain.events.CustomerCreated;
 import java.util.UUID;
 
 public class Customer extends Entity {
-    private final String firstName;
-    private final String lastName;
-    private final String address;
-    private final String email;
-    private final String mobile;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String email;
+    private String mobile;
 
     public Customer(String firstName, String lastName, String address, String email, String mobile) {
         this.firstName = firstName;
@@ -43,5 +43,30 @@ public class Customer extends Entity {
 
     public String mobile() {
         return mobile;
+    }
+
+    public void changeFirstName(String newFirstName) {
+        firstName = newFirstName;
+        addEvent(new CustomerFirstNameChanged(id, newFirstName));
+    }
+
+    public void changeLastName(String newLastName) {
+        lastName = newLastName;
+        addEvent(new CustomerLastNameChanged(id, newLastName));
+    }
+
+    public void changeAddress(String newAddress) {
+        address = newAddress;
+        addEvent(new CustomerAddressChanged(id, newAddress));
+    }
+
+    public void changeEmail(String newEmail) {
+        email = newEmail;
+        addEvent(new CustomerEmailChanged(id, newEmail));
+    }
+
+    public void changeMobile(String newMobile) {
+        mobile = newMobile;
+        addEvent(new CustomerMobileChanged(id, newMobile));
     }
 }

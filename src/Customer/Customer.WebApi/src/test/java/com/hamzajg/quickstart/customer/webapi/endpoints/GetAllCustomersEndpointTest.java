@@ -22,7 +22,7 @@ public class GetAllCustomersEndpointTest {
         command.address = "test address";
         command.email = "test@tests.com";
         command.mobile = "1000";
-        customerServicesFacade.CreateCustomer(command);
+        customerServicesFacade.createCustomer(command);
         given()
                 .when().get("/api/v1/customers/all")
                 .then()

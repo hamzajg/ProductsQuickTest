@@ -18,7 +18,7 @@ public class CreateCustomerEndpoint {
     @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     public CreateCustomerResponse create(CreateCustomer command) {
-        var result = customerServicesFacade.CreateCustomer(command);
+        var result = customerServicesFacade.createCustomer(command);
         return new CreateCustomerResponse(result.id, result.firstName, result.lastName, result.address, result.email, result.mobile);
     }
 

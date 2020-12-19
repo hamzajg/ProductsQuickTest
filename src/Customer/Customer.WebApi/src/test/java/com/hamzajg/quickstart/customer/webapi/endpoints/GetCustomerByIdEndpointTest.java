@@ -22,7 +22,7 @@ public class GetCustomerByIdEndpointTest {
         command.address = "test address";
         command.email = "test@tests.com";
         command.mobile = "1000";
-        var customer = customerServicesFacade.CreateCustomer(command);
+        var customer = customerServicesFacade.createCustomer(command);
         given()
                 .when().get("/api/v1/customers/" + customer.id)
                 .then()
