@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@webapp/app":"0.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "react-router-dom": "^5.1.2",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "@webapp/app":"0.1.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
