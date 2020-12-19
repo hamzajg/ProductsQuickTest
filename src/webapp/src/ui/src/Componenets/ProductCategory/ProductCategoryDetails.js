@@ -2,25 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { ProductCategoryApiResources } from '@webapp/app';
 
 const ProductCategoryDetails = (prop) => {
-    const productCategoryId = prop.match.params.id;
-    const [category, setCategory] = useState({})
+    const [category, setCategory] = useState({ id: prop.match.params.id })
     const apiReosurces = new ProductCategoryApiResources()
     useEffect(() => {
         async function fetchData() {
-            const item = await apiReosurces.getProductCategoryById(productCategoryId)
+            const item = await apiReosurces.getProductCategoryById(category.id)
             setCategory(item);
         }
-        if (productCategoryId != undefined)
+        if (category.id != undefined)
             fetchData();
     }, []);
     const onInputchange = (event) => {
         setCategory({
+            ...category,
             name: event.target.value
         });
     }
-    const save =  async() => {
-        const item = await apiReosurces.createProductCategory(category)
-        setCategory(item);
+    const save = async () => {
+        if (category.id == undefined) {
+            const item = await apiReosurces.createProductCategory(category)
+            setCategory(item);
+        } else {
+            const item = await apiReosurces.updateProductCategory(category)
+            setCategory(item);
+        }
     }
     return (
         <div>
