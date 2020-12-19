@@ -8,11 +8,11 @@ import java.util.Collections;
 import java.util.UUID;
 
 public class Product extends Entity {
-    private final String name;
-    private final ProductCategory category;
-    private final float unitPrice;
-    private final float discount;
-    private final int availableQty;
+    private String name;
+    private ProductCategory category;
+    private float unitPrice;
+    private float discount;
+    private int availableQty;
 
     public String categoryName() {
         return category.name();
@@ -53,5 +53,34 @@ public class Product extends Entity {
 
     public int availableQty() {
         return availableQty;
+    }
+
+    public void changeName(String newName) {
+        name = newName;
+        addEvent(new ProductNameChanged(id, newName));
+    }
+
+    public UUID categoryId() {
+        return category.id;
+    }
+
+    public void changeCategory(ProductCategory newCategory) {
+        this.category = newCategory;
+        addEvent(new ProductCategoryChanged(id, newCategory));
+    }
+
+    public void changeUnitPrice(float newUnitPrice) {
+        this.unitPrice = newUnitPrice;
+        addEvent(new ProductUnitPriceChanged(id, newUnitPrice));
+    }
+
+    public void changeDiscount(float newDiscount) {
+        this.discount = newDiscount;
+        addEvent(new ProductDiscountChanged(id, newDiscount));
+    }
+
+    public void changeAvailableQty(int newAvailableQty) {
+        this.availableQty = newAvailableQty;
+        addEvent(new ProductAvailableQtyChanged(id, newAvailableQty));
     }
 }

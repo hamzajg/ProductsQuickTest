@@ -10,6 +10,7 @@ import com.hamzajg.quicktest.product.infrastructure.messaging.InMemoryProductCat
 import com.hamzajg.quicktest.sharedkernel.dtos.ProductCategoryDto;
 import com.hamzajg.quicktest.sharedkernel.mappers.ProductCategoryMapper;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProductCategory;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Collection;
@@ -35,6 +36,13 @@ public class ProductCategoryServicesFacade {
 
     public ProductCategoryDto getOneProductCategoryById(String productCategoryId) {
         var result = productCategoryServices.getOneProductCategoryById(productCategoryId);
+        if (result == null)
+            return null;
+        return productCategoryMapper.productCategoryToProductCategoryDto(result);
+    }
+
+    public ProductCategoryDto updateProductCategory(UpdateProductCategory command) {
+        var result = productCategoryPublisherProvider.publishAndWait(command);
         if (result == null)
             return null;
         return productCategoryMapper.productCategoryToProductCategoryDto(result);

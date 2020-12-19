@@ -1,6 +1,4 @@
-package com.hamzajg.quickstart.product.webapi.endpoints.product.webapi.endpoints;
-
-import com.hamzajg.quickstart.product.webapi.endpoints.ProductServicesFacade;
+package com.hamzajg.quickstart.product.webapi.endpoints;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

@@ -28,4 +28,14 @@ public final class InMemoryProductCategoryRepository implements ProductCategoryR
     public ProductCategory getOneById(UUID id) {
         return productCategoryList.stream().filter(c -> c.id().equals(id)).findFirst().orElse(null);
     }
+
+    @Override
+    public ProductCategory update(ProductCategory newProductCategory) {
+        var exist = productCategoryList.stream().filter(c -> c.id() == newProductCategory.id()).findFirst().orElse(null);
+        if (exist == null)
+            return null;
+        productCategoryList.remove(exist);
+        productCategoryList.add(newProductCategory);
+        return newProductCategory;
+    }
 }

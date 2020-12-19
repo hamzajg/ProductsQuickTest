@@ -11,4 +11,6 @@ public interface ProductRepository {
     Product save(Product product);
 
     Collection<Product> getAllByCategoryId(UUID productCategoryId);
+
+    Product update(Product newProduct);
 }

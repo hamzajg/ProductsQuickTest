@@ -9,4 +9,6 @@ public interface ProductCategoryRepository {
     ProductCategory save(ProductCategory productCategory);
 
     ProductCategory getOneById(UUID id);
+
+    ProductCategory update(ProductCategory newProductCategory);
 }

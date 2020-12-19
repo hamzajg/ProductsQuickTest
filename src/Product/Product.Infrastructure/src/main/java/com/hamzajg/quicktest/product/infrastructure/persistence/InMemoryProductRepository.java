@@ -32,4 +32,14 @@ public final class InMemoryProductRepository implements ProductRepository {
     public Collection<Product> getAllByCategoryId(UUID productCategoryId) {
         return productList.stream().filter(p -> p.category().id().equals(productCategoryId)).collect(Collectors.toUnmodifiableList());
     }
+
+    @Override
+    public Product update(Product newProduct) {
+        var exist = productList.stream().filter(c -> c.id() == newProduct.id()).findFirst().orElse(null);
+        if (exist == null)
+            return null;
+        productList.remove(exist);
+        productList.add(newProduct);
+        return newProduct;
+    }
 }

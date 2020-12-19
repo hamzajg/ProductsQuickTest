@@ -2,8 +2,8 @@ package com.hamzajg.quicktest.customer.infrastructure.messaging;
 
 import com.hamzajg.quicktest.customer.application.messaging.CustomerCommandReqResPublisher;
 import com.hamzajg.quicktest.customer.domain.entities.Customer;
-import com.hamzajg.quicktest.sharedkernel.messaging.contracts.CreateCustomerResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateCustomerResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Bus;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Exchange;

@@ -1,4 +1,4 @@
-package com.hamzajg.quicktest.sharedkernel.messaging.contracts;
+package com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses;
 
 import java.util.UUID;
 

@@ -1,7 +1,8 @@
 package com.hamzajg.quicktest.product.infrastructure.messaging;
 
-import com.hamzajg.quicktest.sharedkernel.messaging.contracts.CreateProductResponse;
-import com.hamzajg.quicktest.sharedkernel.messaging.contracts.Response;
+
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateProductResponse;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.Response;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Exchange;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Subscribable;
 
