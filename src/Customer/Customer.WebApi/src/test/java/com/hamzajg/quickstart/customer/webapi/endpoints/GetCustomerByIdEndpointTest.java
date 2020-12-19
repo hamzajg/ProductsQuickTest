@@ -10,21 +10,21 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.not;
 
 @QuarkusTest
-public class GetAllCustomersEndpointTest {
+public class GetCustomerByIdEndpointTest {
     @Inject
     CustomerServicesFacade customerServicesFacade;
 
     @Test
-    public void testGetAllCustomersEndpoint() {
+    public void testGetCustomerByIdEndpoint() {
         var command = new CreateCustomer();
         command.firstName = "Test";
         command.lastName = "customer";
         command.address = "test address";
         command.email = "test@tests.com";
         command.mobile = "1000";
-        customerServicesFacade.CreateCustomer(command);
+        var customer = customerServicesFacade.CreateCustomer(command);
         given()
-                .when().get("/api/v1/customers/all")
+                .when().get("/api/v1/customers/" + customer.id)
                 .then()
                 .statusCode(200)
                 .body(not(""));

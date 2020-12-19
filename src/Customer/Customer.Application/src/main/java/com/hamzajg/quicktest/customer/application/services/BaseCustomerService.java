@@ -2,28 +2,29 @@ package com.hamzajg.quicktest.customer.application.services;
 
 import com.hamzajg.quicktest.customer.application.usecases.CreateCustomerUseCase;
 import com.hamzajg.quicktest.customer.application.usecases.GetAllCustomersUseCase;
-import com.hamzajg.quicktest.customer.application.usecases.GetCustomersByIdUseCase;
+import com.hamzajg.quicktest.customer.application.usecases.GetCustomerByIdUseCase;
 import com.hamzajg.quicktest.customer.domain.entities.Customer;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateCustomer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.UUID;
 
 @ApplicationScoped
 public class BaseCustomerService implements WriteCustomerService, ReadCustomerService {
     private CreateCustomerUseCase createCustomerUseCase;
     private GetAllCustomersUseCase getAllCustomersUseCase;
-    private GetCustomersByIdUseCase getCustomersByIdUseCase;
+    private GetCustomerByIdUseCase getCustomerByIdUseCase;
 
     @Inject
     public BaseCustomerService(CreateCustomerUseCase createCustomerUseCase) {
         this.createCustomerUseCase = createCustomerUseCase;
     }
 
-    public BaseCustomerService(GetAllCustomersUseCase getAllCustomersUseCase, GetCustomersByIdUseCase getCustomersByIdUseCase) {
+    public BaseCustomerService(GetAllCustomersUseCase getAllCustomersUseCase, GetCustomerByIdUseCase getCustomerByIdUseCase) {
         this.getAllCustomersUseCase = getAllCustomersUseCase;
-        this.getCustomersByIdUseCase = getCustomersByIdUseCase;
+        this.getCustomerByIdUseCase = getCustomerByIdUseCase;
     }
 
     @Override
@@ -34,5 +35,10 @@ public class BaseCustomerService implements WriteCustomerService, ReadCustomerSe
     @Override
     public Collection<Customer> getAllCustomers() {
         return getAllCustomersUseCase.execute();
+    }
+
+    @Override
+    public Customer getOneCustomerById(UUID id) {
+        return getCustomerByIdUseCase.execute(id);
     }
 }
