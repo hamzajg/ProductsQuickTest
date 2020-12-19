@@ -3,6 +3,7 @@ package com.hamzajg.quicktest.product.application.services;
 import com.hamzajg.quicktest.product.application.usecases.CreateProductUseCase;
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductsByCategoryUseCase;
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductsUseCase;
+import com.hamzajg.quicktest.product.application.usecases.GetProductByIdUseCase;
 import com.hamzajg.quicktest.product.domain.entities.Product;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProduct;
 
@@ -17,15 +18,16 @@ public class BaseProductService implements WriteProductService, ReadProductServi
     GetAllProductsByCategoryUseCase getAllProductsByCategoryUseCase;
     private CreateProductUseCase createProductUseCase;
     private GetAllProductsUseCase getAllProductsUseCase;
+    private GetProductByIdUseCase getProductByIdUseCase;
 
     @Inject
-    public BaseProductService(GetAllProductsByCategoryUseCase getAllProductsByCategoryUseCase, GetAllProductsUseCase getAllProductsUseCase) {
+    public BaseProductService(GetAllProductsByCategoryUseCase getAllProductsByCategoryUseCase, GetAllProductsUseCase getAllProductsUseCase, GetProductByIdUseCase getProductByIdUseCase) {
         this.getAllProductsByCategoryUseCase = getAllProductsByCategoryUseCase;
         this.getAllProductsUseCase = getAllProductsUseCase;
+        this.getProductByIdUseCase = getProductByIdUseCase;
     }
 
     public BaseProductService(CreateProductUseCase createProductUseCase) {
-
         this.createProductUseCase = createProductUseCase;
     }
 
@@ -36,7 +38,12 @@ public class BaseProductService implements WriteProductService, ReadProductServi
 
     @Override
     public Collection<Product> getAllProducts() {
-        return null;
+        return getAllProductsUseCase.execute();
+    }
+
+    @Override
+    public Product getOneProductById(UUID id) {
+        return getProductByIdUseCase.execute(id);
     }
 
     @Override

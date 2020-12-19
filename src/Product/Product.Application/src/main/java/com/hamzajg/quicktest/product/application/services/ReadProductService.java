@@ -9,4 +9,6 @@ public interface ReadProductService {
     Collection<Product> getAllProductsByCategoryId(UUID productCategoryId);
 
     Collection<Product> getAllProducts();
+
+    Product getOneProductById(UUID id);
 }

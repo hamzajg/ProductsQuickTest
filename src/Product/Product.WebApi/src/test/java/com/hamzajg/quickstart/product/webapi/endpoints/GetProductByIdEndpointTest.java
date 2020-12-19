@@ -12,14 +12,14 @@ import static org.hamcrest.CoreMatchers.not;
 
 @QuarkusTest
 
-public class GetAllProductsEndpointTest {
+public class GetProductByIdEndpointTest {
     @Inject
     ProductCategoryServicesFacade productCategoryServicesFacade;
     @Inject
     ProductServicesFacade productServicesFacade;
 
     @Test
-    public void testGetAllProductsEndpoint() {
+    public void testGetProductByIdEndpoint() {
         var command = new CreateProductCategory();
         command.name = "Test product";
         var category = productCategoryServicesFacade.createProductCategory(command);
@@ -30,9 +30,9 @@ public class GetAllProductsEndpointTest {
         commandProduct.unitPrice = 555;
         commandProduct.discount = 0;
         commandProduct.availableQty = 1000;
-        productServicesFacade.createProduct(commandProduct);
+        var product = productServicesFacade.createProduct(commandProduct);
         given()
-                .when().get("/api/v1/products/all")
+                .when().get("/api/v1/products/" + product.id + "/all")
                 .then()
                 .statusCode(200)
                 .body(not(""));
