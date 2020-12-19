@@ -19,6 +19,6 @@ class InMemoryProductCategoryRepository implements ProductCategoryRepository {
 
     @Override
     ProductCategory getOneById(UUID productCategoryId) {
-        return null
+        return productCategoryList.stream().filter(c -> c.id() == productCategoryId).findFirst().orElse(null)
     }
 }

@@ -12,19 +12,28 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class BaseProductService implements WriteProductService, ReadProductService {
-    @Inject
-    CreateProductUseCase createProductUseCase;
-    @Inject
-    GetAllProductsByCategoryUseCase getAllProductsByCategoryUseCase;
 
-    @Override
-    public Product createProduct(CreateProduct command) {
-        return createProductUseCase.execute(command.name, command.categoryName, command.unitPrice,
-                command.discount, command.availableQty);
+    GetAllProductsByCategoryUseCase getAllProductsByCategoryUseCase;
+    private CreateProductUseCase createProductUseCase;
+
+    @Inject
+    public BaseProductService(GetAllProductsByCategoryUseCase getAllProductsByCategoryUseCase) {
+        this.getAllProductsByCategoryUseCase = getAllProductsByCategoryUseCase;
+    }
+
+    public BaseProductService(CreateProductUseCase createProductUseCase) {
+
+        this.createProductUseCase = createProductUseCase;
     }
 
     @Override
     public Collection<Product> getAllProductsByCategoryId(UUID productCategoryId) {
         return getAllProductsByCategoryUseCase.execute(productCategoryId);
+    }
+
+    @Override
+    public Product createProduct(CreateProduct command) {
+        return createProductUseCase.execute(command.name, UUID.fromString(command.categoryId), command.unitPrice,
+                command.discount, command.availableQty);
     }
 }

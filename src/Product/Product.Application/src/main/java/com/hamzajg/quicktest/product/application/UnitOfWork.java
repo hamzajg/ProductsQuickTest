@@ -8,14 +8,10 @@ import javax.inject.Inject;
 
 @ApplicationScoped
 public class UnitOfWork {
-    private ProductRepository productRepository;
-    private ProductCategoryRepository productCategoryRepository;
+    private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
     @Inject
-    public UnitOfWork() {
-
-    }
-
     public UnitOfWork(ProductCategoryRepository productCategoryRepository, ProductRepository productRepository) {
         this.productCategoryRepository = productCategoryRepository;
         this.productRepository = productRepository;
