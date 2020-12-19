@@ -22,3 +22,11 @@ services:
     build:
       context: .
       dockerfile: ./src/Customer/Customer.WebApi/Dockerfile.fast-jar
+
+
+  webapp:
+    container_name: quicktest-webapp
+    image: quicktest/webapp
+    build:
+      context: .
+      dockerfile: ./src/webapp/Dockerfile

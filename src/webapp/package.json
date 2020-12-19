@@ -1,0 +1,16 @@
+{
+  "name": "webapp",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "src/*"
+    ],
+    "nohoist": [
+      "src/*"
+    ]
+  },
+  "scripts": {
+    "test": "yarn workspaces test"
+  }
+}

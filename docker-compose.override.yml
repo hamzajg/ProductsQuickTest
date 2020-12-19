@@ -13,3 +13,7 @@ services:
   customers:
     ports:
       - 8082:8082
+
+  webapp:
+    ports:
+      - 3000:3000
