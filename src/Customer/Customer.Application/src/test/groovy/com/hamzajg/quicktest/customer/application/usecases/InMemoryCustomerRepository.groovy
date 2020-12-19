@@ -11,7 +11,13 @@ class InMemoryCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    void save(Customer customer) {
+    Customer getOneById(UUID id) {
+        return null
+    }
+
+    @Override
+    Customer save(Customer customer) {
         customerList.add(customer)
+        return customer
     }
 }

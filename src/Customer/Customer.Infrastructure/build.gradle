@@ -1,25 +1,27 @@
 plugins {
     id 'java-library'
-    id 'groovy'
 }
-
 repositories {
     mavenCentral()
 }
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-
 dependencies {
     implementation project(':SharedKernel')
     implementation project(':Customer.Domain')
+    implementation project(':Customer.Application')
 
     implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:2.0.2'
 
     testImplementation 'org.jboss.weld.se:weld-se-core:3.0.1.Final'
-    testImplementation 'org.codehaus.groovy:groovy-all:3.0.7'
-    testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
 }

@@ -1,9 +1,12 @@
 package com.hamzajg.quicktest.customer.domain.entities;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public interface CustomerRepository {
     Collection<Customer> getAll();
 
-    void save(Customer customer);
+    Customer getOneById(UUID id);
+
+    Customer save(Customer customer);
 }
