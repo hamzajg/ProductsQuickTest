@@ -10,6 +10,7 @@ import com.hamzajg.quicktest.customer.infrastructure.messaging.InMemoryCustomerC
 import com.hamzajg.quicktest.sharedkernel.dtos.CustomerDto;
 import com.hamzajg.quicktest.sharedkernel.mappers.CustomerMapper;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateCustomer;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateCustomer;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Collection;
@@ -21,7 +22,8 @@ public class CustomerServicesFacade {
     private CustomerMapper customerMapper = new CustomerMapper();
     private ReadCustomerService readCustomerService = new BaseCustomerService(new GetAllCustomersUseCase(CreateCustomerHandler.unitOfWork),
             new GetCustomerByIdUseCase(CreateCustomerHandler.unitOfWork));
-    public CustomerDto CreateCustomer(CreateCustomer command) {
+
+    public CustomerDto createCustomer(CreateCustomer command) {
         return customerMapper.customerToCustomerDto(customerPublisherProvider.publishAndWait(command));
     }
 
@@ -31,5 +33,9 @@ public class CustomerServicesFacade {
 
     public CustomerDto getOneCustomerById(String customerId) {
         return customerMapper.customerToCustomerDto(readCustomerService.getOneCustomerById(UUID.fromString(customerId)));
+    }
+
+    public CustomerDto updateCustomer(UpdateCustomer command) {
+        return customerMapper.customerToCustomerDto(customerPublisherProvider.publishAndWait(command));
     }
 }

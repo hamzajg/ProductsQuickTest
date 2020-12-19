@@ -20,4 +20,9 @@ class InMemoryCustomerRepository implements CustomerRepository {
         customerList.add(customer)
         return customer
     }
+
+    @Override
+    Customer update(Customer newCustomer) {
+        return null
+    }
 }

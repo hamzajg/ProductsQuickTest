@@ -35,7 +35,7 @@ public final class InMemoryProductRepository implements ProductRepository {
 
     @Override
     public Product update(Product newProduct) {
-        var exist = productList.stream().filter(c -> c.id() == newProduct.id()).findFirst().orElse(null);
+        var exist = getOneById(newProduct.id());
         if (exist == null)
             return null;
         productList.remove(exist);
