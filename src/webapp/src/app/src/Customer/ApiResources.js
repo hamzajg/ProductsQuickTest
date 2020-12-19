@@ -1,12 +1,34 @@
+import HttpClientHelper from "../Helpers";
 
 class ApiResources {
-    getAllCustomers() {
-        return [
-            { id: "11111", firstName: "test 1", lastName: "test 1", address: "test address", email: "test@test.com", mobile: "123" },
-            { id: "11111", firstName: "test 1", lastName: "test 1", address: "test address", email: "test@test.com", mobile: "123" },
-            { id: "11111", firstName: "test 1", lastName: "test 1", address: "test address", email: "test@test.com", mobile: "123" },
-            { id: "11111", firstName: "test 1", lastName: "test 1", address: "test address", email: "test@test.com", mobile: "123" },
-        ]
+
+    constructor() {
+        this.httpClientHelper = new HttpClientHelper();
+    }
+
+    async getAllCustomers() {
+        let result = await this.httpClientHelper.get('http://localhost:8082/api/v1/customers/all');
+        if (result == undefined)
+            return [];
+        return result.items;
+    }
+    async getCustomerById(id) {
+        let result = await this.httpClientHelper.get(`http://localhost:8082/api/v1/customers/${id}`);
+        if (result == undefined)
+            return {};
+        return result;
+    }
+    async createCustomer(customer) {
+        let result = await this.httpClientHelper.post(`http://localhost:8082/api/v1/customers/create`, customer);
+        if (result == undefined)
+            return {};
+        return result;
+    }
+    async updateCustomer(customer) {
+        let result = await this.httpClientHelper.patch(`http://localhost:8082/api/v1/cutomers/${customer.id}/update`, customer);
+        if (result == undefined)
+            return {};
+        return result;
     }
 }
 export default ApiResources;

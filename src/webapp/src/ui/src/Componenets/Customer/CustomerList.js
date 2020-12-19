@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CustomerApiResources } from '@webapp/app';
 
 const CustomerList = () => {
+    const [list, setList] = useState([])
     const apiReosurces = new CustomerApiResources()
+
+    useEffect(() => {
+        async function fetchData() {
+            const items = await apiReosurces.getAllCustomers()
+            setList(items);
+        }
+        fetchData();
+    }, []);
     return (
         <div>
             <div><a href="/customers/new">New</a></div>
@@ -18,7 +27,7 @@ const CustomerList = () => {
                 </thead>
                 <tbody>
                     {
-                        apiReosurces.getAllCustomers().map((item, index) => {
+                        list.map((item, index) => {
                             return (
                                 <tr>
                                     <td>{index + 1}</td>

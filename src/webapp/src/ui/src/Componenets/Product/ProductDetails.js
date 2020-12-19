@@ -30,12 +30,12 @@ const ProductDetails = (prop) => {
     }
     const save = async () => {
         console.log(product)
-        if(product.id == undefined) {
+        if (product.id == undefined) {
             const item = await productApiReosurces.createProduct(product)
             setProduct(item);
         } else {
-        const item = await productApiReosurces.updateProduct(product)
-        setProduct(item);
+            const item = await productApiReosurces.updateProduct(product)
+            setProduct(item);
         }
     }
     return (
