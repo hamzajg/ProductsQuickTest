@@ -15,7 +15,7 @@ public class GetAllCustomersEndpointTest {
     CustomerServicesFacade customerServicesFacade;
 
     @Test
-    public void testCreateCustomerEndpoint() {
+    public void testGetAllCustomersEndpoint() {
         var command = new CreateCustomer();
         command.firstName = "Test";
         command.lastName = "customer";
