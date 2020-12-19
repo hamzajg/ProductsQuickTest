@@ -22,8 +22,7 @@ import javax.inject.Inject;
 public class CreateProductHandler implements CommandHandler {
 
     @Inject
-    WriteProductService writeProductService = new BaseProductService(new CreateProductUseCase(
-            new UnitOfWork(new InMemoryProductCategoryRepository(), new InMemoryProductRepository())));
+    WriteProductService writeProductService = new BaseProductService(new CreateProductUseCase(CreateProductCategoryHandler.unitOfWork));
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override

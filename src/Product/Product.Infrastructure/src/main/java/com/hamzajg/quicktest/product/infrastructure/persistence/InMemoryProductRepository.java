@@ -14,7 +14,7 @@ public final class InMemoryProductRepository implements ProductRepository {
 
     @Override
     public Product getOneById(UUID id) {
-        return productList.stream().filter(p -> p.id() == id).findFirst().orElse(null);
+        return productList.stream().filter(p -> p.id().equals(id)).findFirst().orElse(null);
     }
 
     @Override
@@ -30,6 +30,6 @@ public final class InMemoryProductRepository implements ProductRepository {
 
     @Override
     public Collection<Product> getAllByCategoryId(UUID productCategoryId) {
-        return productList.stream().filter(p -> p.category().id() == productCategoryId).collect(Collectors.toUnmodifiableList());
+        return productList.stream().filter(p -> p.category().id().equals(productCategoryId)).collect(Collectors.toUnmodifiableList());
     }
 }
