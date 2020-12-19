@@ -5,6 +5,7 @@ const ProductCategoryList = () => {
     const apiReosurces = new ProductCategoryApiResources()
     return (
         <div>
+            <div><a href="/product-categories/new">New</a></div>
             <table>
                 <thead>
                     <td>#</td>
@@ -19,8 +20,8 @@ const ProductCategoryList = () => {
                                     <td>{index + 1}</td>
                                     <td>{item.name}</td>
                                     <td>
-                                        <a href="product-categories/{item.id  }">View</a>
-                                        <a href="product-categories/{item.id }">Delete</a>
+                                        <a href={`product-categories/${item.id}`}>View</a>
+                                        <a href={`product-categories/${item.id}`}>Delete</a>
                                     </td>
                                 </tr>
                             )

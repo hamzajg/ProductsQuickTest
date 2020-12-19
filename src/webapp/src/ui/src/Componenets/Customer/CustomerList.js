@@ -5,6 +5,7 @@ const CustomerList = () => {
     const apiReosurces = new CustomerApiResources()
     return (
         <div>
+            <div><a href="/customers/new">New</a></div>
             <table>
                 <thead>
                     <td>#</td>
@@ -27,8 +28,8 @@ const CustomerList = () => {
                                     <td>{item.email}</td>
                                     <td>{item.mobile}</td>
                                     <td>
-                                        <a href="customers/{ item.id }">View</a>
-                                        <a href="customers/{ item.id }">Delete</a>
+                                        <a href={`customers/${item.id}`}>View</a>
+                                        <a href={`customers/${item.id}`}>Delete</a>
                                     </td>
                                 </tr>
                             )
