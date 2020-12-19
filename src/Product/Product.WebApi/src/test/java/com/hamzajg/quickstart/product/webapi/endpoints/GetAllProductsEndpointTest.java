@@ -19,7 +19,7 @@ public class GetAllProductsEndpointTest {
     ProductServicesFacade productServicesFacade;
 
     @Test
-    public void testGetAllProductsByCategoryEndpoint() {
+    public void testGetAllProductsEndpoint() {
         var command = new CreateProductCategory();
         command.name = "Test product";
         var category = productCategoryServicesFacade.createProductCategory(command);

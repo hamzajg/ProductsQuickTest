@@ -5,6 +5,7 @@ import com.hamzajg.quicktest.product.application.services.BaseProductService;
 import com.hamzajg.quicktest.product.application.services.ReadProductService;
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductsByCategoryUseCase;
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductsUseCase;
+import com.hamzajg.quicktest.product.application.usecases.GetProductByIdUseCase;
 import com.hamzajg.quicktest.product.infrastructure.messaging.CreateProductCategoryHandler;
 import com.hamzajg.quicktest.product.infrastructure.messaging.InMemoryProductCommandReqResPublisher;
 import com.hamzajg.quicktest.sharedkernel.dtos.ProductDto;
@@ -17,7 +18,8 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class ProductServicesFacade {
-    private ReadProductService baseProductService = new BaseProductService(new GetAllProductsByCategoryUseCase(CreateProductCategoryHandler.unitOfWork), new GetAllProductsUseCase(CreateProductCategoryHandler.unitOfWork));
+    private ReadProductService baseProductService = new BaseProductService(new GetAllProductsByCategoryUseCase(CreateProductCategoryHandler.unitOfWork),
+            new GetAllProductsUseCase(CreateProductCategoryHandler.unitOfWork), new GetProductByIdUseCase(CreateProductCategoryHandler.unitOfWork));
     private ProductCommandReqResPublisher productPublisherProvider = new InMemoryProductCommandReqResPublisher();
     private ProductMapper productMapper = new ProductMapper();
 
@@ -40,5 +42,12 @@ public class ProductServicesFacade {
         if (result == null)
             return null;
         return productMapper.productsToProductsDto(result);
+    }
+
+    public ProductDto getOneProductById(String productId) {
+        var result = baseProductService.getOneProductById(UUID.fromString(productId));
+        if (result == null)
+            return null;
+        return productMapper.productToProductDto(result);
     }
 }
