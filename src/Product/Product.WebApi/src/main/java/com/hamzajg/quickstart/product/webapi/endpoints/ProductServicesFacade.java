@@ -11,6 +11,7 @@ import com.hamzajg.quicktest.product.infrastructure.messaging.InMemoryProductCom
 import com.hamzajg.quicktest.sharedkernel.dtos.ProductDto;
 import com.hamzajg.quicktest.sharedkernel.mappers.ProductMapper;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProduct;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProduct;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Collection;
@@ -46,6 +47,13 @@ public class ProductServicesFacade {
 
     public ProductDto getOneProductById(String productId) {
         var result = baseProductService.getOneProductById(UUID.fromString(productId));
+        if (result == null)
+            return null;
+        return productMapper.productToProductDto(result);
+    }
+
+    public ProductDto updateProduct(UpdateProduct command) {
+        var result = productPublisherProvider.publishAndWait(command);
         if (result == null)
             return null;
         return productMapper.productToProductDto(result);

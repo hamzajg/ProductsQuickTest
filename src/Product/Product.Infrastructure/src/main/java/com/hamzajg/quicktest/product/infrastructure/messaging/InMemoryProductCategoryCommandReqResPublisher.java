@@ -1,12 +1,11 @@
 package com.hamzajg.quicktest.product.infrastructure.messaging;
 
-import com.hamzajg.quicktest.product.application.UnitOfWork;
 import com.hamzajg.quicktest.product.application.messaging.ProductCategoryCommandReqResPublisher;
 import com.hamzajg.quicktest.product.domain.entities.ProductCategory;
-import com.hamzajg.quicktest.product.infrastructure.persistence.InMemoryProductCategoryRepository;
-import com.hamzajg.quicktest.product.infrastructure.persistence.InMemoryProductRepository;
-import com.hamzajg.quicktest.sharedkernel.messaging.contracts.CreateProductCategoryResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateProductCategoryResponse;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.UpdateProductCategoryResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Bus;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Exchange;
@@ -19,10 +18,20 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
 
     @Inject
     CreateProductCategoryHandler createProductCategoryHandler = new CreateProductCategoryHandler();
+    @Inject
+    UpdateProductCategoryHandler updateProductCategoryHandler = new UpdateProductCategoryHandler();
+
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override
     public ProductCategory publishAndWait(Command command) {
+        if (command instanceof CreateProductCategory)
+            return createProductCategory(command);
+        else
+            return updateProductCategory(command);
+    }
+
+    private ProductCategory createProductCategory(Command command) {
         var subs = new CreateProductCategoryCommandSubscribable(createProductCategoryHandler);
         bus.register(subs);
 
@@ -37,6 +46,24 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
         return CreateProductCategoryHandler.unitOfWork
                 .productCategoryRepository()
                 .getOneById(((CreateProductCategoryResponse) event.getResponse())
+                        .getProductCategoryId());
+    }
+
+    private ProductCategory updateProductCategory(Command command) {
+        var subs = new UpdateProductCategoryCommandSubscribable(updateProductCategoryHandler);
+        bus.register(subs);
+
+        bus.dispatch((Exchange<Command>) () -> command);
+        var event = bus.getSubscribers()
+                .stream()
+                .filter(sub -> sub instanceof UpdateProductCategoryEventSubscribable)
+                .map(sub -> (UpdateProductCategoryEventSubscribable) sub)
+                .findAny().orElse(null);
+        if (event == null)
+            return null;
+        return CreateProductCategoryHandler.unitOfWork
+                .productCategoryRepository()
+                .getOneById(((UpdateProductCategoryResponse) event.getResponse())
                         .getProductCategoryId());
     }
 

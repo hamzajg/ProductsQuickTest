@@ -23,4 +23,9 @@ public class ProductCategory extends Entity {
     public String name() {
         return this.name;
     }
+
+    public void changeName(String newName) {
+        this.name = newName;
+        addEvent(new ProductCategoryNameChanged(id, name));
+    }
 }

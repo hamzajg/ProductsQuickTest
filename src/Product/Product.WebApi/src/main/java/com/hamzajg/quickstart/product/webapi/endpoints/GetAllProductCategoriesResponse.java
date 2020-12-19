@@ -1,4 +1,4 @@
-package com.hamzajg.quickstart.product.webapi.endpoints.product.webapi.endpoints;
+package com.hamzajg.quickstart.product.webapi.endpoints;
 
 import com.hamzajg.quicktest.sharedkernel.dtos.ProductCategoryDto;
 
