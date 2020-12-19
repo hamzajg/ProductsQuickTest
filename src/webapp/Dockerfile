@@ -1,35 +1,26 @@
 # Set the base image
-FROM node:lts-alpine3.9 AS base
+FROM node:lts-alpine3.9 AS dependencies
 # Define working directory
-WORKDIR /var/www/app/tmp
+WORKDIR /var/www/app
 
-COPY src/webapp/package.json .
-# COPY yarn.lock .
-COPY src/webapp/src/app/package.json ./src/app/package.json
-COPY src/webapp/src/ui/package.json ./src/ui/package.json
+COPY src/webapp/package.json ./tmp/
+COPY src/webapp/src/app/package.json ./tmp/src/app/
+COPY src/webapp/src/ui/package.json ./tmp/src/ui/
 
-FROM base AS dependencies
-# install node packages
-# RUN yarn install --pure-lockfile --non-interactive --production
-# # copy production node_modules aside
-# RUN cp -R node_modules prod_node_modules
-# # install ALL node_modules, including 'devDependencies'
-RUN yarn install --pure-lockfile --non-interactive
+RUN cd ./tmp && yarn install --pure-lockfile --non-interactive
 
-FROM dependencies AS build
-WORKDIR /var/www/app/tmp
+FROM dependencies  AS link
+# Define working directory
+WORKDIR /var/www/app
+COPY src/webapp/src/app/src ./tmp/src/app/src/
+RUN ln -s /var/www/app/tmp/node_modules .
 
-COPY src/webapp/src/app/ ./src/app/
-COPY src/webapp/src/ui/ ./src/ui/
-
-RUN yarn workspaces run build
-
-FROM node:lts-alpine3.9
+FROM link AS build
 WORKDIR /var/www/app
 COPY src/webapp/package.json .
-COPY --from=dependencies /var/www/app/tmp/node_modules ./node_modules
-
-COPY --from=build /var/www/app/tmp/src/ui/ /var/www/app/src/ui/
+COPY src/webapp/src/app ./src/app
+COPY src/webapp/src/ui ./src/ui
+RUN yarn workspaces run build
 
 # Expose port
 EXPOSE 3000
