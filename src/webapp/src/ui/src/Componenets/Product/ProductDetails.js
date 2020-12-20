@@ -52,7 +52,7 @@ const ProductDetails = (prop) => {
                 <Form onSubmit={onSubmit}>
                     <Form.Group controlId="formName">
                         <Form.Label>Name: </Form.Label>
-                        <Form.Control type="text" placeholder="Enter name" value={product.name} onChange={onInputchange} required />
+                        <Form.Control type="text" name="name" placeholder="Enter name" value={product.name} onChange={onInputchange} required />
                     </Form.Group>
                     <Form.Group controlId="formCategory">
                         <Form.Label>Category: </Form.Label>
