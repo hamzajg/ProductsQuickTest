@@ -36,5 +36,11 @@ class ApiResources {
             return {};
         return result;
     }
+    async deleteProduct(id) {
+        let result = await this.httpClientHelper.delete(`http://localhost:8081/api/v1/products/${id}/delete`);
+        if (result == undefined)
+            return {};
+        return result;
+    }
 }
 export default ApiResources;

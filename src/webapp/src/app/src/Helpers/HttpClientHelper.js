@@ -21,6 +21,18 @@ export default class HttpClientHelper {
                 });
         })
     }
+    delete(endpoint) {
+        return new Promise((resolve, reject) => {
+            this.instance.delete(endpoint)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    resolve();
+                });
+        })
+    }
     post(endpoint, payload) {
         const headers = {
             'Content-Type': 'application/json',

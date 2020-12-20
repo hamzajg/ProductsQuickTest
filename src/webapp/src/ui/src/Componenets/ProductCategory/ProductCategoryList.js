@@ -5,18 +5,21 @@ const ProductCategoryList = () => {
     const [list, setList] = useState([])
     const apiReosurces = new ProductCategoryApiResources()
 
+    const fetchData = async () => {
+        const items = await apiReosurces.getAllProductCategories()
+        setList(items);
+    }
+
     useEffect(() => {
-        async function fetchData() {
-            const items = await apiReosurces.getAllProductCategories()
-            setList(items);
-        }
         fetchData();
-    }, []);
+    }, [list]);
 
     const deleteItem = async (item) => {
-        alert("Sute to delete item: " + item.name);
-        await apiReosurces.getDeleteProductCategory(item.id)
-        await fetchData();
+        if (window.confirm("Confirm to delete item: " + item.name)) {
+            await apiReosurces.deleteProductCategory(item.id)
+            delete list[list.indexOf(item)]
+            setList(list);
+        }
     }
     return (
         <div>
