@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CustomerApiResources } from '@webapp/app';
+import { Form, Card, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const CustomerDetails = (prop) => {
     const [customer, setCustomer] = useState({id: prop.match.params.id})
@@ -30,29 +32,42 @@ const CustomerDetails = (prop) => {
         }
     }
     return (
-        <div>
-            <div>
-                <label>First Name: </label>
-                <input type='text' name="firstName" value={customer.firstName} onChange={onInputchange} />
-            </div>
-            <div>
-                <label>Last Name: </label>
-                <input type='text' name="lastName" value={customer.lastName} onChange={onInputchange} />
-            </div>
-            <div>
-                <label>Address: </label>
-                <input type='text' name="address" value={customer.address} onChange={onInputchange} />
-            </div>
-            <div>
-                <label>Email: </label>
-                <input type='text' name="email" value={customer.email} onChange={onInputchange} />
-            </div>
-            <div>
-                <label>Mobile: </label>
-                <input type='text' name="mobile" value={customer.mobile} onChange={onInputchange} />
-            </div>
-            <button onClick={save}>Save</button>
-        </div>
+        <Card>
+            <Card.Header>Customer Details</Card.Header>
+            <Card.Body>
+                <Card.Title>Special title treatment</Card.Title>
+                <Card.Text>
+                    With supporting text below as a natural lead-in to additional content.
+                </Card.Text>
+                <Form>
+                    <Form.Group controlId="formFirstName">
+                        <Form.Label>First Name: </Form.Label>
+                        <Form.Control type="text" name="firstName" value={customer.firstName} onChange={onInputchange} required />
+                    </Form.Group>
+                    <Form.Group controlId="formLastName">
+                        <Form.Label>Last Name: </Form.Label>
+                        <Form.Control type="text" name="lastName" value={customer.lastName} onChange={onInputchange} required />
+                    </Form.Group>
+                    <Form.Group controlId="formAddress">
+                        <Form.Label>Address: </Form.Label>
+                        <Form.Control type="text" name="address" value={customer.address} onChange={onInputchange} required />
+                    </Form.Group>
+                    <Form.Group controlId="formEmail">
+                        <Form.Label>Email: </Form.Label>
+                        <Form.Control type="text" name="email" value={customer.email} onChange={onInputchange} required />
+                    </Form.Group>
+                    <Form.Group controlId="formMobile">
+                        <Form.Label>Mobile: </Form.Label>
+                        <Form.Control type="text" name="mobile" value={customer.mobile} onChange={onInputchange} required />
+                    </Form.Group>
+                    <LinkContainer to="/customers">
+                        <Button variant="default" size="sm">Back</Button>
+                    </LinkContainer>
+                    {' '}
+                    <Button variant="primary" onClick={save} type="button" size="sm">{customer.id == undefined ? 'Save' : 'Update'}</Button>
+                </Form>
+            </Card.Body>
+        </Card>
     )
 }
 export default CustomerDetails;
