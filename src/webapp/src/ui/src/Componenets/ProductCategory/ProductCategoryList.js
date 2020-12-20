@@ -14,13 +14,13 @@ const ProductCategoryList = () => {
 
     useEffect(() => {
         fetchData();
-    }, [list]);
+    }, []);
 
     const deleteItem = async (item) => {
         if (window.confirm("Confirm to delete item: " + item.name)) {
             await apiReosurces.deleteProductCategory(item.id)
-            delete list[list.indexOf(item)]
-            setList(list);
+            let newList = list.filter(l => l.id != item.id)
+            setList(newList);
         }
     }
     return (

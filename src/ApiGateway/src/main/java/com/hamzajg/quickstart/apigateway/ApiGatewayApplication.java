@@ -21,14 +21,13 @@ public class ApiGatewayApplication {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		final CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:3000/");
-		config.addAllowedOrigin("https://marketplace-c7803.web.app/");
-		config.addAllowedOrigin("https://da481e79a470.ngrok.io/");
+		config.addAllowedOrigin("*");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("GET");
 		config.addAllowedMethod("PUT");
 		config.addAllowedMethod("POST");
 		config.addAllowedMethod("DELETE");
+		config.addAllowedMethod("OPTIONS");
 		config.addAllowedMethod("PATCH");
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
