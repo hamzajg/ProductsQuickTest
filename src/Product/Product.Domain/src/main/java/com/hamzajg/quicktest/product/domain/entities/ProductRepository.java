@@ -13,4 +13,6 @@ public interface ProductRepository {
     Collection<Product> getAllByCategoryId(UUID productCategoryId);
 
     Product update(Product newProduct);
+
+    Product delete(UUID id);
 }

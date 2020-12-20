@@ -6,12 +6,17 @@ import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.c
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.create.CreateProductCommandSubscribable;
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.create.CreateProductEventSubscribable;
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.create.CreateProductHandler;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.delete.DeleteProductCommandSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.delete.DeleteProductEventSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.delete.DeleteProductHandler;
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.update.UpdateProductCommandSubscribable;
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.update.UpdateProductEventSubscribable;
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.update.UpdateProductHandler;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProduct;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProduct;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateProductResponse;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.DeleteProductResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.UpdateProductResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Bus;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
@@ -27,6 +32,8 @@ public class InMemoryProductCommandReqResPublisher implements ProductCommandReqR
     CreateProductHandler createProductHandler = new CreateProductHandler();
     @Inject
     UpdateProductHandler updateProductHandler = new UpdateProductHandler();
+    @Inject
+    DeleteProductHandler deleteProductHandler = new DeleteProductHandler();
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override
@@ -34,8 +41,10 @@ public class InMemoryProductCommandReqResPublisher implements ProductCommandReqR
         if (command
                 instanceof CreateProduct)
             return createProduct(command);
-        else
+        else if (command instanceof UpdateProduct)
             return updateProduct(command);
+        else
+            return deleteProduct(command);
     }
 
     private Product createProduct(Command command) {
@@ -69,5 +78,21 @@ public class InMemoryProductCommandReqResPublisher implements ProductCommandReqR
         return CreateProductCategoryHandler.unitOfWork.productRepository()
                 .getOneById(((UpdateProductResponse) event.getResponse()).getProductId());
     }
+
+    private Product deleteProduct(Command command) {
+        var subs = new DeleteProductCommandSubscribable(deleteProductHandler);
+        bus.register(subs);
+
+        bus.dispatch((Exchange<Command>) () -> command);
+        var event = bus.getSubscribers()
+                .stream()
+                .filter(sub -> sub instanceof DeleteProductEventSubscribable)
+                .map(sub -> (DeleteProductEventSubscribable) sub)
+                .findAny().orElse(null);
+        if (event == null)
+            return null;
+        return ((DeleteProductResponse) event.getResponse()).getProduct();
+    }
+
 
 }
