@@ -5,8 +5,8 @@ import com.hamzajg.quicktest.product.application.services.BaseProductCategorySer
 import com.hamzajg.quicktest.product.application.services.ReadProductCategoryServices;
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductCategoriesUseCase;
 import com.hamzajg.quicktest.product.application.usecases.GetProductCategoryByIdUseCase;
-import com.hamzajg.quicktest.product.infrastructure.messaging.CreateProductCategoryHandler;
-import com.hamzajg.quicktest.product.infrastructure.messaging.InMemoryProductCategoryCommandReqResPublisher;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.InMemoryProductCategoryCommandReqResPublisher;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create.CreateProductCategoryHandler;
 import com.hamzajg.quicktest.sharedkernel.dtos.ProductCategoryDto;
 import com.hamzajg.quicktest.sharedkernel.mappers.ProductCategoryMapper;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;

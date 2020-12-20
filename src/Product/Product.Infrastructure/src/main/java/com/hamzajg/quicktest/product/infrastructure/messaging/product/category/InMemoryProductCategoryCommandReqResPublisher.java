@@ -1,7 +1,16 @@
-package com.hamzajg.quicktest.product.infrastructure.messaging;
+package com.hamzajg.quicktest.product.infrastructure.messaging.product.category;
 
 import com.hamzajg.quicktest.product.application.messaging.ProductCategoryCommandReqResPublisher;
 import com.hamzajg.quicktest.product.domain.entities.ProductCategory;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create.CreateProductCategoryCommandSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create.CreateProductCategoryEventSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create.CreateProductCategoryHandler;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.delete.DeleteProductCategoryCommandSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.delete.DeleteProductCategoryEventSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.delete.DeleteProductCategoryHandler;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.update.UpdateProductCategoryCommandSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.update.UpdateProductCategoryEventSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.update.UpdateProductCategoryHandler;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProductCategory;
@@ -72,6 +81,7 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
                 .getOneById(((UpdateProductCategoryResponse) event.getResponse())
                         .getProductCategoryId());
     }
+
     private ProductCategory deleteProductCategory(Command command) {
         var subs = new DeleteProductCategoryCommandSubscribable(deleteProductCategoryHandler);
         bus.register(subs);

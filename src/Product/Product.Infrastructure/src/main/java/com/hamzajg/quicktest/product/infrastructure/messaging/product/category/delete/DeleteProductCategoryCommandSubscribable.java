@@ -1,4 +1,4 @@
-package com.hamzajg.quicktest.product.infrastructure.messaging;
+package com.hamzajg.quicktest.product.infrastructure.messaging.product.category.delete;
 
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CommandHandler;

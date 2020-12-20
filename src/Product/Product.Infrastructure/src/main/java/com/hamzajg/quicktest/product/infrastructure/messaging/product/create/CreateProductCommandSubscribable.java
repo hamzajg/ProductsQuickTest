@@ -1,8 +1,8 @@
-package com.hamzajg.quicktest.product.infrastructure.messaging;
+package com.hamzajg.quicktest.product.infrastructure.messaging.product.create;
 
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CommandHandler;
-import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProduct;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Exchange;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Subscribable;
@@ -11,11 +11,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CreateProductCategoryCommandSubscribable implements Subscribable {
-    private Set<Class<?>> supports = new HashSet<>(Collections.singletonList(CreateProductCategory.class));
+public class CreateProductCommandSubscribable implements Subscribable {
+    private Set<Class<?>> supports = new HashSet<>(Collections.singletonList(CreateProduct.class));
     private CommandHandler commandHandler;
 
-    public CreateProductCategoryCommandSubscribable(CommandHandler commandHandler) {
+    public CreateProductCommandSubscribable(CommandHandler commandHandler) {
         this.commandHandler = commandHandler;
     }
 

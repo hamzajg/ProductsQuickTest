@@ -1,6 +1,7 @@
-package com.hamzajg.quicktest.product.infrastructure.messaging;
+package com.hamzajg.quicktest.product.infrastructure.messaging.product.category.update;
 
 import com.hamzajg.quicktest.product.application.usecases.UpdateProductCategoryUseCase;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create.CreateProductCategoryHandler;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CommandHandler;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProductCategory;
