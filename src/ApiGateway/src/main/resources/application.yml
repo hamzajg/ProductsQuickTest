@@ -2,10 +2,12 @@ zuul:
   routes:
     customers:
       path: /api/v1/customers/**
-      url: http://localhost:8082//api/v1/customers
+      url: http://customers:8082/api/v1/customers
     products:
       path: /api/v1/products/**
-      url: http://localhost:8081/api/v1/products/
+      url: http://products:8081/api/v1/products/
     productCategories:
       path: /api/v1/product-categories/**
-      url: http://localhost:8081/api/v1/product-categories
+      url: http://products:8081/api/v1/product-categories
+  sensitiveHeaders:
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
