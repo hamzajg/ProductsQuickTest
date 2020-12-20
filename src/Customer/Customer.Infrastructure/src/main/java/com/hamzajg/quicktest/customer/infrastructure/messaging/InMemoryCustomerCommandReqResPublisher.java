@@ -4,7 +4,10 @@ import com.hamzajg.quicktest.customer.application.messaging.CustomerCommandReqRe
 import com.hamzajg.quicktest.customer.domain.entities.Customer;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateCustomer;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateCustomer;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateCustomerResponse;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.DeleteCustomerResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.UpdateCustomerResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Bus;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
@@ -20,14 +23,18 @@ public class InMemoryCustomerCommandReqResPublisher implements CustomerCommandRe
     CreateCustomerHandler createCustomerHandler = new CreateCustomerHandler();
     @Inject
     UpdateCustomerHandler updateCustomerHandler = new UpdateCustomerHandler();
+    @Inject
+    DeleteCustomerHandler deleteCustomerHandler = new DeleteCustomerHandler();
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override
     public Customer publishAndWait(Command command) {
         if (command instanceof CreateCustomer)
             return createCustomer(command);
-        else
+        else if (command instanceof UpdateCustomer)
             return updateCustomer(command);
+        else
+            return deleteCustomer(command);
     }
 
     private Customer createCustomer(Command command) {
@@ -60,5 +67,19 @@ public class InMemoryCustomerCommandReqResPublisher implements CustomerCommandRe
         return CreateCustomerHandler.unitOfWork.customerRepository()
                 .getOneById(((UpdateCustomerResponse) event.getResponse())
                         .getCustomerId());
+    }
+    private Customer deleteCustomer(Command command) {
+        var subs = new DeleteCustomerCommandSubscribable(deleteCustomerHandler);
+        bus.register(subs);
+
+        bus.dispatch((Exchange<Command>) () -> command);
+        var event = bus.getSubscribers()
+                .stream()
+                .filter(sub -> sub instanceof DeleteCustomerEventSubscribable)
+                .map(sub -> (DeleteCustomerEventSubscribable) sub)
+                .findAny().orElse(null);
+        if (event == null)
+            return null;
+        return ((DeleteCustomerResponse) event.getResponse()).getCustomer();
     }
 }

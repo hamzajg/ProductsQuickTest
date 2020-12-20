@@ -3,6 +3,7 @@ package com.hamzajg.quicktest.customer.infrastructure.messaging;
 import com.hamzajg.quicktest.customer.application.services.BaseCustomerService;
 import com.hamzajg.quicktest.customer.application.services.WriteCustomerService;
 import com.hamzajg.quicktest.customer.application.usecases.CreateCustomerUseCase;
+import com.hamzajg.quicktest.customer.application.usecases.DeleteCustomerUseCase;
 import com.hamzajg.quicktest.customer.application.usecases.UpdateCustomerUseCase;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CommandHandler;
@@ -19,7 +20,9 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class UpdateCustomerHandler implements CommandHandler {
     @Inject
-    WriteCustomerService writeCustomerService = new BaseCustomerService(new CreateCustomerUseCase(CreateCustomerHandler.unitOfWork), new UpdateCustomerUseCase(CreateCustomerHandler.unitOfWork));
+    WriteCustomerService writeCustomerService = new BaseCustomerService(new CreateCustomerUseCase(CreateCustomerHandler.unitOfWork),
+            new UpdateCustomerUseCase(CreateCustomerHandler.unitOfWork),
+            new DeleteCustomerUseCase(DeleteCustomerHandler.unitOfWork));
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override
