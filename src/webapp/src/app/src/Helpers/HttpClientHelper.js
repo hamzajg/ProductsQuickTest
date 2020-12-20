@@ -7,6 +7,11 @@ export default class HttpClientHelper {
         this.instance = axios.create({
             httpsAgent: agent,
             timeout: 1000,
+            withCredentials: false,
+            headers: {
+              'Access-Control-Allow-Origin' : '*',
+              'Access-Control-Allow-Methods':'GET,POST,DELETE,PATCH',
+              }
         })
     }
     get(endpoint) {

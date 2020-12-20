@@ -23,6 +23,7 @@ public class ApiGatewayApplication {
 		config.setAllowCredentials(true);
 		config.addAllowedOrigin("http://localhost:3000/");
 		config.addAllowedOrigin("https://marketplace-c7803.web.app/");
+		config.addAllowedOrigin("https://da481e79a470.ngrok.io/");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("GET");
 		config.addAllowedMethod("PUT");

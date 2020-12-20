@@ -112,6 +112,7 @@ const Home = () => {
                                 <p>
                                     Github repository: <a href="https://github.com/hamzajg/ProductsQuickTest" target="_blank" >HERE</a>
                                 </p>
+                                <h2>Architecture</h2>
                                 <Container>
                                     <Row>
                                         <Col xs={12} md={12}>
@@ -119,7 +120,6 @@ const Home = () => {
                                         </Col>
                                     </Row>
                                 </Container>
-                                <h2>Architecture</h2>
                                 <p>Domain Centric</p>
                                 <p>Event Driven</p>
                                 <Container>
