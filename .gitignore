@@ -2,6 +2,8 @@
 **/.gradle/
 **/gradle/
 **/build/
+**/dist/
+**/node_modules/
 **/out/
 
 # Compiled class file
