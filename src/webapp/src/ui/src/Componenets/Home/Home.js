@@ -1,6 +1,7 @@
 import React from 'react';
 import { Jumbotron, Carousel, Row, Tab, Col, Nav, Container, Image } from 'react-bootstrap';
 
+import image00 from './imgs/00.png';
 import image01 from './imgs/screenshots/01.png';
 import image02 from './imgs/screenshots/02.png';
 import image03 from './imgs/screenshots/03.png';
@@ -111,6 +112,13 @@ const Home = () => {
                                 <p>
                                     Github repository: <a href="https://github.com/hamzajg/ProductsQuickTest" target="_blank" >HERE</a>
                                 </p>
+                                <Container>
+                                    <Row>
+                                        <Col xs={12} md={12}>
+                                            <Image src={image00} onClick={() => setImage(image00)} style={{cursor: "pointer"}} thumbnail />
+                                        </Col>
+                                    </Row>
+                                </Container>
                                 <h2>Architecture</h2>
                                 <p>Domain Centric</p>
                                 <p>Event Driven</p>
