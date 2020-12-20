@@ -1,5 +1,6 @@
 package com.hamzajg.quickstart.product.webapi.endpoints;
 
+import com.hamzajg.quickstart.product.webapi.endpoints.product.category.ProductCategoryServicesFacade;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProduct;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
 import io.quarkus.test.junit.QuarkusTest;
@@ -10,7 +11,6 @@ import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 
 @QuarkusTest

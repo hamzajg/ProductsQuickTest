@@ -1,5 +1,7 @@
 package com.hamzajg.quickstart.product.webapi.endpoints;
 
+import com.hamzajg.quickstart.product.webapi.endpoints.product.category.ProductCategoryServicesFacade;
+import com.hamzajg.quickstart.product.webapi.endpoints.product.category.update.UpdateProductCategoryRequest;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
