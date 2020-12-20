@@ -22,7 +22,8 @@ const CustomerDetails = (prop) => {
             [event.target.name]: value
         });
     }
-    const save = async () => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
         if (customer.id == undefined) {
             const item = await apiReosurces.createCustomer(customer)
             setCustomer(item);
@@ -39,7 +40,7 @@ const CustomerDetails = (prop) => {
                 <Card.Text>
                     With supporting text below as a natural lead-in to additional content.
                 </Card.Text>
-                <Form>
+                <Form onSubmit={onSubmit}>
                     <Form.Group controlId="formFirstName">
                         <Form.Label>First Name: </Form.Label>
                         <Form.Control type="text" name="firstName" value={customer.firstName} onChange={onInputchange} required />
@@ -64,7 +65,7 @@ const CustomerDetails = (prop) => {
                         <Button variant="default" size="sm">Back</Button>
                     </LinkContainer>
                     {' '}
-                    <Button variant="primary" onClick={save} type="button" size="sm">{customer.id == undefined ? 'Save' : 'Update'}</Button>
+                    <Button variant="primary" type="submit" size="sm">{customer.id == undefined ? 'Save' : 'Update'}</Button>
                 </Form>
             </Card.Body>
         </Card>
