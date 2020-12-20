@@ -1,7 +1,14 @@
-package com.hamzajg.quicktest.product.infrastructure.messaging;
+package com.hamzajg.quicktest.product.infrastructure.messaging.product;
 
 import com.hamzajg.quicktest.product.application.messaging.ProductCommandReqResPublisher;
 import com.hamzajg.quicktest.product.domain.entities.Product;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create.CreateProductCategoryHandler;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.create.CreateProductCommandSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.create.CreateProductEventSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.create.CreateProductHandler;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.update.UpdateProductCommandSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.update.UpdateProductEventSubscribable;
+import com.hamzajg.quicktest.product.infrastructure.messaging.product.update.UpdateProductHandler;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProduct;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateProductResponse;

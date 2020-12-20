@@ -1,4 +1,4 @@
-package com.hamzajg.quicktest.product.infrastructure.messaging;
+package com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create;
 
 import com.hamzajg.quicktest.product.application.UnitOfWork;
 import com.hamzajg.quicktest.product.application.usecases.CreateProductCategoryUseCase;
