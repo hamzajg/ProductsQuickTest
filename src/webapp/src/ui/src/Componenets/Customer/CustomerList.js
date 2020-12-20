@@ -13,12 +13,12 @@ const CustomerList = () => {
             setList(items);
         }
         fetchData();
-    }, [list]);
+    }, []);
     const deleteItem = async (item) => {
         if (window.confirm("Confirm to delete item: " + item.firstName + " " + item.lastName)) {
             await apiReosurces.deleteCustomer(item.id)
-            delete list[list.indexOf(item)]
-            setList(list);
+            let newList = list.filter(l => l.id != item.id)
+            setList(newList);
         }
     }
     return (
