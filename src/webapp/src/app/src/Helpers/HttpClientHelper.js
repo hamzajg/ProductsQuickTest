@@ -6,7 +6,7 @@ export default class HttpClientHelper {
 
         this.instance = axios.create({
             httpsAgent: agent,
-            timeout: 1000,
+            timeout: 30000,
         })
     }
     get(endpoint) {
