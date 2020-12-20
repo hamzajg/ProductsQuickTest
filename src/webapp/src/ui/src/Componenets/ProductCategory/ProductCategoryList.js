@@ -12,6 +12,12 @@ const ProductCategoryList = () => {
         }
         fetchData();
     }, []);
+
+    const deleteItem = async (item) => {
+        alert("Sute to delete item: " + item.name);
+        await apiReosurces.getDeleteProductCategory(item.id)
+        await fetchData();
+    }
     return (
         <div>
             <div><a href="/product-categories/new">New</a></div>
@@ -30,7 +36,7 @@ const ProductCategoryList = () => {
                                     <td>{item.name}</td>
                                     <td>
                                         <a href={`product-categories/${item.id}`}>View</a>
-                                        <a href={`product-categories/${item.id}`}>Delete</a>
+                                        <a href="#" onClick={() => deleteItem(item)}>Delete</a>
                                     </td>
                                 </tr>
                             )

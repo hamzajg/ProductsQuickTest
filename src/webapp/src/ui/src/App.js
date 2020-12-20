@@ -7,9 +7,9 @@ import { Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <NavBar />
-      <main>
+      <main className="App">
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/product-categories' component={ProductCategoryList} />
