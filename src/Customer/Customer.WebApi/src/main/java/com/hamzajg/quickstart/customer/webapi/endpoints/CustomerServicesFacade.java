@@ -10,6 +10,8 @@ import com.hamzajg.quicktest.customer.infrastructure.messaging.InMemoryCustomerC
 import com.hamzajg.quicktest.sharedkernel.dtos.CustomerDto;
 import com.hamzajg.quicktest.sharedkernel.mappers.CustomerMapper;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateCustomer;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeleteCustomer;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeleteProduct;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateCustomer;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -37,5 +39,12 @@ public class CustomerServicesFacade {
 
     public CustomerDto updateCustomer(UpdateCustomer command) {
         return customerMapper.customerToCustomerDto(customerPublisherProvider.publishAndWait(command));
+    }
+
+    public String deleteCustomer(String customerId) {
+        var result = customerPublisherProvider.publishAndWait(new DeleteCustomer(customerId));
+        if (result == null)
+            return null;
+        return result.id().toString();
     }
 }

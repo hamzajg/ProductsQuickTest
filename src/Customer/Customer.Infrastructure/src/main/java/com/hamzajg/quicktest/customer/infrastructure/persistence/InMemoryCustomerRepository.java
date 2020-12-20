@@ -38,4 +38,13 @@ public class InMemoryCustomerRepository implements CustomerRepository {
         customerList.add(newCustomer);
         return newCustomer;
     }
+
+    @Override
+    public Customer delete(UUID id) {
+        var exist = getOneById(id);
+        if (exist == null)
+            return null;
+        customerList.remove(exist);
+        return exist;
+    }
 }

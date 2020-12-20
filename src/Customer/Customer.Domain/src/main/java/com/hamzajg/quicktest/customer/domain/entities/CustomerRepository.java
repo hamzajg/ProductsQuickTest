@@ -11,4 +11,6 @@ public interface CustomerRepository {
     Customer save(Customer customer);
 
     Customer update(Customer newCustomer);
+
+    Customer delete(UUID id);
 }
