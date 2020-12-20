@@ -20,7 +20,8 @@ const ProductCategoryDetails = (prop) => {
             name: event.target.value
         });
     }
-    const save = async () => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
         if (category.id == undefined) {
             const item = await apiReosurces.createProductCategory(category)
             setCategory(item);
@@ -37,16 +38,17 @@ const ProductCategoryDetails = (prop) => {
                 <Card.Text>
                     With supporting text below as a natural lead-in to additional content.
                 </Card.Text>
-                <Form>
+                <Form onSubmit={onSubmit}>
                     <Form.Group controlId="formName">
                         <Form.Label>Name: </Form.Label>
-                        <Form.Control type="text" placeholder="Enter name" value={category.name} onChange={onInputchange} required />
+                        <Form.Control type="text" name="name" placeholder="Enter name"
+                            value={category.name} onChange={onInputchange} validate required />
                     </Form.Group>
                     <LinkContainer to="/product-categories">
                         <Button variant="default" size="sm">Back</Button>
                     </LinkContainer>
                     {' '}
-                    <Button variant="primary" onClick={save} type="button" size="sm">{category.id == undefined ? 'Save' : 'Update'}</Button>
+                    <Button variant="primary" type="submit" size="sm">{category.id == undefined ? 'Save' : 'Update'}</Button>
                 </Form>
             </Card.Body>
         </Card>
