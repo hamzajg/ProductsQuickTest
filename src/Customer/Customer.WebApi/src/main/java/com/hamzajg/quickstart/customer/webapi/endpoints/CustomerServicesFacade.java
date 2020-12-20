@@ -22,8 +22,8 @@ import java.util.UUID;
 public class CustomerServicesFacade {
     private CustomerCommandReqResPublisher customerPublisherProvider = new InMemoryCustomerCommandReqResPublisher();
     private CustomerMapper customerMapper = new CustomerMapper();
-    private ReadCustomerService readCustomerService = new BaseCustomerService(new GetAllCustomersUseCase(CreateCustomerHandler.unitOfWork),
-            new GetCustomerByIdUseCase(CreateCustomerHandler.unitOfWork));
+    private ReadCustomerService readCustomerService = new BaseCustomerService(new GetAllCustomersUseCase(InMemoryCustomerCommandReqResPublisher.unitOfWork),
+            new GetCustomerByIdUseCase(InMemoryCustomerCommandReqResPublisher.unitOfWork));
 
     public CustomerDto createCustomer(CreateCustomer command) {
         return customerMapper.customerToCustomerDto(customerPublisherProvider.publishAndWait(command));

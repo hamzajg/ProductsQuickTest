@@ -20,7 +20,8 @@ public class BaseCustomerService implements WriteCustomerService, ReadCustomerSe
     private GetCustomerByIdUseCase getCustomerByIdUseCase;
 
     @Inject
-    public BaseCustomerService(CreateCustomerUseCase createCustomerUseCase, UpdateCustomerUseCase updateCustomerUseCase, DeleteCustomerUseCase deleteCustomerUseCase) {
+    public BaseCustomerService(CreateCustomerUseCase createCustomerUseCase, UpdateCustomerUseCase updateCustomerUseCase,
+                               DeleteCustomerUseCase deleteCustomerUseCase) {
         this.createCustomerUseCase = createCustomerUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
         this.deleteCustomerUseCase = deleteCustomerUseCase;
@@ -38,7 +39,8 @@ public class BaseCustomerService implements WriteCustomerService, ReadCustomerSe
 
     @Override
     public Customer updateCustomer(UpdateCustomer command) {
-        return updateCustomerUseCase.execute(UUID.fromString(command.customerId), command.firstName, command.lastName, command.address, command.email, command.mobile);
+        return updateCustomerUseCase.execute(UUID.fromString(command.customerId), command.firstName, command.lastName,
+                command.address, command.email, command.mobile);
     }
 
     @Override

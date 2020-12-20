@@ -1,11 +1,17 @@
 package com.hamzajg.quicktest.customer.infrastructure.messaging;
 
+import com.hamzajg.quicktest.customer.application.UnitOfWork;
 import com.hamzajg.quicktest.customer.application.messaging.CustomerCommandReqResPublisher;
+import com.hamzajg.quicktest.customer.application.services.BaseCustomerService;
+import com.hamzajg.quicktest.customer.application.services.WriteCustomerService;
+import com.hamzajg.quicktest.customer.application.usecases.CreateCustomerUseCase;
+import com.hamzajg.quicktest.customer.application.usecases.DeleteCustomerUseCase;
+import com.hamzajg.quicktest.customer.application.usecases.UpdateCustomerUseCase;
 import com.hamzajg.quicktest.customer.domain.entities.Customer;
+import com.hamzajg.quicktest.customer.infrastructure.persistence.InMemoryCustomerRepository;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateCustomer;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateCustomer;
-import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateCustomerResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.DeleteCustomerResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.UpdateCustomerResponse;
@@ -19,12 +25,16 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class InMemoryCustomerCommandReqResPublisher implements CustomerCommandReqResPublisher {
 
+    public static UnitOfWork unitOfWork = new UnitOfWork(new InMemoryCustomerRepository());
+    private WriteCustomerService writeCustomerService = new BaseCustomerService(new CreateCustomerUseCase(unitOfWork),
+            new UpdateCustomerUseCase(unitOfWork),
+            new DeleteCustomerUseCase(unitOfWork));
     @Inject
-    CreateCustomerHandler createCustomerHandler = new CreateCustomerHandler();
+    CreateCustomerHandler createCustomerHandler = new CreateCustomerHandler(writeCustomerService);
     @Inject
-    UpdateCustomerHandler updateCustomerHandler = new UpdateCustomerHandler();
+    UpdateCustomerHandler updateCustomerHandler = new UpdateCustomerHandler(writeCustomerService);
     @Inject
-    DeleteCustomerHandler deleteCustomerHandler = new DeleteCustomerHandler();
+    DeleteCustomerHandler deleteCustomerHandler = new DeleteCustomerHandler(writeCustomerService);
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
     @Override
@@ -49,7 +59,7 @@ public class InMemoryCustomerCommandReqResPublisher implements CustomerCommandRe
                 .findAny().orElse(null);
         if (event == null)
             return null;
-        return CreateCustomerHandler.unitOfWork.customerRepository().getOneById(((CreateCustomerResponse) event.getResponse()).getCustomerId());
+        return unitOfWork.customerRepository().getOneById(((CreateCustomerResponse) event.getResponse()).getCustomerId());
     }
 
     private Customer updateCustomer(Command command) {
@@ -64,10 +74,11 @@ public class InMemoryCustomerCommandReqResPublisher implements CustomerCommandRe
                 .findAny().orElse(null);
         if (event == null)
             return null;
-        return CreateCustomerHandler.unitOfWork.customerRepository()
+        return unitOfWork.customerRepository()
                 .getOneById(((UpdateCustomerResponse) event.getResponse())
                         .getCustomerId());
     }
+
     private Customer deleteCustomer(Command command) {
         var subs = new DeleteCustomerCommandSubscribable(deleteCustomerHandler);
         bus.register(subs);
