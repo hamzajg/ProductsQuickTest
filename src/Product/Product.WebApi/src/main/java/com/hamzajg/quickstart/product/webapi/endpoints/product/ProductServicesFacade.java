@@ -11,6 +11,8 @@ import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.c
 import com.hamzajg.quicktest.sharedkernel.dtos.ProductDto;
 import com.hamzajg.quicktest.sharedkernel.mappers.ProductMapper;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProduct;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeleteProduct;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeleteProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProduct;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -57,5 +59,12 @@ public class ProductServicesFacade {
         if (result == null)
             return null;
         return productMapper.productToProductDto(result);
+    }
+
+    public String deleteProduct(String productId) {
+        var result = productPublisherProvider.publishAndWait(new DeleteProduct(productId));
+        if (result == null)
+            return null;
+        return result.id().toString();
     }
 }

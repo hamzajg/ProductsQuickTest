@@ -38,4 +38,13 @@ class InMemoryProductRepository implements ProductRepository {
         productList.add(newProduct);
         return newProduct;
     }
+
+    @Override
+    Product delete(UUID id) {
+        var exist = getOneById(id)
+        if (exist == null)
+            return null
+        productList.remove(exist)
+        return exist
+    }
 }
