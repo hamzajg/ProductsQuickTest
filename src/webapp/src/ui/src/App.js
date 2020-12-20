@@ -3,13 +3,14 @@ import {
   NavBar, Home, ProductCategoryList, ProductCategoryDetails,
   ProductList, ProductDetails, CustomerList, CustomerDetails
 } from './Componenets';
+import Container from 'react-bootstrap/Container';
 import { Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
+    <Container className="p-3">
       <NavBar />
-      <main className="App">
+      <main>
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/product-categories' component={ProductCategoryList} />
@@ -23,7 +24,7 @@ function App() {
           <Route exact path='/customers/:id' component={CustomerDetails} />
         </Switch>
       </main>
-    </div>
+    </Container>
   );
 }
 

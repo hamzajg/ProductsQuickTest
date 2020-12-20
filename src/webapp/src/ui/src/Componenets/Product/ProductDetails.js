@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ProductCategoryApiResources, ProductApiResources } from '@webapp/app';
+import { Form, Card, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const ProductDetails = (prop) => {
     const [categories, setCategories] = useState([])
@@ -39,38 +41,52 @@ const ProductDetails = (prop) => {
         }
     }
     return (
-        <div>
-            <div>
-                <label>Name: </label>
-                <input type='text' name="name" value={product.name} onChange={onInputchange} />
-            </div>
-            <div>
-                <label>Category: </label>
-                <select name="categoryId" onChange={onInputchange}>
-                    <option></option>
-                    {
-                        categories.map(item => {
-                            return (
-                                <option value={item.id} selected={product.category != undefined && item.id === product.category.id}>{item.name}</option>
-                            )
-                        })
-                    }
-                </select>
-            </div>
-            <div>
-                <label>Unit Price: </label>
-                <input type='text' name="unitPrice" value={product.unitPrice} onChange={onInputchange} />
-            </div>
-            <div>
-                <label>Discount: </label>
-                <input type='text' name="discount" value={product.discount} onChange={onInputchange} />
-            </div>
-            <div>
-                <label>Available Qty: </label>
-                <input type='text' name="availableQty" value={product.availableQty} onChange={onInputchange} />
-            </div>
-            <button onClick={save}>Save</button>
-        </div>
+        <Card>
+            <Card.Header>Product Details</Card.Header>
+            <Card.Body>
+                <Card.Title>Special title treatment</Card.Title>
+                <Card.Text>
+                    With supporting text below as a natural lead-in to additional content.
+                </Card.Text>
+                <Form>
+                    <Form.Group controlId="formName">
+                        <Form.Label>Name: </Form.Label>
+                        <Form.Control type="text" placeholder="Enter name" value={product.name} onChange={onInputchange} required />
+                    </Form.Group>
+                    <Form.Group controlId="formCategory">
+                        <Form.Label>Category: </Form.Label>
+                        <Form.Control as="select" onChange={onInputchange} required >
+                            <option></option>
+                            {
+                                categories.map(item => {
+                                    return (
+                                        <option value={item.id} selected={product.category != undefined && item.id === product.category.id}>{item.name}</option>
+                                    )
+                                })
+                            }
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="formUnitPrice">
+                        <Form.Label>Unit Price: </Form.Label>
+                        <Form.Control type="number" name="unitPrice" value={product.unitPrice} onChange={onInputchange} required />
+                    </Form.Group>
+                    <Form.Group controlId="formDiscount">
+                        <Form.Label>Discount: </Form.Label>
+                        <Form.Control type="number" name="discount" value={product.discount} onChange={onInputchange} required />
+                    </Form.Group>
+                    <Form.Group controlId="formName">
+                        <Form.Label>Available Qty: </Form.Label>
+                        <Form.Control type="number" name="availableQty" value={product.availableQty} onChange={onInputchange} required />
+                    </Form.Group>
+                    <LinkContainer to="/products">
+                        <Button variant="default" size="sm">Back</Button>
+                    </LinkContainer>
+                    {' '}
+                    <Button variant="primary" onClick={save} type="button" size="sm">{product.id == undefined ? 'Save' : 'Update'}</Button>
+                </Form>
+            </Card.Body>
+        </Card>
     )
 }
 export default ProductDetails;
