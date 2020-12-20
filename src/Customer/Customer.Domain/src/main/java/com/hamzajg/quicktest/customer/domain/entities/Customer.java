@@ -1,6 +1,6 @@
 package com.hamzajg.quicktest.customer.domain.entities;
 
-import com.hamzajg.quicktest.customer.domain.events.CustomerCreated;
+import com.hamzajg.quicktest.customer.domain.events.*;
 
 import java.util.UUID;
 
