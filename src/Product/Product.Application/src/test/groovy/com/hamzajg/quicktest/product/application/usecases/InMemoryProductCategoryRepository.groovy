@@ -27,14 +27,20 @@ class InMemoryProductCategoryRepository implements ProductCategoryRepository {
 
     @Override
     ProductCategory update(ProductCategory newProductCategory) {
-        var exist = productCategoryList.stream()
-                .filter(c -> c.id() == newProductCategory.id())
-                .findFirst()
-                .orElse(null)
+        var exist = getOneById(newProductCategory.id());
         if (exist == null)
             return null
         productCategoryList.remove(exist)
         productCategoryList.add(newProductCategory)
         return newProductCategory
+    }
+
+    @Override
+    ProductCategory delete(UUID id) {
+        var exist = getOneById(id)
+        if (exist == null)
+            return null
+        productCategoryList.remove(exist)
+        return exist
     }
 }

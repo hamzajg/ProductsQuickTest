@@ -4,7 +4,9 @@ import com.hamzajg.quicktest.product.application.messaging.ProductCategoryComman
 import com.hamzajg.quicktest.product.domain.entities.ProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.Command;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateProductCategory;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.CreateProductCategoryResponse;
+import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.DeleteProductCategoryResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.responses.UpdateProductCategoryResponse;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Bus;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
@@ -20,6 +22,8 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
     CreateProductCategoryHandler createProductCategoryHandler = new CreateProductCategoryHandler();
     @Inject
     UpdateProductCategoryHandler updateProductCategoryHandler = new UpdateProductCategoryHandler();
+    @Inject
+    DeleteProductCategoryHandler deleteProductCategoryHandler = new DeleteProductCategoryHandler();
 
     private final Bus bus = BusFactory.createSingletonSyncBus();
 
@@ -27,8 +31,10 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
     public ProductCategory publishAndWait(Command command) {
         if (command instanceof CreateProductCategory)
             return createProductCategory(command);
-        else
+        else if (command instanceof UpdateProductCategory)
             return updateProductCategory(command);
+        else
+            return deleteProductCategory(command);
     }
 
     private ProductCategory createProductCategory(Command command) {
@@ -65,6 +71,20 @@ public class InMemoryProductCategoryCommandReqResPublisher implements ProductCat
                 .productCategoryRepository()
                 .getOneById(((UpdateProductCategoryResponse) event.getResponse())
                         .getProductCategoryId());
+    }
+    private ProductCategory deleteProductCategory(Command command) {
+        var subs = new DeleteProductCategoryCommandSubscribable(deleteProductCategoryHandler);
+        bus.register(subs);
+
+        bus.dispatch((Exchange<Command>) () -> command);
+        var event = bus.getSubscribers()
+                .stream()
+                .filter(sub -> sub instanceof DeleteProductCategoryEventSubscribable)
+                .map(sub -> (DeleteProductCategoryEventSubscribable) sub)
+                .findAny().orElse(null);
+        if (event == null)
+            return null;
+        return ((DeleteProductCategoryResponse) event.getResponse()).getProductCategory();
     }
 
 }
