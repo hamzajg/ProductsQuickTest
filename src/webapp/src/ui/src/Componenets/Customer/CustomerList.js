@@ -11,7 +11,14 @@ const CustomerList = () => {
             setList(items);
         }
         fetchData();
-    }, []);
+    }, [list]);
+    const deleteItem = async (item) => {
+        if (window.confirm("Confirm to delete item: " + item.name)) {
+            await apiReosurces.deleteCustomer(item.id)
+            delete list[list.indexOf(item)]
+            setList(list);
+        }
+    }
     return (
         <div>
             <div><a href="/customers/new">New</a></div>
@@ -38,7 +45,7 @@ const CustomerList = () => {
                                     <td>{item.mobile}</td>
                                     <td>
                                         <a href={`customers/${item.id}`}>View</a>
-                                        <a href={`customers/${item.id}`}>Delete</a>
+                                        <a href="#" onClick={() => deleteItem(item)}>Delete</a>
                                     </td>
                                 </tr>
                             )

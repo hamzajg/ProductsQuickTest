@@ -11,7 +11,14 @@ const ProductList = () => {
             setList(items);
         }
         fetchData();
-    }, []);
+    }, [list]);
+    const deleteItem = async (item) => {
+        if (window.confirm("Confirm to delete item: " + item.name)) {
+            await apiReosurces.deleteProduct(item.id)
+            delete list[list.indexOf(item)]
+            setList(list);
+        }
+    }
     return (
         <div>
             <div><a href="/products/new">New</a></div>
@@ -38,7 +45,7 @@ const ProductList = () => {
                                     <td>{item.availableQty}</td>
                                     <td>
                                         <a href={`products/${item.id}`}>View</a>
-                                        <a href={`products/${item.id}`}>Delete</a>
+                                        <a href="#" onClick={() => deleteItem(item)}>Delete</a>
                                     </td>
                                 </tr>
                             )
