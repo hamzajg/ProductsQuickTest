@@ -11,4 +11,6 @@ public interface ProductCategoryRepository {
     ProductCategory getOneById(UUID id);
 
     ProductCategory update(ProductCategory newProductCategory);
+
+    ProductCategory delete(UUID id);
 }

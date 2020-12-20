@@ -1,5 +1,8 @@
-package com.hamzajg.quickstart.product.webapi.endpoints.product.webapi.endpoints;
+package com.hamzajg.quickstart.product.webapi.endpoints;
 
+import com.hamzajg.quickstart.product.webapi.endpoints.ProductCategoryServicesFacade;
+
+import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -8,13 +11,15 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/api/v1/product-categories")
 public class DeleteProductCategoryEndpoint {
+    @Inject
+    ProductCategoryServicesFacade productCategoryServicesFacade;
     @DELETE
     @Path("/{productCategoryId}/delete")
     @Produces(MediaType.APPLICATION_JSON)
     public DeleteProductCategoryResponse delete(@PathParam("productCategoryId") String productCategoryId) {
-        return new DeleteProductCategoryResponse();
+        var result = productCategoryServicesFacade.deleteProductCategory(productCategoryId);
+        return new DeleteProductCategoryResponse(result);
     }
 
-    public class DeleteProductCategoryResponse {
-    }
 }
+
