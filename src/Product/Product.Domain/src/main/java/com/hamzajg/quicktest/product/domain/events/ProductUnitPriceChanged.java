@@ -1,4 +1,4 @@
-package com.hamzajg.quicktest.product.domain.entities;
+package com.hamzajg.quicktest.product.domain.events;
 
 import com.hamzajg.quicktest.product.domain.events.Event;
 

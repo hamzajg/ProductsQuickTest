@@ -1,6 +1,6 @@
 package com.hamzajg.quickstart.product.webapi.endpoints;
 
-import com.hamzajg.quickstart.product.webapi.endpoints.product.webapi.endpoints.GreetingResourceTest;
+import com.hamzajg.quickstart.product.webapi.GreetingResourceTest;
 import io.quarkus.test.junit.NativeImageTest;
 
 @NativeImageTest

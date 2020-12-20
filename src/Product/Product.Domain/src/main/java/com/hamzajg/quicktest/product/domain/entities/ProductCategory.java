@@ -2,6 +2,7 @@ package com.hamzajg.quicktest.product.domain.entities;
 
 import com.hamzajg.quicktest.product.domain.events.Event;
 import com.hamzajg.quicktest.product.domain.events.ProductCategoryCreated;
+import com.hamzajg.quicktest.product.domain.events.ProductCategoryNameChanged;
 
 import java.util.Collection;
 import java.util.Collections;
