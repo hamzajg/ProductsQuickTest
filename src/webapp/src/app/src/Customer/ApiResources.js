@@ -4,7 +4,7 @@ class ApiResources {
 
     constructor() {
         this.httpClientHelper = new HttpClientHelper();
-        this.baseUrl = "http://localhost:8080"
+        this.baseUrl = "https://18afad2dff7a.ngrok.io"
     }
 
     async getAllCustomers() {
