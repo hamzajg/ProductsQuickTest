@@ -31,6 +31,7 @@ const CustomerDetails = (prop) => {
             const item = await apiReosurces.updateCustomer(customer)
             setCustomer(item);
         }
+        window.location.href = "/customers"; 
     }
     return (
         <Card>
