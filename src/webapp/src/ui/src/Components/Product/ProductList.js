@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ProductApiResources } from '@webapp/app';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Row, Card, Table, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
+import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton } from '@coreui/react'
 
 const ProductList = () => {
     const [list, setList] = useState([])
@@ -21,57 +21,73 @@ const ProductList = () => {
             setList(newList);
         }
     }
+    const fields = [
+        { key: 'number', _style: { width: '10%' } },
+        { key: 'name', _style: { width: '20%' } },
+        { key: 'category', _style: { width: '20%' } },
+        { key: 'unitPrice', _style: { width: '10%' } },
+        { key: 'discount', _style: { width: '10%' } },
+        { key: 'availableQty', _style: { width: '10%' } },
+        {
+            key: 'actions', _style: { width: '20%' },
+            sorter: false,
+            filter: false
+        }
+    ]
     return (
-        <Card>
-            <Card.Header>Product List</Card.Header>
-            <Card.Body>
-                <Card.Title>Special title treatment</Card.Title>
-                <Card.Text>
-                    With supporting text below as a natural lead-in to additional content.
-                </Card.Text>
-                <Row>
-                    <LinkContainer to="/products/new">
-                        <Button variant="primary" size="sm">New</Button>
-                    </LinkContainer>
-                </Row>
-                <Row>
-                    <Table striped bordered hover size="sm">
-                        <thead>
-                            <td>#</td>
-                            <td>Name</td>
-                            <td>Category</td>
-                            <td>Unit Price</td>
-                            <td>Discount</td>
-                            <td>Available Qty</td>
-                            <td>Actions</td>
-                        </thead>
-                        <tbody>
-                            {
-                                list.map((item, index) => {
+        <CCard>
+            <CCardHeader>Products List</CCardHeader>
+            <CCardBody>
+                <CCardTitle>Special title treatment</CCardTitle>
+                <CRow>
+                    <Link to="/products/new">
+                        <CButton color='primary' className="m-2">New</CButton>
+                    </Link>
+                </CRow>
+                <CRow>
+                    <CDataTable items={list}
+                        fields={fields}
+                        tableFilter
+                        itemsPerPageSelect
+                        itemsPerPage={5}
+                        hover
+                        sorter
+                        pagination
+                        scopedSlots={{
+                            'number':
+                                (item, index) => {
                                     return (
-                                        <tr>
-                                            <td>{index + 1}</td>
-                                            <td>{item.name}</td>
-                                            <td>{item.category.name}</td>
-                                            <td>{item.unitPrice}</td>
-                                            <td>{item.discount}</td>
-                                            <td>{item.availableQty}</td>
-                                            <td>
-                                                <LinkContainer to={`products/${item.id}`}>
-                                                    <Button variant="info" size="sm">View</Button>
-                                                </LinkContainer>
-                                                {' '}
-                                                <Button variant="danger" size="sm" onClick={() => deleteItem(item)}>Delete</Button>
-                                            </td>
-                                        </tr>
+                                        <td className="py-2">
+                                            {index + 1}
+                                        </td>
                                     )
-                                })
-                            }
-                        </tbody>
-                    </Table>
-                </Row>
-            </Card.Body>
-        </Card>
+                                },
+                                'category':
+                                    (item) => {
+                                        return (
+                                            <td className="py-2">
+                                                {item.name}
+                                            </td>
+                                        )
+                                    },
+                            'actions':
+                                (item) => {
+                                    return (
+                                        <td className="py-2">
+                                            <Link to={`products/${item.id}`}>
+                                                <CButton color='info' className="m-2">Update</CButton>
+                                            </Link>
+                                            {' '}
+                                            <CButton color='danger' className="m-2" onClick={() => deleteItem(item)}>Delete</CButton>
+
+                                        </td>
+                                    )
+                                },
+                        }}
+                    />
+                </CRow>
+            </CCardBody>
+        </CCard>
     )
 }
 
