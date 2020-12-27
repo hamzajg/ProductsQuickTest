@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { ProductApiResources } from '@webapp/app';
 import { Link } from 'react-router-dom'
-import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton } from '@coreui/react'
+import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton, CAlert } from '@coreui/react'
 
 const ProductList = () => {
     const [list, setList] = useState([])
+    const [visibility, setVisibility] = useState(false)
     const apiReosurces = new ProductApiResources()
 
     useEffect(() => {
         async function fetchData() {
             const items = await apiReosurces.getAllProducts()
             setList(items);
+            let currentCount = localStorage.getItem("productsCount") == undefined ? 0 : localStorage.getItem("productsCount")
+            setVisibility(currentCount < items.length)
+            localStorage.setItem("productsCount", items.length)
         }
         fetchData();
     }, []);
@@ -19,7 +23,17 @@ const ProductList = () => {
             await apiReosurces.deleteProduct(item.id)
             let newList = list.filter(l => l.id != item.id)
             setList(newList);
+            localStorage.setItem("productsCount", list.length)
         }
+    }
+    const addedAlert = () => {
+        return (
+            <div className="mt-2">
+                <CAlert color="info" closeButton>
+                    Product added successfully!
+              </CAlert>
+            </div>
+        )
     }
     const fields = [
         { key: 'number', _style: { width: '10%' } },
@@ -38,7 +52,9 @@ const ProductList = () => {
         <CCard>
             <CCardHeader>Products List</CCardHeader>
             <CCardBody>
-                <CCardTitle>Special title treatment</CCardTitle>
+                <CRow>
+                    {visibility && addedAlert()}
+                </CRow>
                 <CRow>
                     <Link to="/products/new">
                         <CButton color='primary' className="m-2">New</CButton>

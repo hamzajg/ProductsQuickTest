@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { CustomerApiResources } from '@webapp/app';
 import { Link } from 'react-router-dom'
-import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton } from '@coreui/react'
+import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton, CAlert } from '@coreui/react'
 
 const CustomerList = () => {
     const [list, setList] = useState([])
+    const [visibility, setVisibility] = useState(false)
     const apiReosurces = new CustomerApiResources()
 
     useEffect(() => {
         async function fetchData() {
             const items = await apiReosurces.getAllCustomers()
             setList(items);
+            let currentCount = localStorage.getItem("customersCount") == undefined ? 0 : localStorage.getItem("customersCount")
+            setVisibility(currentCount < items.length)
+            localStorage.setItem("customersCount", items.length)
         }
         fetchData();
     }, []);
@@ -19,7 +23,17 @@ const CustomerList = () => {
             await apiReosurces.deleteCustomer(item.id)
             let newList = list.filter(l => l.id != item.id)
             setList(newList);
+            localStorage.setItem("customersCount", list.length)
         }
+    }
+    const addedAlert = () => {
+        return (
+            <div className="mt-2">
+                <CAlert color="info" closeButton>
+                    Customer added successfully!
+              </CAlert>
+            </div>
+        )
     }
     const fields = [
         { key: 'number', _style: { width: '5%' } },
@@ -38,7 +52,9 @@ const CustomerList = () => {
         <CCard>
             <CCardHeader>Customers List</CCardHeader>
             <CCardBody>
-                <CCardTitle>Special title treatment</CCardTitle>
+                <CRow>
+                    {visibility && addedAlert()}
+                </CRow>
                 <CRow>
                     <Link to="/customers/new">
                         <CButton color='primary' className="m-2">New</CButton>

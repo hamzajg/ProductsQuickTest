@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { ProductCategoryApiResources, ProductApiResources } from '@webapp/app';
 import { Link } from 'react-router-dom'
-import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton } from '@coreui/react'
+import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton, CAlert } from '@coreui/react'
 
 const ProductCategoryList = () => {
     const [list, setList] = useState([])
+    const [visibility, setVisibility] = useState(false)
     const apiReosurces = new ProductCategoryApiResources()
     const productApiReosurces = new ProductApiResources()
 
     const fetchData = async () => {
         const items = await apiReosurces.getAllProductCategories()
         setList(items);
+        let currentCount = localStorage.getItem("categoriesCount") == undefined ? 0 : localStorage.getItem("categoriesCount")
+        setVisibility(currentCount < items.length)
+        localStorage.setItem("categoriesCount", items.length)
     }
 
     useEffect(() => {
@@ -27,7 +31,17 @@ const ProductCategoryList = () => {
             await apiReosurces.deleteProductCategory(item.id)
             let newList = list.filter(l => l.id != item.id)
             setList(newList);
+            localStorage.setItem("categoriesCount", list.length)
         }
+    }
+    const addedAlert = () => {
+        return (
+            <div className="mt-2">
+                <CAlert color="info" closeButton>
+                    Category added successfully!
+              </CAlert>
+            </div>
+        )
     }
     const fields = [
         { key: 'number', _style: { width: '20%' } },
@@ -42,7 +56,9 @@ const ProductCategoryList = () => {
         <CCard>
             <CCardHeader>Category List</CCardHeader>
             <CCardBody>
-                <CCardTitle>Special title treatment</CCardTitle>
+                <CRow>
+                    {visibility && addedAlert()}
+                </CRow>
                 <CRow>
                     <Link to="/product-categories/new">
                         <CButton color='primary' className="m-2">New</CButton>
