@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ProductCategoryApiResources } from '@webapp/app';
+import { ProductCategoryApiResources, ProductApiResources } from '@webapp/app';
 import { Link } from 'react-router-dom'
 import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton } from '@coreui/react'
 
 const ProductCategoryList = () => {
     const [list, setList] = useState([])
     const apiReosurces = new ProductCategoryApiResources()
+    const productApiReosurces = new ProductApiResources()
 
     const fetchData = async () => {
         const items = await apiReosurces.getAllProductCategories()
@@ -18,6 +19,11 @@ const ProductCategoryList = () => {
 
     const deleteItem = async (item) => {
         if (window.confirm("Confirm to delete item: " + item.name)) {
+            var items = await productApiReosurces.getAllProductsByCategoryId(item.id)
+            if (Array.isArray(items) && items.length) {
+                alert('Cannot delete category having products.')
+                return
+            }
             await apiReosurces.deleteProductCategory(item.id)
             let newList = list.filter(l => l.id != item.id)
             setList(newList);
@@ -78,7 +84,6 @@ const ProductCategoryList = () => {
                 </CRow>
             </CCardBody>
         </CCard>
-
     )
 }
 export default ProductCategoryList;

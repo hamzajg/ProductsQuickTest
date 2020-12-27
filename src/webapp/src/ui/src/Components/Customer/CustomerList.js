@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CustomerApiResources } from '@webapp/app';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Row, Card, Table, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
+import { CRow, CCard, CCardHeader, CCardTitle, CCardBody, CDataTable, CButton } from '@coreui/react'
 
 const CustomerList = () => {
     const [list, setList] = useState([])
@@ -21,57 +21,65 @@ const CustomerList = () => {
             setList(newList);
         }
     }
+    const fields = [
+        { key: 'number', _style: { width: '10%' } },
+        { key: 'firstName', _style: { width: '20%' } },
+        { key: 'lastName', _style: { width: '20%' } },
+        { key: 'address', _style: { width: '20%' } },
+        { key: 'email', _style: { width: '10%' } },
+        { key: 'mobile', _style: { width: '10%' } },
+        {
+            key: 'actions', _style: { width: '10%' },
+            sorter: false,
+            filter: false
+        }
+    ]
     return (
-        <Card>
-            <Card.Header>Customer List</Card.Header>
-            <Card.Body>
-                <Card.Title>Special title treatment</Card.Title>
-                <Card.Text>
-                    With supporting text below as a natural lead-in to additional content.
-                </Card.Text>
-                <Row>
-                    <LinkContainer to="/customers/new">
-                        <Button variant="primary" size="sm">New</Button>
-                    </LinkContainer>
-                </Row>
-                <Row>
-                    <Table striped bordered hover size="sm">
-                        <thead>
-                            <td>#</td>
-                            <td>First Name</td>
-                            <td>Last Name</td>
-                            <td>Address</td>
-                            <td>Email</td>
-                            <td>Mobile</td>
-                            <td>Actions</td>
-                        </thead>
-                        <tbody>
-                            {
-                                list.map((item, index) => {
+        <CCard>
+            <CCardHeader>Customers List</CCardHeader>
+            <CCardBody>
+                <CCardTitle>Special title treatment</CCardTitle>
+                <CRow>
+                    <Link to="/customers/new">
+                        <CButton color='primary' className="m-2">New</CButton>
+                    </Link>
+                </CRow>
+                <CRow>
+                    <CDataTable items={list}
+                        fields={fields}
+                        tableFilter
+                        itemsPerPageSelect
+                        itemsPerPage={5}
+                        hover
+                        sorter
+                        pagination
+                        scopedSlots={{
+                            'number':
+                                (item, index) => {
                                     return (
-                                        <tr>
-                                            <td>{index + 1}</td>
-                                            <td>{item.firstName}</td>
-                                            <td>{item.lastName}</td>
-                                            <td>{item.address}</td>
-                                            <td>{item.email}</td>
-                                            <td>{item.mobile}</td>
-                                            <td>
-                                                <LinkContainer to={`customers/${item.id}`}>
-                                                    <Button variant="info" size="sm">View</Button>
-                                                </LinkContainer>
-                                                {' '}
-                                                <Button variant="danger" size="sm" onClick={() => deleteItem(item)}>Delete</Button>
-                                            </td>
-                                        </tr>
+                                        <td className="py-2">
+                                            {index + 1}
+                                        </td>
                                     )
-                                })
-                            }
-                        </tbody>
-                    </Table>
-                </Row>
-            </Card.Body>
-        </Card>
+                                },
+                            'actions':
+                                (item) => {
+                                    return (
+                                        <td className="py-2">
+                                            <Link to={`customers/${item.id}`}>
+                                                <CButton color='info' className="m-2">Update</CButton>
+                                            </Link>
+                                            {' '}
+                                            <CButton color='danger' className="m-2" onClick={() => deleteItem(item)}>Delete</CButton>
+
+                                        </td>
+                                    )
+                                },
+                        }}
+                    />
+                </CRow>
+            </CCardBody>
+        </CCard>
     )
 }
 

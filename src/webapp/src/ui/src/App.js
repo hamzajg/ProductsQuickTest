@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css';
 import './scss/style.scss';
 
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout/DefaultLayout'));
@@ -14,13 +14,13 @@ const loading = (
 )
 const App = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <React.Suspense fallback={loading}>
         <Switch>
           <Route path="/" name="Home" render={props => <DefaultLayout {...props} />} />
         </Switch>
       </React.Suspense>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
