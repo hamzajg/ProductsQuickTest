@@ -24,7 +24,7 @@ const ProductList = () => {
     const fields = [
         { key: 'number', _style: { width: '10%' } },
         { key: 'name', _style: { width: '20%' } },
-        { key: 'category', _style: { width: '20%' } },
+        'category',
         { key: 'unitPrice', _style: { width: '10%' } },
         { key: 'discount', _style: { width: '10%' } },
         { key: 'availableQty', _style: { width: '10%' } },
@@ -62,14 +62,14 @@ const ProductList = () => {
                                         </td>
                                     )
                                 },
-                                'category':
-                                    (item) => {
-                                        return (
-                                            <td className="py-2">
-                                                {item.name}
-                                            </td>
-                                        )
-                                    },
+                            'category':
+                                (item, index) => {
+                                    return (
+                                        <td className="py-2">
+                                            {item.category.name}
+                                        </td>
+                                    )
+                                },
                             'actions':
                                 (item) => {
                                     return (

@@ -29,6 +29,7 @@ const ProductCategoryDetails = (prop) => {
             const item = await apiReosurces.updateProductCategory(category)
             setCategory(item);
         }
+        window.location.href = "/product-categories"; 
     }
     return (
         <Card>

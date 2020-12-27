@@ -22,14 +22,14 @@ const CustomerList = () => {
         }
     }
     const fields = [
-        { key: 'number', _style: { width: '10%' } },
-        { key: 'firstName', _style: { width: '20%' } },
-        { key: 'lastName', _style: { width: '20%' } },
+        { key: 'number', _style: { width: '5%' } },
+        { key: 'firstName', _style: { width: '15%' } },
+        { key: 'lastName', _style: { width: '15%' } },
         { key: 'address', _style: { width: '20%' } },
-        { key: 'email', _style: { width: '10%' } },
+        { key: 'email', _style: { width: '15%' } },
         { key: 'mobile', _style: { width: '10%' } },
         {
-            key: 'actions', _style: { width: '10%' },
+            key: 'actions', _style: { width: '20%' },
             sorter: false,
             filter: false
         }

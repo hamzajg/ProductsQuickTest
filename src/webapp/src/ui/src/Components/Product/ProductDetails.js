@@ -40,6 +40,7 @@ const ProductDetails = (prop) => {
             const item = await productApiReosurces.updateProduct(product)
             setProduct(item);
         }
+        window.location.href = "/products"; 
     }
     return (
         <Card>

@@ -30,7 +30,7 @@
   
   /* The Close Button */
   .close {
-    position: absolute;
+    /* position: absolute; */
     top: 15px;
     right: 35px;
     color: #f1f1f1;

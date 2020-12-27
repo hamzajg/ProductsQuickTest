@@ -44,7 +44,7 @@ const DefaultHeader = () => {
 
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to="/overview">Overview</CHeaderNavLink>
+          <CHeaderNavLink to="/">Home</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem  className="px-3">
           <CHeaderNavLink to="/product-categories">Categories</CHeaderNavLink>

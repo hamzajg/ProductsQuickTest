@@ -8,8 +8,7 @@ const CustomerList = React.lazy(() => import('./Components/Customer/CustomerList
 const CustomerDetails = React.lazy(() => import('./Components/Customer/CustomerDetails'));
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
-  { path: '/overview', name: "Overview", component: Home },
+  { path: '/', exact: true, name: 'Home' ,component: Home},
   { path: '/product-categories', exact: true,name: "ProductCategoryList", component: ProductCategoryList },
   { path: '/product-categories/new', exact: true,name: "ProductCategoryDetails", component: ProductCategoryDetails },
   { path: '/product-categories/:id', exact: true,name: "ProductCategoryDetails", component: ProductCategoryDetails },
