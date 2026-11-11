@@ -1,6 +1,5 @@
 **/.idea/
 **/.gradle/
-**/gradle/
 **/build/
 **/dist/
 **/node_modules/
@@ -20,6 +19,8 @@
 
 # Package Files #
 *.jar
+# ...but keep the Gradle wrapper jar
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.nar
 *.ear
