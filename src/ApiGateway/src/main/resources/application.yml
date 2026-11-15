@@ -19,7 +19,13 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "*"
+            # Spring rejects allowedOrigins "*" together with
+            # allowCredentials: true (CorsConfiguration.validateAllowCredentials
+            # throws IllegalArgumentException, which surfaces as a 500 on every
+            # request). Zuul tolerated it, so the swap to Spring Cloud Gateway
+            # broke all traffic silently. allowedOriginPatterns is the
+            # supported way to combine a wildcard with credentials.
+            allowedOriginPatterns: "*"
             allowedMethods: "*"
             allowedHeaders: "*"
             allowCredentials: true
