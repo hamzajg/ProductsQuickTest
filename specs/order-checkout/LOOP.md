@@ -1,8 +1,8 @@
 # Delivery Loop — order-checkout
 
 Status: running
-Iterations: 1
-Updated: 2026-11-15T21:05:05Z
+Iterations: 2
+Updated: 2026-11-15T21:16:19Z
 
 | Wave | Status | Branch | PR | Evidence | Updated |
 |------|--------|--------|----|----------|---------|
@@ -16,7 +16,7 @@ Updated: 2026-11-15T21:05:05Z
 |------|--------|----------|---------|
 | G1 | met | specs/order-checkout/SPEC.md#Contract — reserve/release + orders paths, payloads and status codes frozen (D1–D6) | 2026-11-15T20:15:52Z |
 | G2 | met | sh gradlew :Order.WebApi:build --no-daemon -> BUILD SUCCESSFUL in 1m11s (19 tasks, 7 executed). Also full 'sh gradlew bu | 2026-11-15T20:56:46Z |
-| G3 | pending | — | — |
+| G3 | met | compose-smoke run 43761667487 on merge 0e97364a: success — checkout through gateway, orders list+by-id verified | 2026-11-15T21:16:19Z |
 | G4 | pending | — | — |
 
 ## Events
@@ -29,3 +29,4 @@ Updated: 2026-11-15T21:05:05Z
 - 2026-11-15T20:56:46Z gate G2 met: sh gradlew :Order.WebApi:build --no-daemon -> BUILD SUCCESSFUL in 1m11s (19 tasks, 7 executed). Also full 'sh gradlew bu
 - 2026-11-15T20:57:41Z start wave 3 on feat/order-checkout-w3
 - 2026-11-15T21:05:05Z complete wave 3 (#12): GetOrdersEndpointTest 3/3 + CreateOrderEndpointTest 5/5 = 8/8; full gradlew build green; CI 7/7 green; merged
+- 2026-11-15T21:16:19Z gate G3 met: compose-smoke run 43761667487 on merge 0e97364a: success — checkout through gateway, orders list+by-id verified

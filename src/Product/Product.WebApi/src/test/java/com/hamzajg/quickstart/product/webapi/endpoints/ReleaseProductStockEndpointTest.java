@@ -43,6 +43,7 @@ public class ReleaseProductStockEndpointTest {
     }
 
     @Test
+    // covers scenario: Releasing reserved stock restores availability
     public void releasingReservedStockRestoresAvailability() {
         var productId = aProductWithAvailableQty(10);
 

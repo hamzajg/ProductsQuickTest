@@ -36,6 +36,7 @@ public class PlaceOrderUseCaseTest {
             new PlaceOrderUseCase(new UnitOfWork(orders), customers, products);
 
     @Test
+    // covers scenario: A customer places an in-stock order
     public void aCustomerPlacesAnInStockOrder() {
         var customerId = customers.aCustomer();
         var productId = products.aProduct(10, 5.0f);
@@ -50,6 +51,7 @@ public class PlaceOrderUseCaseTest {
     }
 
     @Test
+    // covers scenario: A placed order decrements stock
     public void aPlacedOrderDecrementsStock() {
         var customerId = customers.aCustomer();
         var productId = products.aProduct(10, 5.0f);
@@ -60,6 +62,7 @@ public class PlaceOrderUseCaseTest {
     }
 
     @Test
+    // covers scenario: An unknown customer cannot order
     public void anUnknownCustomerCannotOrder() {
         var productId = products.aProduct(10, 5.0f);
 
@@ -74,6 +77,7 @@ public class PlaceOrderUseCaseTest {
     }
 
     @Test
+    // covers scenario: An unknown product cannot be ordered
     public void anUnknownProductCannotBeOrdered() {
         var customerId = customers.aCustomer();
 
@@ -87,6 +91,7 @@ public class PlaceOrderUseCaseTest {
     }
 
     @Test
+    // covers scenario: Out-of-stock rolls the checkout back
     public void anOutOfStockLineRollsTheWholeCheckoutBack() {
         var customerId = customers.aCustomer();
         var first = products.aProduct(10, 5.0f);

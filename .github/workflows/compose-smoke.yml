@@ -1,10 +1,13 @@
 name: Compose smoke test
 
-# Brings the real docker-compose stack up (gateway + both Quarkus services,
-# built from the fast-jar Dockerfiles on JDK 17) and drives it through the
-# gateway. The image-build workflow proves each image builds; this proves they
-# boot, that the gateway's routes resolve to the right service, and that a
-# request through the gateway reaches the in-memory repository and back.
+# Brings the real docker-compose stack up (gateway + the three Quarkus
+# services, built from the fast-jar Dockerfiles on JDK 17) and drives it
+# through the gateway. The image-build workflow proves each image builds; this
+# proves they boot, that the gateway's routes resolve to the right service, and
+# that a request through the gateway reaches the in-memory repository and back.
+# The checkout step also exercises the orders service's service-to-service calls
+# (customer lookup + stock reservation), which only resolve inside the compose
+# network.
 #
 # Deliberately does not start `webapp`: the React bundle is not part of the
 # routing contract and its build would only add minutes.
@@ -24,7 +27,7 @@ concurrency:
 
 jobs:
   smoke:
-    name: Gateway routes to products and customers
+    name: Gateway routes to products, customers and orders
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
@@ -33,8 +36,8 @@ jobs:
       - name: Compose version
         run: docker compose version
 
-      - name: Build and start gateway, products, customers
-        run: docker compose up --build --detach gateway products customers
+      - name: Build and start gateway, products, customers, orders
+        run: docker compose up --build --detach gateway products customers orders
 
       - name: Wait for the products route through the gateway
         # The services build inside their images, so the first boot is the slow
@@ -95,6 +98,72 @@ jobs:
           cat /tmp/customers.json; echo
           test "${code}" = "200"
           grep --quiet 'Smoke' /tmp/customers.json
+
+          # The checkout below needs this customer's id; publish it to later steps.
+          CUSTOMER_ID=$(python3 -c "import json;print(json.load(open('/tmp/created.json'))['id'])")
+          echo "CUSTOMER_ID=${CUSTOMER_ID}" >> "$GITHUB_ENV"
+
+      - name: Wait for the orders route through the gateway
+        run: |
+          set -uo pipefail
+          for attempt in $(seq 1 60); do
+            code=$(curl --silent --output /tmp/orders.json --write-out '%{http_code}' \
+              http://localhost:8080/api/v1/orders/all || true)
+            echo "attempt ${attempt}: ${code}"
+            if [ "${code}" = "200" ]; then exit 0; fi
+            sleep 10
+          done
+          echo "::error::gateway never served /api/v1/orders/all"
+          exit 1
+
+      - name: Orders route carries a checkout and reads it back
+        # The money shot: a category, a product and a customer are created
+        # through the gateway, then POST /api/v1/orders/create makes the orders
+        # service call the other two services by container name (verify the
+        # customer, reserve the stock). The placed order is read back through the
+        # same route, both as a list and by id.
+        run: |
+          set -euo pipefail
+
+          code=$(curl --silent --show-error --output /tmp/category.json \
+            --write-out '%{http_code}' \
+            --request POST --header 'Content-Type: application/json' \
+            --data '{"name":"Smoke category"}' \
+            http://localhost:8080/api/v1/product-categories/create)
+          echo "category status ${code}"; cat /tmp/category.json; echo
+          test "${code}" = "200"
+          CATEGORY_ID=$(python3 -c "import json;print(json.load(open('/tmp/category.json'))['id'])")
+
+          code=$(curl --silent --show-error --output /tmp/product.json \
+            --write-out '%{http_code}' \
+            --request POST --header 'Content-Type: application/json' \
+            --data "{\"name\":\"Smoke widget\",\"categoryId\":\"${CATEGORY_ID}\",\"unitPrice\":5.0,\"discount\":0,\"availableQty\":10}" \
+            http://localhost:8080/api/v1/products/create)
+          echo "product status ${code}"; cat /tmp/product.json; echo
+          test "${code}" = "200"
+          PRODUCT_ID=$(python3 -c "import json;print(json.load(open('/tmp/product.json'))['id'])")
+
+          code=$(curl --silent --show-error --output /tmp/order.json \
+            --write-out '%{http_code}' \
+            --request POST --header 'Content-Type: application/json' \
+            --data "{\"customerId\":\"${CUSTOMER_ID}\",\"items\":[{\"productId\":\"${PRODUCT_ID}\",\"qty\":2}]}" \
+            http://localhost:8080/api/v1/orders/create)
+          echo "order status ${code}"; cat /tmp/order.json; echo
+          test "${code}" = "200"
+          grep --quiet 'PLACED' /tmp/order.json
+          ORDER_ID=$(python3 -c "import json;print(json.load(open('/tmp/order.json'))['orderId'])")
+
+          code=$(curl --silent --show-error --output /tmp/orders.json \
+            --write-out '%{http_code}' http://localhost:8080/api/v1/orders/all)
+          echo "list status ${code}"; cat /tmp/orders.json; echo
+          test "${code}" = "200"
+          grep --quiet "${ORDER_ID}" /tmp/orders.json
+
+          code=$(curl --silent --show-error --output /tmp/order-by-id.json \
+            --write-out '%{http_code}' "http://localhost:8080/api/v1/orders/${ORDER_ID}")
+          echo "by-id status ${code}"; cat /tmp/order-by-id.json; echo
+          test "${code}" = "200"
+          grep --quiet "${ORDER_ID}" /tmp/order-by-id.json
 
       - name: Unrouted path is not proxied
         run: |

@@ -13,6 +13,7 @@ public class ProductStockTest {
     }
 
     @Test
+    // covers scenario: Reserve stock within availability
     public void reservingStockWithinAvailabilityDecrementsQuantity() {
         var product = productWithQty(10);
         product.reserve(4);
@@ -20,6 +21,7 @@ public class ProductStockTest {
     }
 
     @Test
+    // covers scenario: Reserving beyond availability is rejected
     public void reservingBeyondAvailabilityIsRejected() {
         var product = productWithQty(3);
         try {
@@ -31,6 +33,7 @@ public class ProductStockTest {
     }
 
     @Test
+    // covers scenario: Releasing reserved stock restores availability
     public void releasingReservedStockRestoresAvailability() {
         var product = productWithQty(10);
         product.reserve(4);
