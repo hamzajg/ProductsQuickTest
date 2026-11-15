@@ -18,7 +18,7 @@ COPY --chown=gradle:gradle ./src/ApiGateway/ $APP_HOME/src/ApiGateway/
 
 RUN gradle build --stacktrace --no-daemon
 
-FROM openjdk:11-jdk-slim AS release
+FROM eclipse-temurin:11-jre AS release
 ENV APP_HOME=/usr/gradle/
 WORKDIR $APP_HOME
 RUN ls -al
