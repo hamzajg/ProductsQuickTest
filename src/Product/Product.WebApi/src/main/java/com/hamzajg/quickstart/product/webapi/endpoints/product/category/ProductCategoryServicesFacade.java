@@ -13,7 +13,7 @@ import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreatePro
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeleteProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProductCategory;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Collection;
 
 @ApplicationScoped

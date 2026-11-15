@@ -3,7 +3,7 @@ package com.hamzajg.quicktest.customer.infrastructure.persistence;
 import com.hamzajg.quicktest.customer.domain.entities.Customer;
 import com.hamzajg.quicktest.customer.domain.entities.CustomerRepository;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

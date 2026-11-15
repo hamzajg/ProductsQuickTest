@@ -4,8 +4,8 @@ import com.hamzajg.quicktest.product.application.UnitOfWork;
 import com.hamzajg.quicktest.product.domain.entities.Product;
 import com.hamzajg.quicktest.product.domain.entities.ProductCategory;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.UUID;
 
 @ApplicationScoped

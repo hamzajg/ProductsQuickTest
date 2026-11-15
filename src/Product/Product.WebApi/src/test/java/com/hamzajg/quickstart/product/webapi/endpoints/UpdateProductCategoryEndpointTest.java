@@ -6,9 +6,9 @@ import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreatePro
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
-import javax.json.bind.JsonbBuilder;
-import javax.ws.rs.core.MediaType;
+import jakarta.inject.Inject;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.not;

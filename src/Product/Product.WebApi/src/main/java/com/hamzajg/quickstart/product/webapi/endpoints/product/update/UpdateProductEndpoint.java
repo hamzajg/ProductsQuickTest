@@ -3,12 +3,12 @@ package com.hamzajg.quickstart.product.webapi.endpoints.product.update;
 import com.hamzajg.quickstart.product.webapi.endpoints.product.ProductServicesFacade;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProduct;
 
-import javax.inject.Inject;
-import javax.ws.rs.PATCH;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @Path("/api/v1/products")
 public class UpdateProductEndpoint {

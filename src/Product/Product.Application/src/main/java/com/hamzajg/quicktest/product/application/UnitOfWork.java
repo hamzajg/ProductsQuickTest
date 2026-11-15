@@ -3,8 +3,8 @@ package com.hamzajg.quicktest.product.application;
 import com.hamzajg.quicktest.product.domain.entities.ProductCategoryRepository;
 import com.hamzajg.quicktest.product.domain.entities.ProductRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class UnitOfWork {

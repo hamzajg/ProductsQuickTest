@@ -1,4 +1,4 @@
-FROM gradle:7.6.4-jdk17 AS dependencies
+FROM gradle:8.14.3-jdk17 AS dependencies
 ENV APP_HOME=/home/gradle/
 WORKDIR $APP_HOME
 
