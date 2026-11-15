@@ -8,8 +8,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
@@ -20,7 +20,7 @@ dependencies {
     implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:2.0.2'
 
     testImplementation 'org.jboss.weld.se:weld-se-core:3.0.1.Final'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 

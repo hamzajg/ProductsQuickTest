@@ -12,10 +12,10 @@ are in memory, so the focus is the structure rather than persistence.
 
 | Piece | Technology |
 |---|---|
-| `products`, `customers` services | Quarkus 1.10.3, RESTEasy + JSON-B, Java 11 |
-| `gateway` | Spring Boot 2.3.2 with Spring Cloud Netflix Zuul 2.2.6 |
+| `products`, `customers` services | Quarkus 2.16.12, RESTEasy + JSON-B, Java 17 |
+| `gateway` | Spring Boot 2.7.18 with Spring Cloud Gateway |
 | `webapp` | React 17 with CoreUI, built by webpack and Yarn workspaces |
-| build | Gradle multi-project (`settings.gradle` maps each module) |
+| build | Gradle 7.6.4 multi-project (`settings.gradle` maps each module) |
 | run | Docker Compose |
 
 ## Run it
@@ -72,8 +72,8 @@ The services also expose `/hello-resteasy` and, through
 
 ## Build and test
 
-Java 11 is required: Quarkus 1.10 and the Spring Boot 2.3 gateway both target
-it, and the wrapper is Gradle 6.9.1.
+Java 17 is required: the services compile and run on 17 (Quarkus 2.16 also
+accepts 11), and the wrapper is Gradle 7.6.4, which runs on both.
 
 ```bash
 sh gradlew build
@@ -82,7 +82,7 @@ sh gradlew build
 The build compiles every module and runs 20 test classes: domain tests for
 `Product` and `ProductCategory`, REST Assured endpoint tests for every product,
 category and customer use case, and the generated Quarkus greeting tests. The
-same command runs in CI (`.github/workflows/ci.yml`, JDK 11).
+same command runs in CI (`.github/workflows/ci.yml`, JDK 17).
 
 ## Layout
 

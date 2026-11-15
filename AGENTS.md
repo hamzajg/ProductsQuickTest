@@ -9,9 +9,9 @@ DDD-style services behind an API gateway, plus a React back office — all
 runnable via Docker Compose. **Learning project**: domain/application
 layers separated from web, commands/events through handlers,
 in-memory repositories — structure over persistence.
-Stack: Java 11, Quarkus 1.10.3 (products/customers services, RESTEasy +
-JSON-B), Spring Boot 2.3.2 + Zuul gateway, React 17 + CoreUI (webpack/Yarn
-workspaces), Gradle multi-project.
+Stack: Java 17, Quarkus 2.16.12 (products/customers services, RESTEasy +
+JSON-B), Spring Boot 2.7.18 + Spring Cloud Gateway, React 17 + CoreUI
+(webpack/Yarn workspaces), Gradle 7.6.4 multi-project.
 
 ## Commands
 
@@ -19,12 +19,11 @@ Verified 2026-11-13 against CI (`.github/workflows/ci.yml`) and README.
 
 | Task | Command |
 |---|---|
-| Build + test | `sh gradlew build --no-daemon` (CI: JDK 11; ~20 test classes) |
+| Build + test | `sh gradlew build --no-daemon` (CI: JDK 17) |
 | Run everything | `docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d` |
 | Stop | `docker-compose -f docker-compose.yml -f docker-compose.override.yml down` |
 
-Requires: **JDK 11** (Quarkus 1.10 + Spring Boot 2.3 both target it; Gradle
-wrapper is 6.9.1 — newer Gradle/JDK may not run it). Ports: gateway 8080,
+Requires: **JDK 17** — `clean build` green on 17.0.2. Ports: gateway 8080,
 products 8081, customers 8082, webapp 3000.
 
 ## Architecture
@@ -46,7 +45,7 @@ docker-compose*.yml      the four services
 
 ### API contract (gateway → services)
 
-Zuul routes prefixes (gateway :8080):
+Spring Cloud Gateway routes prefixes (gateway :8080):
 
 | Prefix | Backend |
 |---|---|
@@ -54,7 +53,8 @@ Zuul routes prefixes (gateway :8080):
 | `/api/v1/product-categories/**` | products :8081 |
 | `/api/v1/customers/**` | customers :8082 |
 
-Explicit use-case endpoints (not generic CRUD): e.g. products expose
+Gateway routes forward the full `/api/v1/...`
+path unchanged (backends serve the same prefix). Explicit use-case endpoints (not generic CRUD): e.g. products expose
 `GET /all`, `GET /{id}`, `POST /create`, `PUT /{id}/update`,
 `DELETE /{id}/delete`, `GET /category/{categoryId}`; same shape for
 `product-categories` and `customers`. Quarkus-smallrye-openapi serves an
@@ -76,10 +76,9 @@ OpenAPI description per service; each also has `/hello-resteasy`.
 ## Landmines
 
 - **Default branch is `main`.**
-- **JDK 11 + Gradle 6.9.1 are hard requirements** — the wrapper is old;
-  don't bump the wrapper or toolchain casually (Quarkus 1.10 era).
-- Quarkus 1.10.3 and Spring Boot 2.3.2 are both EOL — accepted for a
-  learning project; modernising is a separate, large effort.
+- Modernized 2026-11: Quarkus 1.10→2.16, Boot 2.3→2.7, Gradle 6.9→7.6,
+  **Zuul→Spring Cloud Gateway** (Zuul is abandoned and incompatible
+  with Boot 2.7). Java stays 11 (weld-se tests).
 - Local clones may sit on stale feature branches (`docs/readme` seen) —
   always branch from fresh `origin/main`.
 - `settings.gradle` uses the `findProject(...)` include trick — module
@@ -90,7 +89,7 @@ OpenAPI description per service; each also has `/hello-resteasy`.
 
 - Branch from `main`; name branches `feat/*`, `fix/*`, `chore/*`, `docs/*`.
 - Docs-only changes still go through a PR; never commit to `main` directly.
-- Verify before claiming: `sh gradlew build --no-daemon` on JDK 11 and
+- Verify before claiming: `sh gradlew build --no-daemon` on JDK 17 and
   report the real result.
 - Keep changes minimal and consistent with the four-layer pattern. No
   drive-by refactors.
