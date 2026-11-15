@@ -16,6 +16,10 @@ spring:
           uri: http://products:8081
           predicates:
             - Path=/api/v1/product-categories/**
+        - id: orders
+          uri: http://orders:8083
+          predicates:
+            - Path=/api/v1/orders/**
       globalcors:
         corsConfigurations:
           '[/**]':

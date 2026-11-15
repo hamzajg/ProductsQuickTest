@@ -40,5 +40,17 @@ project(':Customer.WebApi').projectDir = new File(settingsDir, './src/Customer/C
 include 'SharedKernel'
 findProject(':src:SharedKernel')?.name = 'SharedKernel'
 project(':SharedKernel').projectDir = new File(settingsDir, './src/SharedKernel')
+include ':Order.Domain'
+findProject(':src:Order.Domain')?.name = 'Order.Domain'
+project(':Order.Domain').projectDir = new File(settingsDir, './src/Order/Order.Domain')
+include ':Order.Application'
+findProject(':src:Order.Application')?.name = 'Order.Application'
+project(':Order.Application').projectDir = new File(settingsDir, './src/Order/Order.Application')
+include ':Order.Infrastructure'
+findProject(':src:Order.Infrastructure')?.name = 'Order.Infrastructure'
+project(':Order.Infrastructure').projectDir = new File(settingsDir, './src/Order/Order.Infrastructure')
+include ':Order.WebApi'
+findProject(':src:Order.WebApi')?.name = 'Order.WebApi'
+project(':Order.WebApi').projectDir = new File(settingsDir, './src/Order/Order.WebApi')
 
 
