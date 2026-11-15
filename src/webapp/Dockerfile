@@ -1,5 +1,5 @@
 # Set the base image
-FROM node:lts-alpine3.9 AS dependencies
+FROM node:22-alpine AS dependencies
 # Define working directory
 WORKDIR /var/www/app
 
