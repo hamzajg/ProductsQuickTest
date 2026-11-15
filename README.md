@@ -37,7 +37,7 @@ gateway on 8080. Stop everything with `docker-compose down`.
 
 ## API
 
-The gateway (Zuul) routes prefixes to the services:
+The gateway (Spring Cloud Gateway) routes prefixes to the services:
 
 | Prefix | Service |
 |---|---|
@@ -83,6 +83,17 @@ The build compiles every module and runs 20 test classes: domain tests for
 `Product` and `ProductCategory`, REST Assured endpoint tests for every product,
 category and customer use case, and the generated Quarkus greeting tests. The
 same command runs in CI (`.github/workflows/ci.yml`, JDK 17).
+
+Two more workflows cover the container side:
+
+- `.github/workflows/docker.yml` builds each image (gateway, both fast-jar
+  services, webapp) without pushing.
+- `.github/workflows/compose-smoke.yml` starts gateway + products + customers
+  with `docker compose` and drives them through the gateway on port 8080 —
+  `GET /api/v1/products/all`, `GET /api/v1/product-categories/all`, and a
+  `POST /api/v1/customers/create` followed by `GET /api/v1/customers/all` that
+  must return the created record. It fails if any of those routes do not reach
+  the expected service.
 
 ## Layout
 
