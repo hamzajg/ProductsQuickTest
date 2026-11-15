@@ -25,9 +25,11 @@ Compose.
 4. **In-memory repositories, no database.** `InMemory*` implementations;
    restart resets state. Rationale: keeps focus on structure; persistence
    deliberately out of scope.
-5. **Quarkus 1.10.3 services + Spring Boot 2.3 Zuul gateway.** Deliberate
-   mix: JVM services on Quarkus, gateway on Spring Cloud Netflix. Both are
-   EOL — accepted for the learning context; pinned to Java 11/Gradle 6.9.1.
+5. **Quarkus services + Spring Cloud Gateway.** Deliberate mix: JVM services
+   on Quarkus, gateway on Spring Cloud. Originally Quarkus 1.10.3 + Boot 2.3
+   Zuul on Java 11; both were EOL, so the stack moved to Quarkus 2.16.12,
+   Boot 2.7.18 + Spring Cloud Gateway, Gradle 7.6.4 and Java 17 (Zuul has no
+   Boot 2.7 line, so the gateway swap was required, not cosmetic).
 6. **Yarn workspaces + webpack for webapp.** React 17 + CoreUI, CRA-style
    build inside `src/webapp`. Rationale: period-appropriate stack for the
    demo; no Vite/npm-workspace hybrid.
@@ -35,7 +37,7 @@ Compose.
 ## Consequences
 
 - No persistence means no data survives restarts — by design.
-- EOL frameworks (Quarkus 1.10, Spring Boot 2.3, React 17, Gradle 6.9.1)
-  constrain contributors to JDK 11-era tooling.
+- The backend is on Java 17 with Quarkus 2.16.12 / Boot 2.7.18 / Gradle
+  7.6.4. React 17 in the webapp is the remaining EOL piece.
 - Adding a third service means replicating the four-layer template —
   SharedKernel exists to keep that cheap.
