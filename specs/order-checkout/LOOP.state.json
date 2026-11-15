@@ -2,7 +2,7 @@
   "feature": "order-checkout",
   "status": "running",
   "iterations": 1,
-  "updated": "2026-11-15T20:57:41Z",
+  "updated": "2026-11-15T21:05:05Z",
   "waves": {
     "1": {
       "status": "done",
@@ -19,11 +19,11 @@
       "updated": "2026-11-15T20:56:23Z"
     },
     "3": {
-      "status": "in-progress",
+      "status": "done",
       "branch": "feat/order-checkout-w3",
-      "pr": "\u2014",
-      "evidence": "\u2014",
-      "updated": "2026-11-15T20:57:41Z"
+      "pr": "#12",
+      "evidence": "GetOrdersEndpointTest 3/3 + CreateOrderEndpointTest 5/5 = 8/8; full gradlew build green; CI 7/7 green; merged",
+      "updated": "2026-11-15T21:05:05Z"
     }
   },
   "gates": {
@@ -55,6 +55,7 @@
     "2026-11-15T20:29:46Z start wave 2 on feat/order-checkout-w2",
     "2026-11-15T20:56:23Z complete wave 2 (#11): 16 new Order tests (OrderTest 2, PlaceOrderUseCaseTest 5, RestProductGatewayTest 4, CreateOrderEndpointTest 5) + custome",
     "2026-11-15T20:56:46Z gate G2 met: sh gradlew :Order.WebApi:build --no-daemon -> BUILD SUCCESSFUL in 1m11s (19 tasks, 7 executed). Also full 'sh gradlew bu",
-    "2026-11-15T20:57:41Z start wave 3 on feat/order-checkout-w3"
+    "2026-11-15T20:57:41Z start wave 3 on feat/order-checkout-w3",
+    "2026-11-15T21:05:05Z complete wave 3 (#12): GetOrdersEndpointTest 3/3 + CreateOrderEndpointTest 5/5 = 8/8; full gradlew build green; CI 7/7 green; merged"
   ]
 }
