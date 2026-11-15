@@ -60,6 +60,7 @@ public class CreateOrderEndpointTest {
     }
 
     @Test
+    // covers scenario: A customer places an in-stock order
     public void placingAnInStockOrderReturnsThePlacedOrder() {
         var customerId = UUID.randomUUID().toString();
         var productId = UUID.randomUUID().toString();
@@ -79,6 +80,7 @@ public class CreateOrderEndpointTest {
     }
 
     @Test
+    // covers scenario: An unknown customer cannot order
     public void anUnknownCustomerIsReportedAsNotFound() {
         when(customerGateway.exists(any())).thenReturn(false);
 
@@ -91,6 +93,7 @@ public class CreateOrderEndpointTest {
     }
 
     @Test
+    // covers scenario: An unknown product cannot be ordered
     public void anUnknownProductIsReportedAsNotFound() {
         when(customerGateway.exists(any())).thenReturn(true);
         when(productGateway.reserve(any(), anyInt()))
@@ -103,6 +106,7 @@ public class CreateOrderEndpointTest {
     }
 
     @Test
+    // covers scenario: Out-of-stock rolls the checkout back
     public void anOutOfStockLineIsReportedAsConflictAndReleasesTheHeldLines() {
         String first = UUID.randomUUID().toString();
         String second = UUID.randomUUID().toString();

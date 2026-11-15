@@ -9,22 +9,26 @@ Browser ──► webapp :3000 (React 17 + CoreUI, webpack/Yarn workspaces)
               │ /api/v1/*
               ▼
         ApiGateway :8080 (Spring Boot 2.7 + Spring Cloud Gateway)
-          ├─ /api/v1/products/**          → products :8081
+          ├─ /api/v1/products/**           → products :8081
           ├─ /api/v1/product-categories/** → products :8081
-          └─ /api/v1/customers/**          → customers :8082
+          ├─ /api/v1/customers/**          → customers :8082
+          └─ /api/v1/orders/**             → orders :8083
               │
-   ┌──────────┴───────────┐
-   ▼                      ▼
-Product.WebApi        Customer.WebApi   (Quarkus 3.40, use-case endpoints)
-   │ Application            │ Application   (use cases/services)
-   │ Infrastructure         │ Infrastructure (InMemory* repos, handlers)
-   │ Domain                 │ Domain        (entities, VOs, repo interfaces)
-   └──────── SharedKernel ──┘               (base types both services share)
+   ┌──────────┼───────────┐
+   ▼          ▼           ▼
+Product.WebApi  Customer.WebApi  Order.WebApi  (Quarkus 3.40, use-case endpoints)
+   │ Application   │ Application     │ Application   (use cases/services)
+   │ Infrastructure│ Infrastructure  │ Infrastructure (InMemory* repos, handlers)
+   │ Domain        │ Domain          │ Domain        (entities, VOs, repo interfaces)
+   └──────────── SharedKernel ───────────┘          (base types the services share)
+
+Order.WebApi ─► products :8081 (reserve/release stock) · customers :8082 (exists?)
+                 the only service-to-service calls in the system
 ```
 
 ## Per-service layering
 
-Both `Product` and `Customer` follow identical four-layer DDD:
+`Product`, `Customer` and `Order` follow identical four-layer DDD:
 
 | Layer | Project | Contents |
 |---|---|---|
@@ -35,16 +39,22 @@ Both `Product` and `Customer` follow identical four-layer DDD:
 
 ## Runtime topology
 
-Four containers via docker-compose: gateway (8080), products (8081),
-customers (8082), webapp (3000). **No database, no service-to-service
-calls** — repositories are in-memory; each service owns its data only.
-Restart = reset.
+Five containers via docker-compose: gateway (8080), products (8081),
+customers (8082), orders (8083), webapp (3000). **No database** —
+repositories are in-memory, so a restart resets data. The only
+service-to-service coupling is **orders → products/customers**: on checkout it
+asks customers whether the customer exists, asks products to reserve stock per
+line (releasing it again if a later line fails), and can be read back through
+the gateway. Those calls use the compose service names (`products:8081`,
+`customers:8082`) and the MicroProfile REST Client.
 
 ## API style
 
 Use-case endpoints (`/all`, `/{id}`, `/create`, `/{id}/update`,
 `/{id}/delete`, `/category/{id}`) rather than generic CRUD resources;
-OpenAPI generated per service via quarkus-smallrye-openapi.
+OpenAPI generated per service via quarkus-smallrye-openapi. Orders exposes
+`POST /create`, `GET /all` and `GET /{id}` (an unknown id is a
+`404 ORDER_NOT_FOUND`).
 
 ## Frontend ↔ backend contract
 
