@@ -1,0 +1,113 @@
+name: Compose smoke test
+
+# Brings the real docker-compose stack up (gateway + both Quarkus services,
+# built from the fast-jar Dockerfiles on JDK 17) and drives it through the
+# gateway. The image-build workflow proves each image builds; this proves they
+# boot, that the gateway's routes resolve to the right service, and that a
+# request through the gateway reaches the in-memory repository and back.
+#
+# Deliberately does not start `webapp`: the React bundle is not part of the
+# routing contract and its build would only add minutes.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: compose-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Gateway routes to products and customers
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Compose version
+        run: docker compose version
+
+      - name: Build and start gateway, products, customers
+        run: docker compose up --build --detach gateway products customers
+
+      - name: Wait for the products route through the gateway
+        # The services build inside their images, so the first boot is the slow
+        # part; a 503 from the gateway means "not yet", not "broken".
+        run: |
+          set -uo pipefail
+          for attempt in $(seq 1 60); do
+            code=$(curl --silent --output /tmp/products.json --write-out '%{http_code}' \
+              http://localhost:8080/api/v1/products/all || true)
+            echo "attempt ${attempt}: ${code}"
+            if [ "${code}" = "200" ]; then exit 0; fi
+            sleep 10
+          done
+          echo "::error::gateway never served /api/v1/products/all"
+          exit 1
+
+      - name: Products route answers through the gateway
+        run: |
+          set -euo pipefail
+          code=$(curl --silent --show-error --output /tmp/products.json \
+            --write-out '%{http_code}' http://localhost:8080/api/v1/products/all)
+          echo "status ${code}"
+          cat /tmp/products.json; echo
+          test "${code}" = "200"
+          grep --quiet '"items"' /tmp/products.json
+
+      - name: Product categories route reaches the products service
+        # A second gateway route pointed at the same upstream; proves the
+        # gateway config, not just one path, resolves.
+        run: |
+          set -euo pipefail
+          code=$(curl --silent --show-error --output /tmp/categories.json \
+            --write-out '%{http_code}' http://localhost:8080/api/v1/product-categories/all)
+          echo "status ${code}"
+          cat /tmp/categories.json; echo
+          test "${code}" = "200"
+          grep --quiet '"items"' /tmp/categories.json
+
+      - name: Customers route carries a write and reads it back
+        # Creates through the gateway, then reads the same service's list: a
+        # pass means the request reached the customers container's in-memory
+        # repository, was stored, and came back out through the same route.
+        run: |
+          set -euo pipefail
+          code=$(curl --silent --show-error --output /tmp/created.json \
+            --write-out '%{http_code}' \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{"firstName":"Smoke","lastName":"Route","address":"1 Gateway Way","email":"smoke@test.local","mobile":"1000"}' \
+            http://localhost:8080/api/v1/customers/create)
+          echo "create status ${code}"
+          cat /tmp/created.json; echo
+          test "${code}" = "200"
+
+          code=$(curl --silent --show-error --output /tmp/customers.json \
+            --write-out '%{http_code}' http://localhost:8080/api/v1/customers/all)
+          echo "list status ${code}"
+          cat /tmp/customers.json; echo
+          test "${code}" = "200"
+          grep --quiet 'Smoke' /tmp/customers.json
+
+      - name: Unrouted path is not proxied
+        run: |
+          set -euo pipefail
+          code=$(curl --silent --output /tmp/unknown.txt --write-out '%{http_code}' \
+            http://localhost:8080/api/v1/not-a-route)
+          echo "status ${code}"
+          test "${code}" = "404"
+
+      - name: Container logs
+        if: always()
+        run: docker compose logs --no-color --tail 200
+
+      - name: Tear down
+        if: always()
+        run: docker compose down --volumes --remove-orphans
