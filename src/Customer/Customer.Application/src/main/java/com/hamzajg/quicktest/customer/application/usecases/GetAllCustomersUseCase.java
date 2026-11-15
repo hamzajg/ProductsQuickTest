@@ -3,8 +3,8 @@ package com.hamzajg.quicktest.customer.application.usecases;
 import com.hamzajg.quicktest.customer.application.UnitOfWork;
 import com.hamzajg.quicktest.customer.domain.entities.Customer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Collection;
 
 @ApplicationScoped
