@@ -4,13 +4,13 @@ Guidance for AI agents (and humans) working in this repository.
 
 ## Project
 
-ProductsQuickTest is a small products-and-customers system split into two
-DDD-style services behind an API gateway, plus a React back office — all
+ProductsQuickTest is a small products, customers and orders system split into
+three DDD-style services behind an API gateway, plus a React back office — all
 runnable via Docker Compose. **Learning project**: domain/application
 layers separated from web, commands/events through handlers,
 in-memory repositories — structure over persistence.
-Stack: Java 17, Quarkus 3.40 LTS (products/customers services, RESTEasy +
-JSON-B, `jakarta.*`), Spring Boot 2.7.18 + Spring Cloud Gateway, React 17 +
+Stack: Java 17, Quarkus 3.40 LTS (products/customers/orders services, RESTEasy
++ JSON-B, `jakarta.*`), Spring Boot 2.7.18 + Spring Cloud Gateway, React 17 +
 CoreUI (webpack/Yarn workspaces), Gradle 8.14.3 multi-project.
 
 ## Commands
@@ -24,23 +24,24 @@ Verified 2026-11-13 against CI (`.github/workflows/ci.yml`) and README.
 | Stop | `docker-compose -f docker-compose.yml -f docker-compose.override.yml down` |
 
 Requires: **JDK 17** — `clean build` green on 17.0.2. Ports: gateway 8080,
-products 8081, customers 8082, webapp 3000.
+products 8081, customers 8082, orders 8083, webapp 3000.
 
 ## Architecture
 
 ```
 src/
-  ApiGateway/            Spring Boot 2.3 + Zuul 2.2.6 — prefix routing
-  SharedKernel/          base types shared by both services
+  ApiGateway/            Spring Boot 2.7 + Spring Cloud Gateway — prefix routing
+  SharedKernel/          base types shared by the services
   Product/
     Product.Domain/      entities, value objects, repository interfaces
     Product.Application/ use cases and services
     Product.Infrastructure/  InMemory* repositories, command/event handlers
     Product.WebApi/      Quarkus endpoints — one package per use case
   Customer/              same four layers for customers
+  Order/                 same four layers for orders (calls the other two)
   webapp/                Yarn workspaces: @webapp/app + @webapp/ui (React 17)
 settings.gradle          maps each src/* dir to a Gradle project
-docker-compose*.yml      the four services
+docker-compose*.yml      the services
 ```
 
 ### API contract (gateway → services)
@@ -52,6 +53,7 @@ Spring Cloud Gateway routes prefixes (gateway :8080):
 | `/api/v1/products/**` | products :8081 |
 | `/api/v1/product-categories/**` | products :8081 |
 | `/api/v1/customers/**` | customers :8082 |
+| `/api/v1/orders/**` | orders :8083 |
 
 Gateway routes forward the full `/api/v1/...`
 path unchanged (backends serve the same prefix). Explicit use-case endpoints (not generic CRUD): e.g. products expose
@@ -59,7 +61,8 @@ path unchanged (backends serve the same prefix). Explicit use-case endpoints (no
 `DELETE /{id}/delete`, `GET /category/{categoryId}`,
 `POST /{id}/reserve` and `POST /{id}/release` (stock held/released for a
 checkout); same shape for
-`product-categories` and `customers`. Quarkus-smallrye-openapi serves an
+`product-categories`, `customers` and `orders` (the last adds `POST /create`,
+`GET /all` and `GET /{id}`). Quarkus-smallrye-openapi serves an
 OpenAPI description per service; each also has `/hello-resteasy`.
 
 ## Conventions
@@ -71,7 +74,10 @@ OpenAPI description per service; each also has `/hello-resteasy`.
   not REST-resource CRUD — match that style for new endpoints.
 - In-memory repositories are deliberate — restarting resets data; no DB
   exists. Don't add one without an ADR-level reason.
-- No service-to-service calls; the gateway is the only coupling point.
+- Only the orders service calls other services — on checkout it asks customers
+  whether the customer exists and asks products to reserve/release stock, by
+  compose service name, through the MicroProfile REST Client. The other
+  services stay behind the gateway.
 - KISS/SOLID/DRY: this is a learning codebase — clarity of layering is
   the deliverable.
 
@@ -89,6 +95,10 @@ OpenAPI description per service; each also has `/hello-resteasy`.
 - `settings.gradle` uses the `findProject(...)` include trick — module
   names ≠ directory names; check it before assuming paths.
 - webapp uses Yarn workspaces + webpack — not npm/vite.
+- `Order.Application`/`Order.Infrastructure` are plain library jars, so
+  `Order.WebApi/src/main/resources/application.properties` lists them under
+  `quarkus.index-dependency.*` — without that Arc discovers neither
+  `PlaceOrderUseCase` nor the `@RestClient` gateways.
 
 ## Agent rules
 
