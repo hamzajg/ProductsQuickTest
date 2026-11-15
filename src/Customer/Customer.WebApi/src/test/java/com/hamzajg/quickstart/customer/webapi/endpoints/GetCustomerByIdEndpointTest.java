@@ -30,4 +30,14 @@ public class GetCustomerByIdEndpointTest {
                 .body(not(""));
     }
 
+    @Test
+    public void anUnknownCustomerIsNotFound() {
+        // The orders service tells "no such customer" from "customer" by this
+        // status; without it the checkout cannot reject an unknown customer.
+        given()
+                .when().get("/api/v1/customers/" + java.util.UUID.randomUUID())
+                .then()
+                .statusCode(404);
+    }
+
 }

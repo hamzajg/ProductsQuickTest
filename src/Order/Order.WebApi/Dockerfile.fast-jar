@@ -1,0 +1,34 @@
+####
+# Quarkus fast-jar image for Order.WebApi.
+#
+# Builds the application inside the image with the same Gradle version the
+# wrapper pins, on JDK 17, and runs it on a 17 JRE.
+#
+#   docker build -f src/Order/Order.WebApi/Dockerfile.fast-jar -t quicktest/orders .
+#
+###
+FROM gradle:8.14.3-jdk17 AS build
+ENV APP_HOME=/home/gradle/
+WORKDIR $APP_HOME
+
+COPY --chown=gradle:gradle build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
+
+# The orders service depends only on its own modules, so it is the first image
+# that needs no sibling service tree (SharedKernel included); Gradle configures
+# the projects it is told about in settings.gradle and those it does not find on
+# disk are simply empty.
+COPY --chown=gradle:gradle ./src/Order $APP_HOME/src/Order
+
+RUN gradle :Order.WebApi:quarkusBuild --stacktrace --no-daemon
+
+FROM eclipse-temurin:17-jre
+
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
+ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+
+WORKDIR /deployments
+# Quarkus 3 packages fast-jar output under build/quarkus-app/.
+COPY --from=build /home/gradle/src/Order/Order.WebApi/build/quarkus-app/ /deployments/
+
+EXPOSE 8083
+ENTRYPOINT ["java", "-jar", "/deployments/quarkus-run.jar"]

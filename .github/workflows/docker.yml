@@ -33,6 +33,9 @@ jobs:
           - name: customer-fast-jar
             file: src/Customer/Customer.WebApi/Dockerfile.fast-jar
             context: .
+          - name: order-fast-jar
+            file: src/Order/Order.WebApi/Dockerfile.fast-jar
+            context: .
     steps:
       - uses: actions/checkout@v5
 
