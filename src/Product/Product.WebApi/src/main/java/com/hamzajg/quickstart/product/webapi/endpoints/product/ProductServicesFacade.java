@@ -6,6 +6,8 @@ import com.hamzajg.quicktest.product.application.services.ReadProductService;
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductsByCategoryUseCase;
 import com.hamzajg.quicktest.product.application.usecases.GetAllProductsUseCase;
 import com.hamzajg.quicktest.product.application.usecases.GetProductByIdUseCase;
+import com.hamzajg.quicktest.product.application.usecases.ReleaseProductStockUseCase;
+import com.hamzajg.quicktest.product.application.usecases.ReserveProductStockUseCase;
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.InMemoryProductCommandReqResPublisher;
 import com.hamzajg.quicktest.product.infrastructure.messaging.product.category.create.CreateProductCategoryHandler;
 import com.hamzajg.quicktest.sharedkernel.dtos.ProductDto;
@@ -25,6 +27,8 @@ public class ProductServicesFacade {
             new GetAllProductsUseCase(CreateProductCategoryHandler.unitOfWork), new GetProductByIdUseCase(CreateProductCategoryHandler.unitOfWork));
     private ProductCommandReqResPublisher productPublisherProvider = new InMemoryProductCommandReqResPublisher();
     private ProductMapper productMapper = new ProductMapper();
+    private ReserveProductStockUseCase reserveProductStockUseCase = new ReserveProductStockUseCase(CreateProductCategoryHandler.unitOfWork);
+    private ReleaseProductStockUseCase releaseProductStockUseCase = new ReleaseProductStockUseCase(CreateProductCategoryHandler.unitOfWork);
 
     public ProductDto createProduct(CreateProduct command) {
         var result = productPublisherProvider.publishAndWait(command);
@@ -66,5 +70,19 @@ public class ProductServicesFacade {
         if (result == null)
             return null;
         return result.id().toString();
+    }
+
+    public ProductDto reserveStock(String productId, int qty) {
+        var result = reserveProductStockUseCase.execute(UUID.fromString(productId), qty);
+        if (result == null)
+            return null;
+        return productMapper.productToProductDto(result);
+    }
+
+    public ProductDto releaseStock(String productId, int qty) {
+        var result = releaseProductStockUseCase.execute(UUID.fromString(productId), qty);
+        if (result == null)
+            return null;
+        return productMapper.productToProductDto(result);
     }
 }

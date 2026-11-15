@@ -56,7 +56,9 @@ Spring Cloud Gateway routes prefixes (gateway :8080):
 Gateway routes forward the full `/api/v1/...`
 path unchanged (backends serve the same prefix). Explicit use-case endpoints (not generic CRUD): e.g. products expose
 `GET /all`, `GET /{id}`, `POST /create`, `PUT /{id}/update`,
-`DELETE /{id}/delete`, `GET /category/{categoryId}`; same shape for
+`DELETE /{id}/delete`, `GET /category/{categoryId}`,
+`POST /{id}/reserve` and `POST /{id}/release` (stock held/released for a
+checkout); same shape for
 `product-categories` and `customers`. Quarkus-smallrye-openapi serves an
 OpenAPI description per service; each also has `/hello-resteasy`.
 
