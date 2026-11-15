@@ -21,8 +21,8 @@ import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Bus;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.BusFactory;
 import com.hamzajg.quicktest.sharedkernel.messaging.inmemory.Exchange;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class InMemoryProductCategoryCommandReqResPublisher implements ProductCategoryCommandReqResPublisher {

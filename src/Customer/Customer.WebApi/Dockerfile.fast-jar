@@ -7,7 +7,7 @@
 #   docker build -f src/Customer/Customer.WebApi/Dockerfile.fast-jar -t quicktest/customer.webapi .
 #
 ###
-FROM gradle:7.6.4-jdk17 AS build
+FROM gradle:8.14.3-jdk17 AS build
 ENV APP_HOME=/home/gradle/
 WORKDIR $APP_HOME
 
