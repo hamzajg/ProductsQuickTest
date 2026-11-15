@@ -23,6 +23,13 @@ services:
       context: .
       dockerfile: ./src/Customer/Customer.WebApi/Dockerfile.fast-jar
 
+  orders:
+    container_name: quicktest-orders
+    image: quicktest/orders
+    build:
+      context: .
+      dockerfile: ./src/Order/Order.WebApi/Dockerfile.fast-jar
+
 
   webapp:
     container_name: quicktest-webapp
