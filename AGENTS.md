@@ -9,9 +9,9 @@ DDD-style services behind an API gateway, plus a React back office — all
 runnable via Docker Compose. **Learning project**: domain/application
 layers separated from web, commands/events through handlers,
 in-memory repositories — structure over persistence.
-Stack: Java 17, Quarkus 2.16.12 (products/customers services, RESTEasy +
-JSON-B), Spring Boot 2.7.18 + Spring Cloud Gateway, React 17 + CoreUI
-(webpack/Yarn workspaces), Gradle 7.6.4 multi-project.
+Stack: Java 17, Quarkus 3.40 LTS (products/customers services, RESTEasy +
+JSON-B, `jakarta.*`), Spring Boot 2.7.18 + Spring Cloud Gateway, React 17 +
+CoreUI (webpack/Yarn workspaces), Gradle 8.14.3 multi-project.
 
 ## Commands
 
@@ -76,9 +76,12 @@ OpenAPI description per service; each also has `/hello-resteasy`.
 ## Landmines
 
 - **Default branch is `main`.**
-- Modernized 2026-11: Quarkus 1.10→2.16, Boot 2.3→2.7, Gradle 6.9→7.6,
-  **Zuul→Spring Cloud Gateway** (Zuul is abandoned and incompatible
-  with Boot 2.7). Java stays 11 (weld-se tests).
+- Modernized 2026-11: Quarkus 1.10→3.40 LTS, Boot 2.3→2.7, Gradle 6.9→8.14.3,
+  **Zuul→Spring Cloud Gateway** (Zuul is abandoned and incompatible with Boot
+  2.7), and `javax.*`→`jakarta.*` (see ADR 0002). Java 17 throughout.
+- Domain/Application/Infrastructure tests bootstrap a CDI SE container, so they
+  need Weld **5** (`weld-se-core:5.0.1.Final`) — a 3.x Weld understands only
+  `javax.*` and resolves no beans against this code.
 - Local clones may sit on stale feature branches (`docs/readme` seen) —
   always branch from fresh `origin/main`.
 - `settings.gradle` uses the `findProject(...)` include trick — module

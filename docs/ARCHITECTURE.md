@@ -8,14 +8,14 @@ Current-state map. Descriptive, not aspirational; see `docs/adr/` for why.
 Browser ──► webapp :3000 (React 17 + CoreUI, webpack/Yarn workspaces)
               │ /api/v1/*
               ▼
-        ApiGateway :8080 (Spring Boot 2.3 + Zuul)
+        ApiGateway :8080 (Spring Boot 2.7 + Spring Cloud Gateway)
           ├─ /api/v1/products/**          → products :8081
           ├─ /api/v1/product-categories/** → products :8081
           └─ /api/v1/customers/**          → customers :8082
               │
    ┌──────────┴───────────┐
    ▼                      ▼
-Product.WebApi        Customer.WebApi   (Quarkus 1.10.3, use-case endpoints)
+Product.WebApi        Customer.WebApi   (Quarkus 3.40, use-case endpoints)
    │ Application            │ Application   (use cases/services)
    │ Infrastructure         │ Infrastructure (InMemory* repos, handlers)
    │ Domain                 │ Domain        (entities, VOs, repo interfaces)

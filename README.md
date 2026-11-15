@@ -12,10 +12,10 @@ are in memory, so the focus is the structure rather than persistence.
 
 | Piece | Technology |
 |---|---|
-| `products`, `customers` services | Quarkus 2.16.12, RESTEasy + JSON-B, Java 17 |
+| `products`, `customers` services | Quarkus 3.40 LTS, RESTEasy + JSON-B, Java 17 |
 | `gateway` | Spring Boot 2.7.18 with Spring Cloud Gateway |
 | `webapp` | React 17 with CoreUI, built by webpack and Yarn workspaces |
-| build | Gradle 7.6.4 multi-project (`settings.gradle` maps each module) |
+| build | Gradle 8.14.3 multi-project (`settings.gradle` maps each module) |
 | run | Docker Compose |
 
 ## Run it
@@ -72,8 +72,8 @@ The services also expose `/hello-resteasy` and, through
 
 ## Build and test
 
-Java 17 is required: the services compile and run on 17 (Quarkus 2.16 also
-accepts 11), and the wrapper is Gradle 7.6.4, which runs on both.
+Java 17 is required: Quarkus 3.40 requires it, and the wrapper is Gradle
+8.14.3 (the Quarkus 3 plugin's floor is 8.14).
 
 ```bash
 sh gradlew build

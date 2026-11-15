@@ -6,8 +6,8 @@ import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.CreateCus
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeleteCustomer;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateCustomer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Collection;
 import java.util.UUID;
 

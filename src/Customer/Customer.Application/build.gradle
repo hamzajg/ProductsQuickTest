@@ -16,9 +16,9 @@ dependencies {
     implementation project(':SharedKernel')
     implementation project(':Customer.Domain')
 
-    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:2.0.2'
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
 
-    testImplementation 'org.jboss.weld.se:weld-se-core:3.0.1.Final'
+    testImplementation 'org.jboss.weld.se:weld-se-core:5.0.1.Final'
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.25'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
     testImplementation 'junit:junit:4.13.2'

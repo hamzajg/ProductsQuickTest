@@ -15,7 +15,7 @@ import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeletePro
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.DeleteProductCategory;
 import com.hamzajg.quicktest.sharedkernel.messaging.contracts.commands.UpdateProduct;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Collection;
 import java.util.UUID;
 
