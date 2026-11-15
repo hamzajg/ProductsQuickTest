@@ -27,6 +27,12 @@ jobs:
           - name: apigateway
             file: src/ApiGateway/Dockerfile
             context: .
+          - name: product-fast-jar
+            file: src/Product/Product.WebApi/Dockerfile.fast-jar
+            context: .
+          - name: customer-fast-jar
+            file: src/Customer/Customer.WebApi/Dockerfile.fast-jar
+            context: .
     steps:
       - uses: actions/checkout@v5
 

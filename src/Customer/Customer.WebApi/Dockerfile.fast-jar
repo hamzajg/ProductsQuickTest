@@ -1,88 +1,32 @@
 ####
-# This Dockerfile is used in order to build a container that runs the Quarkus application in JVM mode
+# Quarkus fast-jar image for Customer.WebApi.
 #
-# Before building the container image run:
+# Builds the application inside the image with the same Gradle version the
+# wrapper pins, on JDK 17, and runs it on a 17 JRE.
 #
-# ./gradlew build -Dquarkus.package.type=fast-jar
-#
-# Then, build the image with:
-#
-# docker build -f Dockerfile.fast-jar -t quicktest/customer.webapi-fast-jar .
-#
-# Then run the container using:
-#
-# docker run -i --rm -p 8080:8080 quicktest/customer.webapi-fast-jar
-#
-# If you want to include the debug port into your docker image
-# you will have to expose the debug port (default 5005) like this :  EXPOSE 8080 5050
-#
-# Then run the container using :
-#
-# docker run -i --rm -p 8080:8080 -p 5005:5005 -e JAVA_ENABLE_DEBUG="true" quarkus/customer.webapi-fast-jar
+#   docker build -f src/Customer/Customer.WebApi/Dockerfile.fast-jar -t quicktest/customer.webapi .
 #
 ###
-
-FROM quay.io/quarkus/centos-quarkus-maven:19.3.1-java11 AS dependencies
-ENV APP_HOME=/home/quarkus/
-
+FROM gradle:7.6.4-jdk17 AS build
+ENV APP_HOME=/home/gradle/
 WORKDIR $APP_HOME
 
-COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
+COPY --chown=gradle:gradle build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
 
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain/build.gradle $APP_HOME/src/Customer/Customer.Domain/build.gradle
-COPY --chown=quarkus:quarkus ./src/SharedKernel/build.gradle $APP_HOME/src/SharedKernel/build.gradle
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.Application/build.gradle $APP_HOME/src/Customer/Customer.Application/build.gradle
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.Infrastructure/build.gradle $APP_HOME/src/Customer/Customer.Infrastructure/build.gradle
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.WebApi/build.gradle $APP_HOME/src/Customer/Customer.WebApi/build.gradle
+COPY --chown=gradle:gradle ./src/SharedKernel $APP_HOME/src/SharedKernel
+COPY --chown=gradle:gradle ./src/Customer $APP_HOME/src/Customer
+COPY --chown=gradle:gradle ./src/Product/Product.Domain $APP_HOME/src/Product/Product.Domain
 
-RUN gradle dependencies --refresh-dependencies --stacktrace --no-daemon
+RUN gradle :Customer.WebApi:quarkusBuild --stacktrace --no-daemon
 
-FROM dependencies AS build
-ENV APP_HOME=/home/quarkus/
+FROM eclipse-temurin:17-jre
 
-WORKDIR $APP_HOME
-
-COPY --chown=quarkus:quarkus build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
-
-COPY --chown=quarkus:quarkus ./src/Product/Product.Domain $APP_HOME/src/Product/Product.Domain
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.Domain $APP_HOME/src/Customer/Customer.Domain
-COPY --chown=quarkus:quarkus ./src/SharedKernel $APP_HOME/src/SharedKernel
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.Application $APP_HOME/src/Customer/Customer.Application
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.Infrastructure $APP_HOME/src/Customer/Customer.Infrastructure
-COPY --chown=quarkus:quarkus ./src/Customer/Customer.WebApi $APP_HOME/src/Customer/Customer.WebApi
-
-RUN gradle quarkusBuild --uber-jar --stacktrace --no-daemon
-
-FROM registry.access.redhat.com/ubi8/ubi-minimal:8.3 
-
-ARG JAVA_PACKAGE=java-11-openjdk-headless
-ARG RUN_JAVA_VERSION=1.3.8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
-# Install java and the run-java script
-# Also set up permissions for user `1001`
-RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
-    && microdnf update \
-    && microdnf clean all \
-    && mkdir /deployments \
-    && chown 1001 /deployments \
-    && chmod "g+rwX" /deployments \
-    && chown 1001:root /deployments \
-    && curl https://repo1.maven.org/maven2/io/fabric8/run-java-sh/${RUN_JAVA_VERSION}/run-java-sh-${RUN_JAVA_VERSION}-sh.sh -o /deployments/run-java.sh \
-    && chown 1001 /deployments/run-java.sh \
-    && chmod 540 /deployments/run-java.sh \
-    && echo "securerandom.source=file:/dev/urandom" >> /etc/alternatives/jre/lib/security/java.security
-
-# Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
-# We make four distinct layers so if there are application changes the library layers can be re-used
-# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/lib/ /deployments/lib/
-# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/*.jar /deployments/
-# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/app/ /deployments/app/
-# COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/quarkus-app/quarkus/ /deployments/quarkus/
-COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/lib/* /deployments/lib/
-COPY --from=build --chown=1001 /home/quarkus/src/Customer/Customer.WebApi/build/*-runner.jar /deployments/app.jar
 
-EXPOSE 8082
-USER 1001
+WORKDIR /deployments
+# Quarkus 2 packages fast-jar output under build/quarkus-app/.
+COPY --from=build /home/gradle/src/Customer/Customer.WebApi/build/quarkus-app/ /deployments/
 
-ENTRYPOINT [ "/deployments/run-java.sh" ]
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar", "/deployments/quarkus-run.jar"]
