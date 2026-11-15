@@ -55,6 +55,8 @@ resource. For example:
 | `POST` | `/api/v1/products/create` |
 | `PUT` | `/api/v1/products/{productId}/update` |
 | `DELETE` | `/api/v1/products/{productId}/delete` |
+| `POST` | `/api/v1/products/{productId}/reserve` |
+| `POST` | `/api/v1/products/{productId}/release` |
 | `GET` | `/api/v1/products/category/{categoryId}` |
 | `GET` | `/api/v1/product-categories/all` |
 | `GET` | `/api/v1/product-categories/{productCategoryId}` |

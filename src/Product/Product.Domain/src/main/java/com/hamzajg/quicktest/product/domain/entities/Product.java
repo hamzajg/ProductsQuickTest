@@ -1,6 +1,7 @@
 package com.hamzajg.quicktest.product.domain.entities;
 
 import com.hamzajg.quicktest.product.domain.events.*;
+import com.hamzajg.quicktest.product.domain.exceptions.InsufficientStockException;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -81,5 +82,27 @@ public class Product extends Entity {
     public void changeAvailableQty(int newAvailableQty) {
         this.availableQty = newAvailableQty;
         addEvent(new ProductAvailableQtyChanged(id, newAvailableQty));
+    }
+
+    /**
+     * Hold {@code qty} of this product for a checkout. Fails rather than
+     * letting availability go negative, so the aggregate owns the invariant.
+     */
+    public void reserve(int qty) {
+        if (qty <= 0)
+            throw new IllegalArgumentException("Reserved quantity must be positive");
+        if (qty > availableQty)
+            throw new InsufficientStockException(id, qty, availableQty);
+        changeAvailableQty(availableQty - qty);
+    }
+
+    /**
+     * Give a previously reserved {@code qty} back to availability — used to
+     * compensate a checkout that could not complete.
+     */
+    public void release(int qty) {
+        if (qty <= 0)
+            throw new IllegalArgumentException("Released quantity must be positive");
+        changeAvailableQty(availableQty + qty);
     }
 }
