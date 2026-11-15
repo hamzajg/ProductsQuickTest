@@ -43,6 +43,7 @@ public class ReserveProductStockEndpointTest {
     }
 
     @Test
+    // covers scenario: Reserve stock within availability
     public void reservingStockWithinAvailabilityDecrementsQuantity() {
         var productId = aProductWithAvailableQty(10);
 
@@ -56,6 +57,7 @@ public class ReserveProductStockEndpointTest {
     }
 
     @Test
+    // covers scenario: Reserving beyond availability is rejected
     public void reservingBeyondAvailabilityIsRejected() {
         var productId = aProductWithAvailableQty(3);
 
