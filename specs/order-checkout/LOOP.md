@@ -1,8 +1,8 @@
 # Delivery Loop — order-checkout
 
 Status: blocked
-Iterations: 2
-Updated: 2026-11-15T21:22:10Z
+Iterations: 3
+Updated: 2026-11-16T11:27:38Z
 
 | Wave | Status | Branch | PR | Evidence | Updated |
 |------|--------|--------|----|----------|---------|
