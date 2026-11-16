@@ -75,7 +75,7 @@ absent.
 | 6 | An order for an unknown customer is rejected with `404 CUSTOMER_NOT_FOUND` and no order is stored. | An unknown customer cannot order |
 | 7 | An order referencing an unknown product is rejected with `404 PRODUCT_NOT_FOUND` and no stock is left reserved. | An unknown product cannot be ordered |
 | 8 | An order exceeding a product's stock is rejected with `409 PRODUCT_OUT_OF_STOCK`, no order is stored, and lines reserved earlier in the same checkout are released. | Out-of-stock rolls the checkout back |
-| 9 | Orders can be listed and fetched by id through the gateway; an unknown id returns `404`. | Order history is readable through the gateway |
+| 9 | Orders can be listed and fetched by id through the gateway; an unknown id returns `404`. | Order history is readable through the gateway, An unknown order id is not found |
 
 ## Contract
 
