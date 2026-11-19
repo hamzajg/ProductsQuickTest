@@ -42,3 +42,11 @@
 Note: 'no evidence' means neither the scenario name nor a
 token match was found in test files — verify by hand before
 treating it as a real gap. '~' marks weak token-match evidence.
+
+## Outcome follow-up
+
+Optional; this is a post-release learning record, not a finish gate.
+- Status: not yet measured
+- Owner and review date: (record when known)
+- Signal and observed result: (record after release; do not invent)
+- Learning or next action: (record after review)
