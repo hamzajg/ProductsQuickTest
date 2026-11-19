@@ -1,8 +1,8 @@
 {
   "feature": "order-checkout",
-  "status": "blocked",
+  "status": "done",
   "iterations": 3,
-  "updated": "2026-11-16T11:27:38Z",
+  "updated": "2026-11-19T10:23:19Z",
   "waves": {
     "1": {
       "status": "done",
@@ -43,9 +43,9 @@
       "updated": "2026-11-15T21:16:19Z"
     },
     "G4": {
-      "status": "pending",
-      "evidence": "\u2014",
-      "updated": "\u2014"
+      "status": "met",
+      "evidence": "product-owner accepted demo walkthrough 2026-11-19: reserve/release 409s, PLACED order stock 10->8, 404/409 rollback, or",
+      "updated": "2026-11-19T10:22:02Z"
     }
   },
   "events": [
@@ -58,6 +58,9 @@
     "2026-11-15T20:57:41Z start wave 3 on feat/order-checkout-w3",
     "2026-11-15T21:05:05Z complete wave 3 (#12): GetOrdersEndpointTest 3/3 + CreateOrderEndpointTest 5/5 = 8/8; full gradlew build green; CI 7/7 green; merged",
     "2026-11-15T21:16:19Z gate G3 met: compose-smoke run 43761667487 on merge 0e97364a: success \u2014 checkout through gateway, orders list+by-id verified",
-    "2026-11-15T21:22:10Z blocked: G4: human acceptance of checkout demo \u2014 walk VALIDATION.md demo script, then record gate met and finish"
+    "2026-11-15T21:22:10Z blocked: G4: human acceptance of checkout demo \u2014 walk VALIDATION.md demo script, then record gate met and finish",
+    "2026-11-19T10:22:02Z gate G4 met: product-owner accepted demo walkthrough 2026-11-19: reserve/release 409s, PLACED order stock 10->8, 404/409 rollback, or",
+    "2026-11-19T10:23:19Z resumed",
+    "2026-11-19T10:23:19Z feature validated and shipped"
   ]
 }

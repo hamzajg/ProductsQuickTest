@@ -1,8 +1,8 @@
 # Delivery Loop — order-checkout
 
-Status: blocked
+Status: done
 Iterations: 3
-Updated: 2026-11-16T11:27:38Z
+Updated: 2026-11-19T10:23:19Z
 
 | Wave | Status | Branch | PR | Evidence | Updated |
 |------|--------|--------|----|----------|---------|
@@ -17,7 +17,7 @@ Updated: 2026-11-16T11:27:38Z
 | G1 | met | specs/order-checkout/SPEC.md#Contract — reserve/release + orders paths, payloads and status codes frozen (D1–D6) | 2026-11-15T20:15:52Z |
 | G2 | met | sh gradlew :Order.WebApi:build --no-daemon -> BUILD SUCCESSFUL in 1m11s (19 tasks, 7 executed). Also full 'sh gradlew bu | 2026-11-15T20:56:46Z |
 | G3 | met | compose-smoke run 43761667487 on merge 0e97364a: success — checkout through gateway, orders list+by-id verified | 2026-11-15T21:16:19Z |
-| G4 | pending | — | — |
+| G4 | met | product-owner accepted demo walkthrough 2026-11-19: reserve/release 409s, PLACED order stock 10->8, 404/409 rollback, or | 2026-11-19T10:22:02Z |
 
 ## Events
 
@@ -31,3 +31,6 @@ Updated: 2026-11-16T11:27:38Z
 - 2026-11-15T21:05:05Z complete wave 3 (#12): GetOrdersEndpointTest 3/3 + CreateOrderEndpointTest 5/5 = 8/8; full gradlew build green; CI 7/7 green; merged
 - 2026-11-15T21:16:19Z gate G3 met: compose-smoke run 43761667487 on merge 0e97364a: success — checkout through gateway, orders list+by-id verified
 - 2026-11-15T21:22:10Z blocked: G4: human acceptance of checkout demo — walk VALIDATION.md demo script, then record gate met and finish
+- 2026-11-19T10:22:02Z gate G4 met: product-owner accepted demo walkthrough 2026-11-19: reserve/release 409s, PLACED order stock 10->8, 404/409 rollback, or
+- 2026-11-19T10:23:19Z resumed
+- 2026-11-19T10:23:19Z feature validated and shipped
