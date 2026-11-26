@@ -5,7 +5,7 @@
 # build output. See Dockerfile.fast-jar for the self-contained variant.
 #
 ###
-FROM registry.access.redhat.com/ubi8/openjdk-17:1.17
+FROM registry.access.redhat.com/ubi9/openjdk-25-runtime
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"

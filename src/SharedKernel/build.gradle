@@ -2,7 +2,9 @@ plugins {
     id 'java-library'
 }
 
-sourceCompatibility = '17'
+java {
+    sourceCompatibility = '25'
+}
 repositories {
     mavenCentral()
 }

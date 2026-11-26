@@ -1,0 +1,79 @@
+{
+  "schema": "openharness.evidence/2",
+  "feature": "order-checkout",
+  "wave": 0,
+  "run_id": "20261119T093908Z-5d8d5a7",
+  "created_at": "2026-11-19T09:39:08Z",
+  "repo": {
+    "slug": "",
+    "branch": "",
+    "head": "5d8d5a736f3d4703319a1dabecc0ea65e5077e4d",
+    "base": "main"
+  },
+  "ci": {
+    "pr": null,
+    "url": null,
+    "sha": null,
+    "conclusion": null
+  },
+  "verdict": "pass",
+  "summary": "order-checkout demo walked through gateway on docker-compose stack: reserve/release contract (reserve 3->7, over-reserve 409, release->10), in-stock order PLACED total 10.0 with stock 10->8, unknown customer 404, out-of-stock 409 with rollback (stock stays 8), order history list+by-id via gateway. Gateway remapped to host :18080 (taskflow dev server holds :8080).",
+  "not_verified": [
+    "webapp UI checkout button path",
+    "multi-line partial-failure release best-effort"
+  ],
+  "capture": {},
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Compose stack checkout demo (VALIDATION.md): seed category/customer/product",
+      "kind": "manual",
+      "status": "manual",
+      "started_at": "2026-11-19T09:32:46Z",
+      "artifacts": [
+        {
+          "path": "raw/s1/seed.log",
+          "mime": "application/octet-stream",
+          "sha256": "7784d0e93ce6d6d95673bda9aab9ded75d85c5e943c424aeb056d37972e718e5",
+          "bytes": 292,
+          "role": "attachment",
+          "caption": "Compose stack checkout demo (VALIDATION.md): seed category/customer/product",
+          "captured_by": "devin"
+        },
+        {
+          "path": "raw/s1/reserve.log",
+          "mime": "application/octet-stream",
+          "sha256": "e32431991c27e7d0f6853adb309ef15916c556801dd2d5e62489ebd9dda2b3cd",
+          "bytes": 1010,
+          "role": "attachment",
+          "caption": "Reserve/release contract: reserve 3->7, qty20->409 PRODUCT_OUT_OF_STOCK, release->10",
+          "captured_by": "devin"
+        },
+        {
+          "path": "raw/s1/checkout.log",
+          "mime": "application/octet-stream",
+          "sha256": "dbc3a63079d42ef47938d55d5e907ca387d90342bd30157b959e1b1d78e745d7",
+          "bytes": 1121,
+          "role": "attachment",
+          "caption": "Checkout: order PLACED total=10.0 stock 10->8; unknown customer 404; qty20->409 rollback stock stays 8; orders list+by-id via gateway",
+          "captured_by": "devin"
+        },
+        {
+          "path": "raw/s1/compose-ps.txt",
+          "mime": "text/plain",
+          "sha256": "c2cb2958db23fbf26b7c3c71af273e943d92cb39dccd7ead2e6bcf0c2848f78a",
+          "bytes": 950,
+          "role": "attachment",
+          "caption": "docker compose ps: gateway+products+customers+orders+webapp up (gateway on :18080)",
+          "captured_by": "devin"
+        }
+      ],
+      "captured_by": "devin"
+    }
+  ],
+  "redactions": [],
+  "environment": {
+    "os": "linux",
+    "python": "3.13.15"
+  }
+}

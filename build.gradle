@@ -9,5 +9,11 @@ allprojects {
 
 subprojects {
     apply 'plugin': 'java'
+
+    // Several modules carry test sources without discoverable tests; Gradle 9
+    // treats that as an error unless it is explicitly allowed.
+    tasks.withType(Test).configureEach {
+        failOnNoDiscoveredTests = false
+    }
 }
 

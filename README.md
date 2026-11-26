@@ -13,11 +13,11 @@ are in memory, so the focus is the structure rather than persistence.
 
 | Piece | Technology |
 |---|---|
-| `products`, `customers`, `orders` services | Quarkus 3.40 LTS, RESTEasy + JSON-B, Java 17 |
+| `products`, `customers`, `orders` services | Quarkus 3.40 LTS, RESTEasy + JSON-B, Java 25 |
 | `orders` → `products`/`customers` | MicroProfile REST Client (`quarkus-resteasy-client`) |
 | `gateway` | Spring Boot 2.7.18 with Spring Cloud Gateway |
 | `webapp` | React 17 with CoreUI, built by webpack and Yarn workspaces |
-| build | Gradle 8.14.3 multi-project (`settings.gradle` maps each module) |
+| build | Gradle 9.9.1 multi-project (`settings.gradle` maps each module) |
 | run | Docker Compose |
 
 ## Run it
@@ -81,7 +81,7 @@ The services also expose `/hello-resteasy` and, through
 
 ## Build and test
 
-Java 17 is required: Quarkus 3.40 requires it, and the wrapper is Gradle
+Java 25 is required: the toolchain targets it, and the wrapper is Gradle
 8.14.3 (the Quarkus 3 plugin's floor is 8.14).
 
 ```bash
@@ -92,7 +92,7 @@ The build compiles every module and runs 28 test classes: domain tests for
 `Product`, `ProductCategory` and `Order`, application tests for the order use
 cases, REST Assured endpoint tests for every product, category, customer and
 order use case, and the generated Quarkus greeting tests. The same command runs
-in CI (`.github/workflows/ci.yml`, JDK 17).
+in CI (`.github/workflows/ci.yml`, JDK 25).
 
 Two more workflows cover the container side:
 
