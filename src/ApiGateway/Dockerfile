@@ -4,7 +4,7 @@ WORKDIR $APP_HOME
 
 COPY --chown=gradle:gradle build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
 
-COPY --chown=gradle:gradle ./src/ApiGateway/build.gradle $APP_HOME/src/ApiGateway/build.gradle
+COPY --chown=gradle:gradle ./src ./src
 
 RUN gradle dependencies --refresh-dependencies --stacktrace --no-daemon
 
@@ -14,7 +14,6 @@ WORKDIR $APP_HOME
 
 COPY --chown=gradle:gradle build.gradle gradlew gradlew.bat settings.gradle gradle.properties $APP_HOME
 
-COPY --chown=gradle:gradle ./src/ApiGateway/ $APP_HOME/src/ApiGateway/
 
 RUN gradle build --stacktrace --no-daemon -x test
 

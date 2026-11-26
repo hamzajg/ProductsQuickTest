@@ -2,7 +2,7 @@
 # Quarkus fast-jar image for Order.WebApi.
 #
 # Builds the application inside the image with the same Gradle version the
-# wrapper pins, on JDK 17, and runs it on a 17 JRE.
+# wrapper pins, on JDK 25, and runs it on a 25 JRE.
 #
 #   docker build -f src/Order/Order.WebApi/Dockerfile.fast-jar -t quicktest/orders .
 #
@@ -17,7 +17,7 @@ COPY --chown=gradle:gradle build.gradle gradlew gradlew.bat settings.gradle grad
 # that needs no sibling service tree (SharedKernel included); Gradle configures
 # the projects it is told about in settings.gradle and those it does not find on
 # disk are simply empty.
-COPY --chown=gradle:gradle ./src/Order $APP_HOME/src/Order
+COPY --chown=gradle:gradle ./src ./src
 
 RUN gradle :Order.WebApi:quarkusBuild --stacktrace --no-daemon
 
