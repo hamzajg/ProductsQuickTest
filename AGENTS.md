@@ -10,7 +10,7 @@ runnable via Docker Compose. **Learning project**: domain/application
 layers separated from web, commands/events through handlers,
 in-memory repositories — structure over persistence.
 Stack: Java 25, Quarkus 3.40 LTS (products/customers/orders services, RESTEasy
-+ JSON-B, `jakarta.*`), Spring Boot 2.7.18 + Spring Cloud Gateway, React 17 +
++ JSON-B, `jakarta.*`), Spring Boot 3.5.16 + Spring Cloud Gateway, React 17 +
 CoreUI (webpack/Yarn workspaces), Gradle 9.9.1 multi-project.
 
 ## Commands
@@ -30,7 +30,7 @@ products 8081, customers 8082, orders 8083, webapp 3000.
 
 ```
 src/
-  ApiGateway/            Spring Boot 2.7 + Spring Cloud Gateway — prefix routing
+  ApiGateway/            Spring Boot 3.5 + Spring Cloud Gateway — prefix routing
   SharedKernel/          base types shared by the services
   Product/
     Product.Domain/      entities, value objects, repository interfaces
