@@ -1,7 +1,7 @@
 name: Compose smoke test
 
 # Brings the real docker-compose stack up (gateway + the three Quarkus
-# services, built from the fast-jar Dockerfiles on JDK 17) and drives it
+# services, built from the fast-jar Dockerfiles on JDK 25) and drives it
 # through the gateway. The image-build workflow proves each image builds; this
 # proves they boot, that the gateway's routes resolve to the right service, and
 # that a request through the gateway reaches the in-memory repository and back.

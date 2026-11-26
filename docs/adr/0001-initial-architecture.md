@@ -30,7 +30,8 @@ Compose.
    Zuul on Java 11; both were EOL, so the stack moved to Quarkus 2.16.12,
    Boot 2.7.18 + Spring Cloud Gateway, Gradle 7.6.4 and Java 17 (Zuul has no
    Boot 2.7 line, so the gateway swap was required, not cosmetic). The
-   services then moved to Quarkus 3.40 LTS and `jakarta.*` — see ADR 0002.
+   services then moved to Quarkus 3.40 LTS and `jakarta.*` — see ADR 0002 —
+   and the whole build later moved to JDK 25 with Gradle 9.9.1.
 6. **Yarn workspaces + webpack for webapp.** React 17 + CoreUI, CRA-style
    build inside `src/webapp`. Rationale: period-appropriate stack for the
    demo; no Vite/npm-workspace hybrid.
@@ -38,8 +39,7 @@ Compose.
 ## Consequences
 
 - No persistence means no data survives restarts — by design.
-- The backend is on Java 17 with Quarkus 3.40 LTS / Boot 2.7.18 / Gradle
-  8.14.3. React 17 in the webapp and Boot 2.7 on the gateway are the remaining
-  EOL pieces.
+- The backend is on Java 25 with Quarkus 3.40 LTS / Boot 3.5.16 / Gradle
+  9.9.1. React 17 in the webapp is the remaining EOL piece.
 - Adding a third service means replicating the four-layer template —
   SharedKernel exists to keep that cheap.

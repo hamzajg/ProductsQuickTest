@@ -1,5 +1,5 @@
 ####
-# Quarkus application in JVM mode, on Java 17.
+# Quarkus application in JVM mode, on Java 25.
 #
 # Before building the image run `./gradlew build`; the image then packages the
 # build output. See Dockerfile.fast-jar for the self-contained variant.

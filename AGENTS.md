@@ -23,7 +23,7 @@ Verified 2026-11-13 against CI (`.github/workflows/ci.yml`) and README.
 | Run everything | `docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d` |
 | Stop | `docker-compose -f docker-compose.yml -f docker-compose.override.yml down` |
 
-Requires: **JDK 25** — `clean build` green on 17.0.2. Ports: gateway 8080,
+Requires: **JDK 25** — `clean build` green on 25. Ports: gateway 8080,
 products 8081, customers 8082, orders 8083, webapp 3000.
 
 ## Architecture
@@ -84,7 +84,7 @@ OpenAPI description per service; each also has `/hello-resteasy`.
 ## Landmines
 
 - **Default branch is `main`.**
-- Modernized 2026-11: Quarkus 1.10→3.40 LTS, Boot 2.3→2.7, Gradle 6.9→8.14.3,
+- Modernized 2026-11: Quarkus 1.10→3.40 LTS, Boot 2.3→3.5, Gradle 6.9→9.9.1,
   **Zuul→Spring Cloud Gateway** (Zuul is abandoned and incompatible with Boot
   2.7), and `javax.*`→`jakarta.*` (see ADR 0002). Java 25 throughout.
 - Domain/Application/Infrastructure tests bootstrap a CDI SE container, so they
