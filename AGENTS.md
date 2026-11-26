@@ -9,9 +9,9 @@ three DDD-style services behind an API gateway, plus a React back office — all
 runnable via Docker Compose. **Learning project**: domain/application
 layers separated from web, commands/events through handlers,
 in-memory repositories — structure over persistence.
-Stack: Java 17, Quarkus 3.40 LTS (products/customers/orders services, RESTEasy
+Stack: Java 25, Quarkus 3.40 LTS (products/customers/orders services, RESTEasy
 + JSON-B, `jakarta.*`), Spring Boot 2.7.18 + Spring Cloud Gateway, React 17 +
-CoreUI (webpack/Yarn workspaces), Gradle 8.14.3 multi-project.
+CoreUI (webpack/Yarn workspaces), Gradle 9.9.1 multi-project.
 
 ## Commands
 
@@ -19,11 +19,11 @@ Verified 2026-11-13 against CI (`.github/workflows/ci.yml`) and README.
 
 | Task | Command |
 |---|---|
-| Build + test | `sh gradlew build --no-daemon` (CI: JDK 17) |
+| Build + test | `sh gradlew build --no-daemon` (CI: JDK 25) |
 | Run everything | `docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d` |
 | Stop | `docker-compose -f docker-compose.yml -f docker-compose.override.yml down` |
 
-Requires: **JDK 17** — `clean build` green on 17.0.2. Ports: gateway 8080,
+Requires: **JDK 25** — `clean build` green on 17.0.2. Ports: gateway 8080,
 products 8081, customers 8082, orders 8083, webapp 3000.
 
 ## Architecture
@@ -86,7 +86,7 @@ OpenAPI description per service; each also has `/hello-resteasy`.
 - **Default branch is `main`.**
 - Modernized 2026-11: Quarkus 1.10→3.40 LTS, Boot 2.3→2.7, Gradle 6.9→8.14.3,
   **Zuul→Spring Cloud Gateway** (Zuul is abandoned and incompatible with Boot
-  2.7), and `javax.*`→`jakarta.*` (see ADR 0002). Java 17 throughout.
+  2.7), and `javax.*`→`jakarta.*` (see ADR 0002). Java 25 throughout.
 - Domain/Application/Infrastructure tests bootstrap a CDI SE container, so they
   need Weld **5** (`weld-se-core:5.0.1.Final`) — a 3.x Weld understands only
   `javax.*` and resolves no beans against this code.
@@ -104,7 +104,7 @@ OpenAPI description per service; each also has `/hello-resteasy`.
 
 - Branch from `main`; name branches `feat/*`, `fix/*`, `chore/*`, `docs/*`.
 - Docs-only changes still go through a PR; never commit to `main` directly.
-- Verify before claiming: `sh gradlew build --no-daemon` on JDK 17 and
+- Verify before claiming: `sh gradlew build --no-daemon` on JDK 25 and
   report the real result.
 - Keep changes minimal and consistent with the four-layer pattern. No
   drive-by refactors.

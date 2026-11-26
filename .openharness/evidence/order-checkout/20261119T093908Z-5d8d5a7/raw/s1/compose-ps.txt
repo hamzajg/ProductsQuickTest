@@ -1,0 +1,6 @@
+NAME                    IMAGE                   COMMAND                  SERVICE     CREATED         STATUS          PORTS
+quicktest-api-gateway   quicktest/api-gateway   "java -jar /app/app.…"   gateway     7 minutes ago   Up 7 minutes    0.0.0.0:18080->8080/tcp, [::]:18080->8080/tcp
+quicktest-customers     quicktest/customers     "java -jar /deployme…"   customers   38 hours ago    Up 18 minutes   8081/tcp, 0.0.0.0:8082->8082/tcp, [::]:8082->8082/tcp
+quicktest-orders        quicktest/orders        "java -jar /deployme…"   orders      38 hours ago    Up 18 minutes   0.0.0.0:8083->8083/tcp, [::]:8083->8083/tcp
+quicktest-products      quicktest/products      "java -jar /deployme…"   products    38 hours ago    Up 18 minutes   0.0.0.0:8081->8081/tcp, [::]:8081->8081/tcp
+quicktest-webapp        quicktest/webapp        "yarn workspace @web…"   webapp      38 hours ago    Up 18 minutes   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp

@@ -1,4 +1,4 @@
-FROM gradle:8.14.3-jdk17 AS dependencies
+FROM gradle:9.9.1-jdk25 AS dependencies
 ENV APP_HOME=/home/gradle/
 WORKDIR $APP_HOME
 
@@ -18,7 +18,7 @@ COPY --chown=gradle:gradle ./src/ApiGateway/ $APP_HOME/src/ApiGateway/
 
 RUN gradle build --stacktrace --no-daemon -x test
 
-FROM eclipse-temurin:17-jre AS release
+FROM eclipse-temurin:25-jre AS release
 ENV APP_HOME=/app/
 WORKDIR $APP_HOME
 # Gradle 7 also writes a *-plain.jar (no dependencies); keep only the

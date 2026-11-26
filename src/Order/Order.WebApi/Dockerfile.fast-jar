@@ -7,7 +7,7 @@
 #   docker build -f src/Order/Order.WebApi/Dockerfile.fast-jar -t quicktest/orders .
 #
 ###
-FROM gradle:8.14.3-jdk17 AS build
+FROM gradle:9.9.1-jdk25 AS build
 ENV APP_HOME=/home/gradle/
 WORKDIR $APP_HOME
 
@@ -21,7 +21,7 @@ COPY --chown=gradle:gradle ./src/Order $APP_HOME/src/Order
 
 RUN gradle :Order.WebApi:quarkusBuild --stacktrace --no-daemon
 
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:25-jre
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"

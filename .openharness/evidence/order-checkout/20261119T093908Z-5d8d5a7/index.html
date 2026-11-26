@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence — order-checkout · 20261119T093908Z-5d8d5a7</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--line:#262b36;--text:#e6e9ef;--muted:#9aa4b2;
+--pass:#3fb950;--fail:#f85149;--warn:#d29922;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (prefers-color-scheme:light){:root{--bg:#f6f7f9;--panel:#fff;--line:#e2e5ea;
+--text:#1b1f24;--muted:#5b6570;--pass:#1a7f37;--fail:#cf222e;--warn:#9a6700}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);
+font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:32px 20px 72px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:13px;text-transform:uppercase;
+letter-spacing:.08em;color:var(--muted);margin:36px 0 12px}
+.sub{color:var(--muted);font-size:13px}.mono{font-family:var(--mono);font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;
+padding:3px 10px;font-size:12px;font-family:var(--mono);color:var(--muted)}
+.chip b{color:var(--text);font-weight:600}
+.v-pass{color:var(--pass);border-color:var(--pass)}.v-fail{color:var(--fail);
+border-color:var(--fail)}.v-partial{color:var(--warn);border-color:var(--warn)}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:16px}
+.card+.card{margin-top:10px}
+.notverified{border-color:var(--warn)}.notverified ul{margin:8px 0 0;padding-left:18px;
+color:var(--muted)}.empty{border-color:var(--warn);margin-top:12px}
+.empty p{margin:8px 0 0;color:var(--muted)}
+.step{display:grid;grid-template-columns:20px 1fr auto;gap:12px;align-items:start;
+padding:12px 14px;border:1px solid var(--line);background:var(--panel);border-radius:9px}
+.step+.step{margin-top:8px}
+.dot{width:9px;height:9px;border-radius:50%;margin-top:6px;background:var(--muted)}
+.pass .dot{background:var(--pass)}.fail .dot{background:var(--fail)}.skip .dot{opacity:.4}
+.pill{font-size:11px;padding:1px 7px;border-radius:999px;border:1px solid currentColor}
+.pass .pill{color:var(--pass)}.fail .pill{color:var(--fail)}.skip .pill{color:var(--muted)}
+.cmd{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.note{color:var(--muted);font-size:13px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+figure{margin:0;border:1px solid var(--line);border-radius:9px;overflow:hidden;
+background:var(--panel)}figure img{width:100%;display:block}
+figcaption{padding:8px 10px;font-size:12px;color:var(--muted)}
+.snippet-card{padding:0;overflow:hidden}
+.snippet-card .note{margin:0;padding:8px 12px 0}
+pre.snippet{margin:0;padding:12px;background:#0b0d11;color:#d7dde6;
+font-family:var(--mono);font-size:12px;line-height:1.55;overflow-x:auto;
+white-space:pre-wrap;word-break:break-all}
+@media (prefers-color-scheme:light){pre.snippet{background:#f0f2f5;color:#1b1f24}}
+figcaption b{color:var(--text);font-weight:600}
+video{width:100%;border-radius:9px;border:1px solid var(--line);background:#000}
+pre{margin:0 0 12px;padding:12px;background:#0b0d11;color:#d7dde6;border-radius:9px;
+border:1px solid var(--line);overflow:auto;font:12px/1.5 var(--mono);max-height:320px}
+@media (prefers-color-scheme:light){pre{background:#f0f2f5;color:#1b1f24}}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:500;font-size:12px}
+details{margin-top:10px}summary{cursor:pointer;color:var(--muted);font-size:13px}
+.footer{margin-top:40px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);
+padding-top:14px}.footer code{font-family:var(--mono)}
+a{color:inherit}
+</style></head><body><main>
+<p class="sub">Evidence bundle · generated from evidence.json · openharness.evidence/2</p>
+<h1>order-checkout</h1>
+<div class="chips"><span class="chip verdict v-pass"><b>PASS</b></span><span class="chip">run <b>20261119T093908Z-5d8d5a7</b></span><span class="chip">head <b>5d8d5a736f3d4703319a1dabecc0ea65e5077e4d</b></span></div>
+<h2>What this proves</h2>
+<div class="card">order-checkout demo walked through gateway on docker-compose stack: reserve/release contract (reserve 3-&gt;7, over-reserve 409, release-&gt;10), in-stock order PLACED total 10.0 with stock 10-&gt;8, unknown customer 404, out-of-stock 409 with rollback (stock stays 8), order history list+by-id via gateway. Gateway remapped to host :18080 (taskflow dev server holds :8080).</div>
+<p class="sub">steps 1 · artifacts 4 · screenshots 0 · recordings 0</p>
+<div class="card notverified"><strong>What was not verified</strong><ul><li>webapp UI checkout button path</li><li>multi-line partial-failure release best-effort</li></ul></div>
+<h2>Walkthrough</h2>
+<div class="step manual"><span class="dot"></span><div><div><b>Compose stack checkout demo (VALIDATION.md): seed category/customer/product</b> <span class="pill">manual</span></div></div><span class="note"></span></div>
+<h2>Provenance</h2><table><tr><th>Artifact</th><th>Size</th><th>sha256</th></tr>
+<tr><td class="mono">raw/s1/seed.log</td><td>292 B</td><td class="mono">7784d0e93ce6d6d9…</td></tr>
+<tr><td class="mono">raw/s1/reserve.log</td><td>1010 B</td><td class="mono">e32431991c27e7d0…</td></tr>
+<tr><td class="mono">raw/s1/checkout.log</td><td>1.1 kB</td><td class="mono">dbc3a63079d42ef4…</td></tr>
+<tr><td class="mono">raw/s1/compose-ps.txt</td><td>950 B</td><td class="mono">c2cb2958db23fbf2…</td></tr>
+</table>
+<p class="footer">Regenerate with <code>python -m openharness run harness_evidence --action=render --bundle=.openharness/evidence/order-checkout/20261119T093908Z-5d8d5a7</code> · verify with <code>--action=verify</code> · this page is generated, never edited by hand.</p>
+</main></body></html>
