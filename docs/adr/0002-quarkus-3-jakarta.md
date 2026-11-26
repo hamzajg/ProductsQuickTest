@@ -23,9 +23,10 @@ never used `javax` APIs through this codebase.
    Platform BOM is `io.quarkus.platform:quarkus-bom` — the
    `io.quarkus:quarkus-universe-bom` coordinate does not exist in 3.x.
 2. **Gradle wrapper 7.6.4 → 8.14.3**, because the Quarkus 3 Gradle plugin
-   requires Gradle 8.14 or newer. The Docker build images follow
+   requires Gradle 8.14 or newer. The Docker build images followed
    (`gradle:8.14.3-jdk17`), including `ApiGateway`'s so the whole compose stack
-   builds with one Gradle line.
+   builds with one Gradle line; the later JDK 25 sweep moved them to
+   `gradle:9.9.1-jdk25`.
 3. **`javax.*` → `jakarta.*` in 70 files** across all four layers of both
    services (`javax.inject`, `javax.enterprise`, `javax.ws.rs`,
    `javax.json.bind`).
