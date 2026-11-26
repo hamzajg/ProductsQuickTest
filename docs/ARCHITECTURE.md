@@ -8,7 +8,7 @@ Current-state map. Descriptive, not aspirational; see `docs/adr/` for why.
 Browser ──► webapp :3000 (React 17 + CoreUI, webpack/Yarn workspaces)
               │ /api/v1/*
               ▼
-        ApiGateway :8080 (Spring Boot 2.7 + Spring Cloud Gateway)
+        ApiGateway :8080 (Spring Boot 3.5 + Spring Cloud Gateway)
           ├─ /api/v1/products/**           → products :8081
           ├─ /api/v1/product-categories/** → products :8081
           ├─ /api/v1/customers/**          → customers :8082

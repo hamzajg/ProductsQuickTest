@@ -15,7 +15,7 @@ are in memory, so the focus is the structure rather than persistence.
 |---|---|
 | `products`, `customers`, `orders` services | Quarkus 3.40 LTS, RESTEasy + JSON-B, Java 25 |
 | `orders` → `products`/`customers` | MicroProfile REST Client (`quarkus-resteasy-client`) |
-| `gateway` | Spring Boot 2.7.18 with Spring Cloud Gateway |
+| `gateway` | Spring Boot 3.5.16 with Spring Cloud Gateway |
 | `webapp` | React 17 with CoreUI, built by webpack and Yarn workspaces |
 | build | Gradle 9.9.1 multi-project (`settings.gradle` maps each module) |
 | run | Docker Compose |
